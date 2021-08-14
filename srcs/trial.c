@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	init_megastruct(t_shell	*shell, int ac, char **av, char **env)
 {
@@ -13,6 +13,8 @@ void	init_megastruct(t_shell	*shell, int ac, char **av, char **env)
 int main(int ac, char **av, char **env)
 {
 	t_shell	shell;
+	char	*str;
+	char	*aux;
 
 	init_megastruct(&shell, ac, av, env);
 	while (1)

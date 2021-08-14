@@ -1,4 +1,4 @@
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -6,7 +6,6 @@ void	ft_putstr_fd(char *s, int fd)
 		return ;
 	while (*s)
 		write(fd, s++, 1);
-
 }
 
 int	print_errno(void)
@@ -32,11 +31,10 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-
 int	ft_pwd(void)
 {
 	char	*pwd;
-	
+
 	pwd = ft_calloc(4096, 1);
 	if (getcwd(pwd, 4096))
 	{
@@ -51,13 +49,12 @@ int	ft_pwd(void)
 		free(pwd);
 		return (1);
 	}
-
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {	
 	int	value;
 
-	value=ft_pwd();
+	value = ft_pwd();
 	printf("\n\n\n\n%d%d%s", value, argc, *argv);
 }

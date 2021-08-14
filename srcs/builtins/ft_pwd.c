@@ -50,11 +50,11 @@ int	ft_pwd(void)
 		return (1);
 	}
 }
-
+/*
 int	main(int argc, char *argv[])
 {	
 	int	value;
 
 	value = ft_pwd();
 	printf("\n\n\n\n%d%d%s", value, argc, *argv);
-}
+}*/

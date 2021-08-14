@@ -1,6 +1,7 @@
 NAME		=	minishell
 
-SRCS_FILES	= 	builtins/ft_pwd.c \
+SRCS_FILES	= 	minishell.c \
+				builtins/ft_pwd.c \
 
 MAIN_DIR	=	srcs/
 

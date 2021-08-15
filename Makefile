@@ -5,6 +5,8 @@ SRCS_FILES	= 	minishell.c \
 				raise_error.c \
 				builtins/ft_pwd.c \
 				builtins/ft_echo.c \
+				signals/signal.c \
+				execute/run_command.c \
 
 MAIN_DIR	=	srcs/
 

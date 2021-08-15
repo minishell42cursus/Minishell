@@ -1,29 +1,5 @@
 #include "minishell.h"
 
-void    handler(int signum)
-{
-    if (signum == SIGINT)
-    {   //ctrl + c
-	   	printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-    if (signum == SIGQUIT)
-   	{
-		//ctrl + \ /
-		printf("\b\b  \b\b");
-	}
-}
-
-void    ft_ctrl_d()
-{
-	//ctrl + d
-	//SIGTERM
-	printf("exit\n");
-	exit(0);
-}
-
 int main(int argc, char *argv[], char *env[])
 {
 	t_shell		shell;
@@ -31,17 +7,23 @@ int main(int argc, char *argv[], char *env[])
 	(void)argc; //Esto es porque no se usa de momento
 	(void)argv; //Esto es porque no se usa de momento
 
-	signal(SIGINT, handler);
-	signal(SIGQUIT, handler);
-	init_megastruct(&shell, argc, argv, env);
+	init_megastruct(&shell, argc, argv, env); //Función para inicializar datos
+	ft_signal_main(); //Función para señales (finalizado)
 	while (1)
    	{
-		cmd = readline("minishell> ");
-		if (!cmd) //ctrl + d
-			ft_ctrl_d();
+		cmd = readline(MINISHELL);
+		if (!cmd)
+		{
+			cmd = ft_strdup("exit");
+			printf("%s", cmd);
+			exit(0);
+		}
 		printf("%s\n", cmd);
+		//run_builtin(&shell, &argv[1]); //Función SOLO para testear builtins, luego esto va fuera
 		add_history(cmd);
 		free(cmd);
 	}
+	rl_clear_history();
+	//system("leaks minishell");
 	return (0);
 }

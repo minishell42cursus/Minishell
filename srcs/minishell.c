@@ -24,15 +24,16 @@ void    ft_ctrl_d()
 	exit(0);
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char *env[])
 {
-	(void)argc;
-	(void)argv;
-
-	char *cmd;
+	t_shell		shell;
+	char 		*cmd;
+	(void)argc; //Esto es porque no se usa de momento
+	(void)argv; //Esto es porque no se usa de momento
 
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
+	init_megastruct(&shell, argc, argv, env);
 	while (1)
    	{
 		cmd = readline("minishell> ");

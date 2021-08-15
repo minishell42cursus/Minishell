@@ -41,7 +41,8 @@ SRC = ft_memset.c \
 		ft_numberlen.c \
 		ft_isdigit.c \
 		ft_isspace3.c \
-		ft_isign.c
+		ft_isign.c \
+		ft_strcmp.c
 
 SRC_B = ft_lstnew.c \
 			ft_lstadd_front.c \

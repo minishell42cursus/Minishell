@@ -1,36 +1,5 @@
 #include "../../includes/minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	if (!s)
-		return ;
-	while (*s)
-		write(fd, s++, 1);
-}
-
-int	print_errno(void)
-{
-	ft_putstr_fd(strerror(errno), 2);
-	write(2, "\n", 2);
-	return (1);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
-	void	*aux;
-	size_t	len;
-
-	len = count * size;
-	ptr = malloc(len);
-	if (!ptr)
-		return (NULL);
-	aux = ptr;
-	while (len-- > 0)
-		*(unsigned char *)aux++ = '\0';
-	return (ptr);
-}
-
 int	ft_pwd(void)
 {
 	char	*pwd;

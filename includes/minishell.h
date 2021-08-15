@@ -10,6 +10,17 @@
 # include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include "libft.h"
+
+# define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
+# define MINISHELL	"\033[32mminishell>  \033[0m"
+
+# define OK		1
+# define KO		0
 
 typedef struct s_shell
 {
@@ -21,6 +32,8 @@ typedef struct s_shell
 	int		fdi;
 	int		fdo;
 	int		n_frk;
+	t_list	*lst_env;
+	char	**builtin;
 }				t_shell;
 
 typedef struct s_pnode
@@ -33,4 +46,21 @@ typedef struct s_pnode
 	int		btin;
 }			t_pnode;
 
+
+// inicialise
+
+void	init_megastruct(t_shell	*shell, int ac, char **av, char **env);
+
+
+// raiser_error
+
+int		print_errno(void);
+
+// signals / signal
+
+void	ft_signal_main(void);
+
+// execute / run_command
+
+void    run_builtin(t_shell *shell, char **name);
 #endif

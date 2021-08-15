@@ -1,14 +1,5 @@
 #include "../includes/minishell.h"
 
-void	init_megastruct(t_shell	*shell, int ac, char **av, char **env)
-{
-	shell = malloc(sizeof(t_shell));
-	shell->ac = ac;
-	shell->av = av;
-	shell->env = env;
-	shell->fdi = dup(0);
-	shell->fdo = dup(1);
-}
 
 int main(int ac, char **av, char **env)
 {

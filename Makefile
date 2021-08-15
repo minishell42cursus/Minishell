@@ -1,7 +1,12 @@
 NAME		=	minishell
 
 SRCS_FILES	= 	minishell.c \
+				inicialise.c \
+				raise_error.c \
 				builtins/ft_pwd.c \
+				builtins/ft_echo.c \
+				signals/signal.c \
+				execute/run_command.c \
 
 MAIN_DIR	=	srcs/
 
@@ -9,7 +14,7 @@ SRCS		= 	$(addprefix $(MAIN_DIR),$(SRCS_FILES))
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS))
 
-INCLUDE		=	-I ./includes/ -I ./libs/libft/ -I ~/.brew/opt/readline/include
+INCLUDE		=	-I ./includes/ -I ./libft/ -I ~/.brew/opt/readline/include
 
 CC			=	gcc
 

@@ -1,7 +1,7 @@
 NAME		=	minishell
 
 SRCS_FILES	= 	minishell.c \
-				inicialise.c \
+				initialize.c \
 				raise_error.c \
 				builtins/ft_pwd.c \
 				builtins/ft_echo.c \

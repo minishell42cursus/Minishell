@@ -79,11 +79,12 @@ void	comma_parser(char **str)
 	}
 	printf("succesfully_parsed!\nstring: |%s|\n", *str);
 }
-/*int main()
+/*
+int main()
 {
 	char *str;
 
-	str = ft_strdup("\'\"hello\" \' lol\'\"");
+	str = ft_strdup("\'\'\'\'\'\'\"\"\"\" \' \"lol\"");
 	comma_parser(&str);
 	return (0);
 }*/

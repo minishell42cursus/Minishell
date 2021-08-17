@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 18:29:54 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/08/17 19:31:40 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/08/17 19:42:52 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	forbidden_char_found(char *str, int *q_mark_err)
 
 void	call_error(void)
 {
-	ft_putstr_fd("No such thing as minishell scripting...\n\n\n\n...yet\n", 2);
+	ft_putstr_fd("No such thing as minishell scripting...\n\n\n", 2);
+	ft_putstr_fd("                                               ...yet\n", 2);
 	exit(42);
 }
 

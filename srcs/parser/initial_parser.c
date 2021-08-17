@@ -12,9 +12,13 @@ int	initial_parser(t_shell *shell)
 	if (comma_parser(&shell->parse_rl))
 	{
 		shell->q_mark_err = 42;
+		free(shell->rl_tofree);
 		return (1);
 	}
 	if (redirection_pipe_parser(&shell->parse_rl, &shell->q_mark_err))
+	{
+		free(shell->rl_tofree);
 		return (1);
+	}
 	return (0);
 }

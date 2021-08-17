@@ -8,7 +8,7 @@ int	initial_parser(t_shell *shell)
 		exit(0);
 	}
 	shell->parse_rl = ft_strdup(shell->rl);
-	shell->rl_tofree = shell->rl;
+	shell->rl_tofree = shell->parse_rl;
 	if (comma_parser(&shell->parse_rl))
 	{
 		shell->q_mark_err = 42;

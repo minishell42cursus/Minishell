@@ -1,6 +1,6 @@
-#include "minishell.h"
-/*
-#include "stdlib.h"
+//#include "minishell.h"
+
+/*#include "stdlib.h"
 #include "stdio.h"
 size_t	ft_strlen(const char *str)
 {
@@ -28,7 +28,7 @@ char	*ft_strdup(const char *src)
 	output_str[i] = '\0';
 	return (output_str);
 }*/
-void	fbdn_parser(char **str)
+static void	fbdn_parser(char **str)
 {
 	char	*aux;
 
@@ -42,7 +42,7 @@ void	fbdn_parser(char **str)
 	}
 }
 
-char	*r_redirection_piece(char *str)
+static char	*r_redirection_piece(char *str)
 {
 	str++;
 	if (*str == '>')
@@ -55,7 +55,7 @@ char	*r_redirection_piece(char *str)
 		exit(0); //raise_invalid_parse_error
 }
 
-char	*l_redirection_piece(char *str)
+static char	*l_redirection_piece(char *str)
 {
 	str++;
 	if (*str == '<')
@@ -68,7 +68,7 @@ char	*l_redirection_piece(char *str)
 		exit(0); //raise_invalid_parse_error
 }
 
-char	*pipe_piece(char *str)
+static char	*pipe_piece(char *str)
 {
 	str++;
 	while (*str == ' ' && *str)
@@ -108,7 +108,7 @@ int	main()
 {
 	char	*str;
 
-	str = ft_strdup("<< a >> l < b <<c >>lol  | < a | << l");
+	str = ft_strdup("<< a >> l < b <<c >>lol  | a | < a | << l |");
 	redirection_pipe_parser(&str);
 	return (0);
 }*/

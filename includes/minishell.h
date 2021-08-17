@@ -17,7 +17,8 @@
 # include "libft.h"
 
 # define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
-# define MINISHELL	"\033[32mminishell>  \033[0m"
+//# define MINISHELL	"\033[32m$🔥🔥>  \033[0m"
+# define MINISHELL	"$🔥💀minihell💀🔥> "
 
 # define OK		1
 # define KO		0
@@ -52,7 +53,7 @@ typedef struct s_pnode
 void	init_megastruct(t_shell	*shell, int ac, char **av, char **env);
 
 
-// raiser_error
+// errno_outputs
 
 int		print_errno(void);
 
@@ -63,4 +64,9 @@ void	ft_signal_main(void);
 // execute / run_command
 
 void    run_builtin(t_shell *shell, char **name);
+
+// parser_fts
+
+void	comma_parser(char **str);
+void	redirection_pipe_parser(char **str);
 #endif

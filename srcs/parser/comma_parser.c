@@ -30,7 +30,7 @@ char	*ft_strdup(const char *src)
 /* Function that is called whenever a \" is found inside a str, outside
  * a \' string. This is extremely important, since \' is silenced by \" and
  * viceversa */
-char	*d_comma_str_parser(char *str)
+static char	*d_comma_str_parser(char *str)
 {
 	str++;
 	while (*str != '\"' && *str)
@@ -42,7 +42,7 @@ char	*d_comma_str_parser(char *str)
 	return (str);
 }
 
-char	*s_comma_str_parser(char *str)
+static char	*s_comma_str_parser(char *str)
 {
 	str++;
 	while (*str != '\'' && *str)

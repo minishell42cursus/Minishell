@@ -8,6 +8,8 @@ void	init_megastruct(t_shell	*shell, int ac, char **av, char **env)
 	shell->env = env;
 	shell->fdi = dup(0);
 	shell->fdo = dup(1);
+	shell->q_mark_err = 0;
+	shell->n_frk = 0;
 //	shell->lst_env = NULL;
 //	while (*env)
 //		ft_lstadd_front(&shell->lst_env, ft_lstnew(ft_strdup(*env++)));

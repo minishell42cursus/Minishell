@@ -1,32 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   comma_parser.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/17 17:33:57 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/08/17 18:42:25 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-/*#include "stdlib.h"
-#include "stdio.h"
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
 
-	i = 0;
-	while (*str++)
-		i++;
-	return (i);
-}
-char	*ft_strdup(const char *src)
-{
-	char	*output_str;
-	int		i;
-
-	output_str = (char *) malloc(sizeof (*src) * (ft_strlen(src) + 1));
-	if (!output_str)
-		return (NULL);
-	i = 0;
-	while (src[i] != '\0')
-	{
-		output_str[i] = src[i];
-		i++;
-	}
-	output_str[i] = '\0';
-	return (output_str);
-}*/
 /* Function that is called whenever a \" is found inside a str, outside
  * a \' string. This is extremely important, since \' is silenced by \" and
  * viceversa */
@@ -36,7 +21,10 @@ static char	*d_comma_str_parser(char *str)
 	while (*str != '\"' && *str)
 		*str++ = ' ';
 	if (!*str)
-		exit(0); //multiline_error();
+	{
+		multiline_error();
+		return (NULL);
+	}
 	else
 		return (str);
 	return (str);
@@ -48,7 +36,10 @@ static char	*s_comma_str_parser(char *str)
 	while (*str != '\'' && *str)
 		*str++ = ' ';
 	if (!*str)
-		exit(0);//multiline_error();
+	{
+		multiline_error();
+		return (NULL);
+	}
 	else
 		return (str);
 	return (str);
@@ -61,7 +52,7 @@ static char	*s_comma_str_parser(char *str)
  * in: cat a ">> b << lol <<<<<<< >>>>>>>>>>>>>>>>>>"
  * parsed: cat a "                                    "
  * so i dont raise a parse error from the <<< or >>>.*/
-void	comma_parser(char **str)
+int	comma_parser(char **str)
 {
 	char	*aux;
 
@@ -74,17 +65,10 @@ void	comma_parser(char **str)
 				aux = d_comma_str_parser(aux);
 			else
 				aux = s_comma_str_parser(aux);
+			if (!aux)
+				return (1);
 		}
 		aux++;
 	}
-	printf("succesfully_parsed!\nstring: |%s|\n", *str);
-}
-/*
-int main()
-{
-	char *str;
-
-	str = ft_strdup("\'\'\'\'\'\'\"\"\"\" \' \"lol\"");
-	comma_parser(&str);
 	return (0);
-}*/
+}

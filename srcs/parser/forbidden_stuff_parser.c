@@ -1,85 +1,18 @@
-//#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   forbidden_stuff_parser.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/17 17:30:52 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/08/17 19:27:56 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*#include "stdlib.h"
-#include "stdio.h"
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
+#include "minishell.h"
 
-	i = 0;
-	while (*str++)
-		i++;
-	return (i);
-}
-char	*ft_strdup(const char *src)
-{
-	char	*output_str;
-	int		i;
-
-	output_str = (char *) malloc(sizeof (*src) * (ft_strlen(src) + 1));
-	if (!output_str)
-		return (NULL);
-	i = 0;
-	while (src[i] != '\0')
-	{
-		output_str[i] = src[i];
-		i++;
-	}
-	output_str[i] = '\0';
-	return (output_str);
-}*/
-static void	fbdn_parser(char **str)
-{
-	char	*aux;
-
-	aux = *str;
-	while (*aux)
-	{
-		if (*aux == ')' || *aux == ')' || *aux == ';'
-			|| *aux == '*' || (*aux == '\\') || *aux == '&')
-			exit(0);//raise_invalid_char_error();
-		aux++;
-	}
-}
-
-static char	*r_redirection_piece(char *str)
-{
-	str++;
-	if (*str == '>')
-	   str++;
-	while (*str == ' ' && *str)
-		str++;
-	if (*str != '>' && *str != '<' && *str != '|' && *str)
-		return (str);
-	else
-		exit(0); //raise_invalid_parse_error
-}
-
-static char	*l_redirection_piece(char *str)
-{
-	str++;
-	if (*str == '<')
-	   str++;
-	while (*str == ' ' && *str)
-		str++;
-	if (*str != '>' && *str != '<' && *str != '|' && *str)
-		return (str);
-	else
-		exit(0); //raise_invalid_parse_error
-}
-
-static char	*pipe_piece(char *str)
-{
-	str++;
-	while (*str == ' ' && *str)
-		str++;
-	if (*str != '|' && *str)
-		return (str);
-	else
-		exit(0); //raise_invalid_parse_error
-}
-
-void	redirection_pipe_parser(char **str)
+static int	fbdn_parser(char **str, int *q_mark_err)
 {
 	char	*aux;
 
@@ -87,28 +20,92 @@ void	redirection_pipe_parser(char **str)
 	while (*aux == ' ')
 		aux++;
 	if (*aux == '|')
-		exit(0);//raise_invalid_parse_error;
+	{
+		parse_error_near(aux, q_mark_err);
+		return (1);
+	}
+	while (*aux)
+	{
+		if (*aux == ')' || *aux == ')' || *aux == ';'
+			|| *aux == '*' || (*aux == '\\') || *aux == '&')
+		{
+			forbidden_char_found(aux, q_mark_err);
+			return (1);
+		}
+		aux++;
+	}
+	return (0);
+}
+
+static char	*r_redirection_piece(char *str, int *q_mark_err)
+{
+	str++;
+	if (*str == '>')
+		str++;
+	while (*str == ' ' && *str)
+		str++;
+	if (*str != '>' && *str != '<' && *str != '|' && *str)
+		return (str);
+	else
+	{
+		parse_error_near(str, q_mark_err);
+		return (NULL);
+	}
+}
+
+static char	*l_redirection_piece(char *str, int *q_mark_err)
+{
+	str++;
+	if (*str == '<')
+		str++;
+	while (*str == ' ' && *str)
+		str++;
+	if (*str != '>' && *str != '<' && *str != '|' && *str)
+		return (str);
+	else
+	{
+		parse_error_near(str, q_mark_err);
+		return (NULL);
+	}
+}
+
+static char	*pipe_piece(char *str, int *q_mark_err)
+{
+	str++;
+	while (*str == ' ' && *str)
+		str++;
+	if (*str != '|' && *str)
+		return (str);
+	else
+	{
+		parse_error_near(str, q_mark_err);
+		return (NULL);
+	}
+}
+
+int	redirection_pipe_parser(char **str, int *q_mark_err)
+{
+	char	*aux;
+
+	aux = *str;
+	if (fbdn_parser(str, q_mark_err))
+		return (1);
 	while (*aux)
 	{
 		if (*aux == '>' || *aux == '<' || *aux == '|')
 		{
 			if (*aux == '>')
-				aux = r_redirection_piece(aux);
+				aux = r_redirection_piece(aux, q_mark_err);
 			else if (*aux == '<')
-				aux = l_redirection_piece(aux);
+				aux = l_redirection_piece(aux, q_mark_err);
 			else
-				aux = pipe_piece(aux);
+				aux = pipe_piece(aux, q_mark_err);
+			if (!aux)
+				break ;
 		}
 		aux++;
 	}
-	printf("succesfully parsed!\n string: |%s|\n", *str);
-}
-/*
-int	main()
-{
-	char	*str;
-
-	str = ft_strdup("<< a >> l < b <<c >>lol  | a | < a | << l |");
-	redirection_pipe_parser(&str);
+	if (!aux)
+		return (1);
 	return (0);
-}*/
+}

@@ -26,6 +26,7 @@
 typedef struct s_shell
 {
 	char	*rl;
+	char	*parse_rl;
 	char	*rl_tofree;
 	char	ac;
 	char	**av;
@@ -34,7 +35,7 @@ typedef struct s_shell
 	int		fdo;
 	int		n_frk;
 	t_list	*lst_env;
-	char	**builtin;
+	int		q_mark_err;
 }				t_shell;
 
 typedef struct s_pnode
@@ -52,10 +53,15 @@ typedef struct s_pnode
 
 void	init_megastruct(t_shell	*shell, int ac, char **av, char **env);
 
-
 // errno_outputs
 
 int		print_errno(void);
+void	multiline_error(void);
+void	parse_error_near(char *str, int *q_mark_err);
+void	forbidden_char_found(char *str, int *q_mark_err);
+void	command_not_found(char **cmd);
+void	error_msg_relative_to_file(char *file);
+void	call_error(void);
 
 // signals / signal
 
@@ -67,6 +73,7 @@ void    run_builtin(t_shell *shell, char **name);
 
 // parser_fts
 
-void	comma_parser(char **str);
-void	redirection_pipe_parser(char **str);
+int		initial_parser(t_shell *shell);
+int		comma_parser(char **str);
+int		redirection_pipe_parser(char **str, int *q_mark_err);
 #endif

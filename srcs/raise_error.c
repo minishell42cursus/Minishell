@@ -6,7 +6,3 @@ int	print_errno(void)
 	write(2, "\n", 2);
 	return (1);
 }
-/*
-int main()
-{
-}*/

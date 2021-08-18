@@ -51,7 +51,7 @@ typedef struct s_pnode
 
 // inicialise
 
-void	init_megastruct(t_shell	*shell, int ac, char **av, char **env);
+t_shell	*init_megastruct(int ac, char **av, char **env);
 
 // errno_outputs
 

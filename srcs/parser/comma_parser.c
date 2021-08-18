@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 17:33:57 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/08/17 18:42:25 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/08/18 19:20:40 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /* Function that is called whenever a \" is found inside a str, outside
  * a \' string. This is extremely important, since \' is silenced by \" and
  * viceversa */
-static char	*d_comma_str_parser(char *str)
+static char	*d_comma_str_parser(char *str, int *q_mark_err)
 {
 	str++;
 	while (*str != '\"' && *str)
 		*str++ = ' ';
 	if (!*str)
 	{
-		multiline_error();
+		multiline_error(q_mark_err);
 		return (NULL);
 	}
 	else
@@ -30,14 +30,14 @@ static char	*d_comma_str_parser(char *str)
 	return (str);
 }
 
-static char	*s_comma_str_parser(char *str)
+static char	*s_comma_str_parser(char *str, int *q_mark_err)
 {
 	str++;
 	while (*str != '\'' && *str)
 		*str++ = ' ';
 	if (!*str)
 	{
-		multiline_error();
+		multiline_error(q_mark_err);
 		return (NULL);
 	}
 	else
@@ -52,7 +52,7 @@ static char	*s_comma_str_parser(char *str)
  * in: cat a ">> b << lol <<<<<<< >>>>>>>>>>>>>>>>>>"
  * parsed: cat a "                                    "
  * so i dont raise a parse error from the <<< or >>>.*/
-int	comma_parser(char **str)
+int	comma_parser(char **str, int *q_mark_err)
 {
 	char	*aux;
 
@@ -62,9 +62,9 @@ int	comma_parser(char **str)
 		if (*aux == '\"' || *aux == '\'')
 		{
 			if (*aux == '\"')
-				aux = d_comma_str_parser(aux);
+				aux = d_comma_str_parser(aux, q_mark_err);
 			else
-				aux = s_comma_str_parser(aux);
+				aux = s_comma_str_parser(aux, q_mark_err);
 			if (!aux)
 				return (1);
 		}

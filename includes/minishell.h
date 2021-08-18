@@ -56,7 +56,7 @@ t_shell	*init_megastruct(int ac, char **av, char **env);
 // errno_outputs
 
 int		print_errno(void);
-void	multiline_error(void);
+void	multiline_error(int *q_mark_err);
 void	parse_error_near(char *str, int *q_mark_err);
 void	forbidden_char_found(char *str, int *q_mark_err);
 void	command_not_found(char **cmd);
@@ -74,6 +74,6 @@ void    run_builtin(t_shell *shell, char **name);
 // parser_fts
 
 int		initial_parser(t_shell *shell);
-int		comma_parser(char **str);
+int		comma_parser(char **str, int *q_mark_err);
 int		redirection_pipe_parser(char **str, int *q_mark_err);
 #endif

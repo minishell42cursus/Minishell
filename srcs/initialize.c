@@ -5,7 +5,6 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 	t_shell	*shell;
 
 	shell = malloc(sizeof(t_shell));
-	printf("%p\n", shell);
 	shell->ac = ac;
 	shell->av = av;
 	shell->env = env;
@@ -18,5 +17,4 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 //	while (*env)
 //		ft_lstadd_front(&shell->lst_env, ft_lstnew(ft_strdup(*env++)));
 //	shell->env = ft_lst_get_array(shell->lst_env);
-
 }

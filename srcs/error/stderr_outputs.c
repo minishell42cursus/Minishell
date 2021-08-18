@@ -6,16 +6,17 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 18:29:54 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/08/17 19:42:52 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/08/18 19:19:15 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	multiline_error(void)
+void	multiline_error(int *q_mark_err)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd("unclosed commas were found on command\n", 2);
+	*q_mark_err = 42;
 }
 
 void	parse_error_near(char *str, int	*q_mark_err)

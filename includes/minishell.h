@@ -23,35 +23,39 @@
 # define OK		1
 # define KO		0
 
+
+typedef struct s_nod
+{
+	int				p_nbr;
+	char			*line; // de top | cat -e < a, del segundo proceso: line = "cat -e < a"
+	int				fdi;
+	int				fdo;
+	char			**cmd; // esto contendría, por ejemplo: cmd[0] = cat, cmd[1] = -e, cmd[2] = hola ... etc
+	int				btin;
+	struct s_nod	*next;
+}			t_nod;
+
 typedef struct s_shell
 {
 	char	*rl;
 	char	*parse_rl;
 	char	*rl_tofree;
+	char	*rl_aux;
 	char	ac;
 	char	**av;
 	char	**env;
 	int		fdi;
 	int		fdo;
-	int		n_frk;
+	int		n_proc;
 	t_list	*lst_env;
+	t_nod	*p_lst;
 	int		q_mark_err;
 }				t_shell;
-
-typedef struct s_pnode
-{
-	int		p_nbr;
-	char	*line; // de top | cat -e < a, del segundo proceso: line = "cat -e < a"
-	int		fdi;
-	int		fdo;
-	char	**cmd; // esto contendría, por ejemplo: cmd[0] = cat, cmd[1] = -e, cmd[2] = hola ... etc
-	int		btin;
-}			t_pnode;
-
 
 // inicialise
 
 t_shell	*init_megastruct(int ac, char **av, char **env);
+t_nod	*create_pnode(char **aux, char **str, int *n_proc);
 
 // errno_outputs
 
@@ -76,4 +80,5 @@ void    run_builtin(t_shell *shell, char **name);
 int		initial_parser(t_shell *shell);
 int		comma_parser(char **str, int *q_mark_err);
 int		redirection_pipe_parser(char **str, int *q_mark_err);
+void	process_command_parsing(t_shell *shell);
 #endif

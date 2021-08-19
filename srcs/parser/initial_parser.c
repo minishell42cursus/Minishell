@@ -21,6 +21,5 @@ int	initial_parser(t_shell *shell)
 		free(shell->rl_tofree);
 		return (1);
 	}
-	free(shell->rl_tofree);
 	return (0);
 }

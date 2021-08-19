@@ -11,7 +11,7 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 	shell->fdi = dup(0);
 	shell->fdo = dup(1);
 	shell->q_mark_err = 0;
-	shell->n_frk = 0;
+	shell->n_proc = 0;
 	return (shell);
 //	shell->lst_env = NULL;
 //	while (*env)

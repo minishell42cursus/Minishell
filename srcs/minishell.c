@@ -3,7 +3,7 @@
 int main(int argc, char *argv[], char *env[])
 {
 	t_shell		*shell;
-	(void)argv; //Esto es porque no se usa de momento
+	t_nod		*node;
 
 	if (argc != 1) // No lo había pensado, pero esto es bastante importante.
 		call_error(); 
@@ -14,9 +14,19 @@ int main(int argc, char *argv[], char *env[])
 		shell->rl = readline(MINISHELL);
 		if (!initial_parser(shell))
 		{
-			; //detección del número de procesos y sus respectivas lineas de comandos.
+			process_command_parsing(shell); //detección del número de procesos y sus respectivas lineas de comandos.
+			(void)node;
+			/* Este comentario testea la correcta creación de la lista de procesos al parsear la string:
+			node = shell->p_lst;
+			while (shell->n_proc > 0)
+			{
+				printf("process number: %i\n string: |%s|\n", node->p_nbr, node->line); 
+				node = node->next;
+				shell->n_proc--;
+			}*/
 			; //apertura de here_docs.
 			; //apertura de otros fd's.
+			; //Expansión de variables de entorno.
 			; //recolección de comando + respectivos argv's.
 			; //lanzamiento de procesos.
 		}

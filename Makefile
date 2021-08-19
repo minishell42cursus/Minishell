@@ -1,4 +1,5 @@
 NAME		=	minishell
+LIBFT		=	libft.a
 
 # Source directories:
 
@@ -8,6 +9,7 @@ ERR_DIR		=	error/
 PARSE_DIR	=	parser/
 EXEC_DIR	=	execute/
 BLTIN_DIR	=	builtins/
+LIBFT_DIR	=	libft/
 
 # Source files:
 
@@ -26,7 +28,7 @@ SRC_SIG		= 	signal
 
 SRC_EXEC	=	run_command
 
-SRC_ERR	=	stderr_outputs
+SRC_ERR		=	stderr_outputs
 
 SRCS		= 	$(addsuffix .c, $(addprefix $(MAIN_DIR),$(SRCS_FILES))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(SIG_DIR),$(SRC_SIG)))) \
@@ -45,27 +47,29 @@ CFLAGS		=	-Wall -Wextra -Werror
 
 RM			=	rm -rf
 
-LIB			= ./libft/libft.a
-
 RDL			= -lreadline
 
 RDL_MAC		= -lreadline -L ~/.brew/opt/readline/lib
+
+LIBFT_MAC	= -L libft/ -lft
 
 all:		$(NAME)
 
 %.o:		%.c
 			$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
 
-$(NAME):	$(OBJS)
-			$(MAKE) -C $(dir $(LIB))
-			$(CC) $(INCLUDE) -o $(NAME) $(OBJS) $(LIB) $(RDL_MAC)
+$(NAME):	$(OBJS) $(LIBFT_DIR)$(LIBFT) 
+			$(CC) $(INCLUDE) -o $(NAME) $(OBJS) $(RDL_MAC) $(LIBFT_MAC)
+
+$(LIBFT_DIR)$(LIBFT):	$(LIBFT_DIR)
+			@make -C $(dir $(LIBFT_DIR))
 
 clean:
 			$(RM) $(OBJS) $(OBJS:.o=.d)
-			@make -C $(dir $(LIB)) clean
+			@make -C $(dir $(LIBFT_DIR)) clean
 
 fclean:		clean
-			@make -C $(dir $(LIB)) fclean
+			@make -C $(dir $(LIBFT_DIR)) fclean
 			$(RM) $(NAME)
 
 re:			fclean all

@@ -10,6 +10,7 @@ PARSE_DIR	=	parser/
 EXEC_DIR	=	execute/
 BLTIN_DIR	=	builtins/
 LIBFT_DIR	=	libft/
+FREE_DIR	=	freezer/
 
 # Source files:
 
@@ -31,12 +32,15 @@ SRC_EXEC	=	run_command
 
 SRC_ERR		=	stderr_outputs
 
+SRC_FREE	=	free_functions
+
 SRCS		= 	$(addsuffix .c, $(addprefix $(MAIN_DIR),$(SRCS_FILES))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(SIG_DIR),$(SRC_SIG)))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(ERR_DIR),$(SRC_ERR)))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(PARSE_DIR),$(SRC_PARSE)))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(EXEC_DIR),$(SRC_EXEC)))) \
-				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(BLTIN_DIR),$(SRC_BLTIN))))
+				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(BLTIN_DIR),$(SRC_BLTIN)))) \
+				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(FREE_DIR),$(SRC_FREE))))
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS))
 
@@ -44,7 +48,7 @@ INCLUDE		=	-I ./includes/ -I ./libft/ -I ~/.brew/opt/readline/include
 
 CC			=	gcc
 
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror #-fsanitize=address
 
 RM			=	rm -rf
 
@@ -60,7 +64,7 @@ all:		$(NAME)
 			$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
 
 $(NAME):	$(OBJS) $(LIBFT_DIR)$(LIBFT) 
-			$(CC) $(INCLUDE) -o $(NAME) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -fsanitize=address
+			$(CC) $(INCLUDE) -o $(NAME) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) #-fsanitize=address
 
 $(LIBFT_DIR)$(LIBFT):	$(LIBFT_DIR)
 			@make -C $(dir $(LIBFT_DIR))

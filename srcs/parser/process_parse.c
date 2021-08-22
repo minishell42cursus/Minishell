@@ -25,11 +25,13 @@ t_nod	*create_pnode(char **aux, char **str, int *n_proc)
 	size_t	len;
 
 	process = malloc(sizeof(t_nod));
+	//printf("process node:%p\n", process);
 	process->p_nbr = ++(*n_proc);
 	process->fdi = 0;
 	process->fdo = 1;
 	len = process_str_length(*aux);
 	process->line = ft_substr(*str, 0, len);
+	//printf("substring: %p\n", process->line);
 	if (*(*aux + len) == '|')
 	{
 		*str = *str + len + 1;
@@ -56,14 +58,5 @@ void	process_command_parsing(t_shell *shell)
 		p_nd->next = create_pnode(&shell->parse_rl, &shell->rl_aux, &shell->n_proc);
 		p_nd = p_nd->next;
 	}
+	free(shell->rl_tofree);
 }
-
-
-
-
-
-
-
-
-
-

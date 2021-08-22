@@ -81,4 +81,8 @@ int		initial_parser(t_shell *shell);
 int		comma_parser(char **str, int *q_mark_err);
 int		redirection_pipe_parser(char **str, int *q_mark_err);
 void	process_command_parsing(t_shell *shell);
+
+// exit  functions
+
+void	free_process_list(t_shell *shell);
 #endif

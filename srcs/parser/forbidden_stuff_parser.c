@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 17:30:52 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/08/18 18:37:16 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/08/23 17:13:21 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int	redirection_pipe_parser(char **str, int *q_mark_err)
 			if (!aux)
 				break ;
 		}
-		aux++;
+		else
+			aux++;
 	}
 	if (!aux)
 		return (1);

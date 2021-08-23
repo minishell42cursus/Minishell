@@ -20,18 +20,21 @@
 //# define MINISHELL	"\033[32m$🔥🔥>  \033[0m"
 # define MINISHELL	"$🔥💀minihell💀🔥> "
 
+
 # define OK		1
 # define KO		0
-
 
 typedef struct s_nod
 {
 	int				p_nbr;
 	char			*line; // de top | cat -e < a, del segundo proceso: line = "cat -e < a"
+	char			*line_aux;
+	char			*str_tofree;
 	int				fdi;
 	int				fdo;
 	char			**cmd; // esto contendría, por ejemplo: cmd[0] = cat, cmd[1] = -e, cmd[2] = hola ... etc
 	int				btin;
+	char			*hdoc_name;
 	struct s_nod	*next;
 }			t_nod;
 
@@ -82,7 +85,15 @@ int		comma_parser(char **str, int *q_mark_err);
 int		redirection_pipe_parser(char **str, int *q_mark_err);
 void	process_command_parsing(t_shell *shell);
 
-// exit  functions
+// free  functions
 
 void	free_process_list(t_shell *shell);
+
+//Get next line utils:
+
+# define BUFFER_SIZE 100
+
+char	*ft_strjoin_n_free(char *s1, char *s2);
+int		get_next_line(int fd, char **line);
+
 #endif

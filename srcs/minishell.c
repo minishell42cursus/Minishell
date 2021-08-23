@@ -16,17 +16,9 @@ int main(int argc, char *argv[], char *env[])
 		{
 			process_command_parsing(shell); //detección del número de procesos y sus respectivas lineas de comandos.
 			(void)node;
-			node = shell->p_lst;
-			while (shell->n_proc > 0)
-			{
-				//printf("node pointer: %p\nprocess number: %i\nstring: %p\n", node, node->p_nbr, node->line); 
-				printf("process number: %i\n string: |%s|\n", node->p_nbr, node->line); 
-				node = node->next;
-				shell->n_proc--;
-			}
 			; //apertura de here_docs.
 			; //apertura de otros fd's.
-			; //Expansión de variables de entorno.
+			; //Expansión de variables de entorno y strings (están blanqueadas hasta este punto).
 			; //recolección de comando + respectivos argv's.
 			; //lanzamiento de procesos.
 			; //Aquí podríamos hacer una recopilación de todas las cosas que liberaremos después de la ejecucion de los comandos.

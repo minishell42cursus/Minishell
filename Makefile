@@ -11,6 +11,7 @@ EXEC_DIR	=	execute/
 BLTIN_DIR	=	builtins/
 LIBFT_DIR	=	libft/
 FREE_DIR	=	freezer/
+GNL_DIR		=	gnl/
 
 # Source files:
 
@@ -34,13 +35,17 @@ SRC_ERR		=	stderr_outputs
 
 SRC_FREE	=	free_functions
 
+SRC_GNL		=	get_next_line_bonus \
+				get_next_line_utils_bonus
+
 SRCS		= 	$(addsuffix .c, $(addprefix $(MAIN_DIR),$(SRCS_FILES))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(SIG_DIR),$(SRC_SIG)))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(ERR_DIR),$(SRC_ERR)))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(PARSE_DIR),$(SRC_PARSE)))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(EXEC_DIR),$(SRC_EXEC)))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(BLTIN_DIR),$(SRC_BLTIN)))) \
-				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(FREE_DIR),$(SRC_FREE))))
+				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(FREE_DIR),$(SRC_FREE)))) \
+				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(GNL_DIR),$(SRC_GNL))))
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS))
 

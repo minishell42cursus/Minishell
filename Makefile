@@ -23,7 +23,10 @@ SRCS_FILES	= 	minishell \
 SRC_BLTIN	= 	ft_pwd \
 				ft_env.c \
 			      	ft_exit.c \
-				ft_echo
+				ft_echo \
+				ft_cd.c \
+				ft_export.c \
+				ft_unset.c
 
 SRC_PARSE	=	comma_parser \
 				forbidden_stuff_parser \

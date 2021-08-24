@@ -90,9 +90,12 @@ char    **exec_built_in(t_shell *shell, char **env);
 
 // builtins
 int     ft_echo(char *argv[]);
-void	bi_env(char **env);
+void	ft_env(char **env);
 void    ft_exit(t_shell *shell, char **env);
 void    ft_pwd(void);
+char	**ft_cd(char *str, char **env);
+char    **ft_export(char **env, char **argv);
+char    **ft_unset(char **env, char **av);
 
 // parser_fts
 

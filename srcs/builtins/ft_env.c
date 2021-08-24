@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void bi_env(char **env)
+void ft_env(char **env)
 {
 	int i;
 

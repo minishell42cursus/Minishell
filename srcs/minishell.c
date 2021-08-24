@@ -27,7 +27,7 @@ int main(int argc, char *argv[], char *env[])
 		}
 		else
 			printf("$? = %i\n", shell->q_mark_err);
-		//run_builtin(&shell, &argv[1]); //Función SOLO para testear builtins, luego esto va fuera
+		//env = exec_built_in(shell, env); //Función SOLO para testear builtins, luego esto va en el pipes
 		add_history(shell->rl);
 		if (shell->rl)
 			free(shell->rl);

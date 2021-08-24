@@ -21,6 +21,8 @@ SRCS_FILES	= 	minishell \
 				tabdup.c
 
 SRC_BLTIN	= 	ft_pwd \
+				ft_env.c \
+			      	ft_exit.c \
 				ft_echo
 
 SRC_PARSE	=	comma_parser \

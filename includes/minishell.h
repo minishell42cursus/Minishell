@@ -24,6 +24,15 @@
 # define OK		1
 # define KO		0
 
+// index value:
+//	0 : echo
+//	1 : pwd
+//	2 : env
+//	3 : cd
+//	4 : export
+//	5 : unset
+//	6 : exit
+
 typedef struct s_nod
 {
 	int				p_nbr;
@@ -40,6 +49,7 @@ typedef struct s_nod
 
 typedef struct s_shell
 {
+	int	index;
 	char	*rl;
 	char	*parse_rl;
 	char	*rl_tofree;
@@ -76,7 +86,13 @@ void	ft_signal_main(void);
 
 // execute / run_command
 
-void    run_builtin(t_shell *shell, char **name);
+void    select_index(t_shell *shell, char **env);
+
+// builtins
+int     ft_echo(char *argv[]);
+void	bi_env(char **env);
+void    ft_exit(t_shell *shell, char **env);
+void    ft_pwd(void);
 
 // parser_fts
 

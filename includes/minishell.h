@@ -94,6 +94,8 @@ void	free_process_list(t_shell *shell);
 # define BUFFER_SIZE 100
 
 char	*ft_strjoin_n_free(char *s1, char *s2);
-int		get_next_line(int fd, char **line);
+int	get_next_line(int fd, char **line);
+int	tablen(char **tab);
+char	**tabdup(char **tab);
 
 #endif

@@ -17,7 +17,8 @@ GNL_DIR		=	gnl/
 
 SRCS_FILES	= 	minishell \
 				initialize \
-				raise_error
+				raise_error \
+				tabdup.c
 
 SRC_BLTIN	= 	ft_pwd \
 				ft_echo

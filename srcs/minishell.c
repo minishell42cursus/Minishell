@@ -9,6 +9,7 @@ int main(int argc, char *argv[], char *env[])
 		call_error(); 
 	shell = init_megastruct(argc, argv, env); //Función para inicializar datos
 	ft_signal_main(); //Función para señales (finalizado)
+	env = tabdup(env);
 	while (1)
    	{
 		shell->rl = readline(MINISHELL);

@@ -86,7 +86,7 @@ void	ft_signal_main(void);
 
 // execute / run_command
 
-void    select_index(t_shell *shell, char **env);
+char    **exec_built_in(t_shell *shell, char **env);
 
 // builtins
 int     ft_echo(char *argv[]);

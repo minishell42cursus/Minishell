@@ -10,13 +10,11 @@ void	ft_pwd(void)
 		ft_putstr_fd(pwd, 1);
 		free(pwd);
 		write(1, "\n", 1);
-		return (0);
 	}
 	else
 	{
 		print_errno();
 		free(pwd);
-		return (1);
 	}
 }
 /*

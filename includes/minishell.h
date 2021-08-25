@@ -38,7 +38,8 @@ typedef struct s_nod
 	int				p_nbr;
 	char			*line; // de top | cat -e < a, del segundo proceso: line = "cat -e < a"
 	char			*line_aux;
-	char			*str_tofree;
+	char			*line_save;
+	char			*line_aux_save;
 	int				fdi;
 	int				fdo;
 	char			**cmd; // esto contendría, por ejemplo: cmd[0] = cat, cmd[1] = -e, cmd[2] = hola ... etc
@@ -96,6 +97,8 @@ void    ft_pwd(void);
 char	**ft_cd(char *str, char **env);
 char    **ft_export(char **env, char **argv);
 char    **ft_unset(char **env, char **av);
+int		len_name(char *str);
+
 
 // parser_fts
 
@@ -107,14 +110,15 @@ void	process_command_parsing(t_shell *shell);
 // free  functions
 
 void	free_process_list(t_shell *shell);
+void	free_command(t_shell *shell);
 
 //Get next line utils:
 
 # define BUFFER_SIZE 100
 
 char	*ft_strjoin_n_free(char *s1, char *s2);
-int	get_next_line(int fd, char **line);
-int	tablen(char **tab);
+int		get_next_line(int fd, char **line);
+int		tablen(char **tab);
 char	**tabdup(char **tab);
 
 #endif

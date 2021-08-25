@@ -11,7 +11,8 @@ void	ft_exit(t_shell *shell, char **env)
 		i++;
 	}
 	free(env);
-	free_command(shell);
+	shell = NULL;
+	//free_command(shell);
 	printf("exit\n");
 	exit(0);
 }

@@ -18,15 +18,15 @@ GNL_DIR		=	gnl/
 SRCS_FILES	= 	minishell \
 				initialize \
 				raise_error \
-				tabdup.c
+				tabdup
 
 SRC_BLTIN	= 	ft_pwd \
-				ft_env.c \
-			      	ft_exit.c \
+				ft_env \
+			    ft_exit \
 				ft_echo \
-				ft_cd.c \
-				ft_export.c \
-				ft_unset.c
+				ft_cd \
+				ft_export \
+				ft_unset
 
 SRC_PARSE	=	comma_parser \
 				forbidden_stuff_parser \

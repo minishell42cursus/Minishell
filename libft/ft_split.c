@@ -60,6 +60,7 @@ char	**ft_split(const char *s, char c)
 	ft_subsplit(s, c, n_words, out);
 	return (out);
 }
+
 /*
 int main()
 {

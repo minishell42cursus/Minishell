@@ -24,6 +24,7 @@ char	**ft_cd(char *str, char **env)
 		free(tmp);
 		env[i[0]] = pwd;
 	}
+	return (env);
 }
 
 /*int main (int argc, char **argv, char **env)

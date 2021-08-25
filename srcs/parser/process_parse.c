@@ -19,6 +19,20 @@ static size_t	process_str_length(char	*str)
 	return (i);
 }
 
+static void	pointer_mover(char **aux, char **str, size_t len)
+{
+	if (*(*aux + len) == '|')
+	{
+		*str = *str + len + 1;
+		*aux = *aux + len + 1;
+	}
+	else
+	{
+		*str = *str + len;
+		*aux = *aux + len;
+	}
+}
+
 t_nod	*create_pnode(char **aux, char **str, int *n_proc)
 {
 	t_nod	*process;
@@ -31,16 +45,9 @@ t_nod	*create_pnode(char **aux, char **str, int *n_proc)
 	len = process_str_length(*aux);
 	process->line = ft_substr(*str, 0, len);
 	process->line_aux = ft_substr(*aux, 0, len);
-	if (*(*aux + len) == '|')
-	{
-		*str = *str + len + 1;
-		*aux = *aux + len + 1;
-	}
-	else
-	{
-		*str = *str + len;
-		*aux = *aux + len;
-	}
+	process->line_save = process->line;
+	process->line_aux_save = process->line_aux;
+	pointer_mover(aux, str, len);
 	return (process);
 }
 

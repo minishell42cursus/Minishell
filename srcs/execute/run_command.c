@@ -3,9 +3,9 @@
 char	**exec_built_in(t_shell *shell, char **env)
 {
 	if (shell->index == 1)
-		ft_echo(shell->argv);
+		ft_echo(shell->av);
 	else if (shell->index == 2)
-		ft_pwd(env);
+		ft_pwd();
 	else if (shell->index == 3)
 		ft_env(env);
 	else if (shell->index == 4)
@@ -15,6 +15,6 @@ char	**exec_built_in(t_shell *shell, char **env)
 	else if (shell->index == 6)
 		env = ft_unset(env, shell->av + 1);
 	else if (shell->index == 7)
-		env = ft_exit(shell, env);
+		ft_exit(shell, env);
 	return (env);
 }

@@ -17,10 +17,10 @@ GNL_DIR		=	gnl/
 
 SRCS_FILES	= 	minishell \
 				initialize \
-				raise_error \
-				tabdup
+				raise_error
+				#tabdup
 
-SRC_BLTIN	= 	ft_pwd \
+#SRC_BLTIN	= 	ft_pwd \
 				ft_env \
 			    ft_exit \
 				ft_echo \
@@ -31,11 +31,12 @@ SRC_BLTIN	= 	ft_pwd \
 SRC_PARSE	=	comma_parser \
 				forbidden_stuff_parser \
 				initial_parser \
-				process_parse
+				process_parse \
+				here_doc_parser
 
 SRC_SIG		= 	signal
 
-SRC_EXEC	=	run_command
+#SRC_EXEC	=	run_command
 
 SRC_ERR		=	stderr_outputs
 
@@ -59,7 +60,7 @@ INCLUDE		=	-I ./includes/ -I ./libft/ -I ~/.brew/opt/readline/include
 
 CC			=	gcc
 
-CFLAGS		=	-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
 
 RM			=	rm -rf
 
@@ -75,7 +76,7 @@ all:		$(NAME)
 			$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
 
 $(NAME):	$(OBJS) $(LIBFT_DIR)$(LIBFT) 
-			$(CC) $(INCLUDE) -o $(NAME) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) #-fsanitize=address
+			$(CC) $(INCLUDE) -o $(NAME) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -fsanitize=address
 
 $(LIBFT_DIR)$(LIBFT):	$(LIBFT_DIR)
 			@make -C $(dir $(LIBFT_DIR))

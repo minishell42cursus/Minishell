@@ -9,13 +9,14 @@ int main(int argc, char *argv[], char *env[])
 		call_error(); 
 	shell = init_megastruct(argc, argv, env); //Función para inicializar datos
 	ft_signal_main(); //Función para señales (finalizado)
-	env = tabdup(env);
+	//env = tabdup(env);
 	while (1)
    	{
 		shell->rl = readline(MINISHELL);
 		if (!initial_parser(shell))
 		{
 			process_command_parsing(shell); //detección del número de procesos y sus respectivas lineas de comandos.
+			heredoc_piece(shell);
 			(void)node;
 			; //apertura de here_docs.
 			; //apertura de otros fd's.

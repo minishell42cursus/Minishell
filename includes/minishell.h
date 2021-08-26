@@ -99,13 +99,16 @@ char    **ft_export(char **env, char **argv);
 char    **ft_unset(char **env, char **av);
 int		len_name(char *str);
 
-
 // parser_fts
 
 int		initial_parser(t_shell *shell);
 int		comma_parser(char **str, int *q_mark_err);
 int		redirection_pipe_parser(char **str, int *q_mark_err);
 void	process_command_parsing(t_shell *shell);
+
+// here_doc_related
+
+void	heredoc_piece(t_shell *shell);
 
 // free  functions
 

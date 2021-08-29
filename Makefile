@@ -32,7 +32,8 @@ SRC_PARSE	=	comma_parser \
 				forbidden_stuff_parser \
 				initial_parser \
 				process_parse \
-				here_doc_parser
+				here_doc_parser \
+				here_doc_utils
 
 SRC_SIG		= 	signal
 

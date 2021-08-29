@@ -109,6 +109,10 @@ void	process_command_parsing(t_shell *shell);
 // here_doc_related
 
 void	heredoc_piece(t_shell *shell);
+void	place_str_pointers(char **aux, char **str_blank, char **str_full);
+char	*hdoc_filename(int reset);
+char	*eof_gatherer(char **line);
+void	unlink_all_heredocs(t_shell *shell);
 
 // free  functions
 

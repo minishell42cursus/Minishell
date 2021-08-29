@@ -15,3 +15,22 @@ void	free_process_list(t_shell *shell)
 		shell->n_proc--;
 	}
 }
+
+void	unlink_all_heredocs(t_shell *shell)
+{
+	t_nod	*node;
+	int		i;
+
+	i = shell->n_proc;
+	node = shell->p_lst;
+	chdir("./.tmp");
+	while (i > 0)
+	{
+		if (node->hdoc_name)
+			unlink(node->hdoc_name);
+		node = node->next;
+		i--;
+	}
+	chdir("../");
+	shell->n_proc = 0;
+}

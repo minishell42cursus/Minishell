@@ -24,6 +24,7 @@ int main(int argc, char *argv[], char *env[])
 			; //recolección de comando + respectivos argv's.
 			; //lanzamiento de procesos.
 			; //Aquí podríamos hacer una recopilación de todas las cosas que liberaremos después de la ejecucion de los comandos.
+			unlink_all_heredocs(shell);
 			free_process_list(shell);
 		}
 		else

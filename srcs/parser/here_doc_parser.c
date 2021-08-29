@@ -92,6 +92,7 @@ char	*eof_gatherer(char **line)
 	int		len;
 
 	len = string_length_bash(*line);
+	printf("%s\n", *line);
 	aux = malloc(sizeof(char) * (len + 1));
 	eof = aux;
 	str = *line;
@@ -136,19 +137,34 @@ static void	write_line_on_hdoc(char *line, int fd)
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
 	free(line);
-}	
+}
 
+static void	clean_other_hdoc(int *fd)
+{
+	if (*fd != 0)
+		close(*fd);
+	*fd = open(hdoc_filename(1), O_RDWR | O_CREAT, 00644);
+}
 
 void	open_heredoc(char *eof, t_nod *node)
 {
 	char	*line;
+	int i = 0;
 
 	chdir("./.tmp");
-	node->fdi = open(hdoc_filename(1), O_RDWR | O_CREAT , 00644); 
+	clean_other_hdoc(&node->fdi);
 	while (1)
 	{
-		write(node->fdo, "$> ", 3);
+		write(1, "$> ", 3);
 		get_next_line(0, &line);
+		i = 0;
+		if (!line)
+			printf("something is happening\n");
+		while (line[i])
+		{
+			printf("\nletter: '%c', ascii:%i\n", line[i], line[i]);
+			i++;
+		}
 		if (!ft_strncmp(line, eof, max_len(line, eof)))
 		{
 			free(line);
@@ -202,40 +218,3 @@ void	heredoc_piece(t_shell *shell)
 	shell->n_proc = 0;
 	hdoc_filename(0);
 }
-
-/*void	here_doc_input(t_pip *p, int pip[2])
-{
-	char	*line;
-
-	write(p->fdo, "$> ", 3);
-	get_next_line(p->fdi, &line);
-	if (!ft_strncmp(line, p->argv[2], max_len(line, p->argv[2])))
-	{
-		free(line);
-		close(pip[1]);
-		exit(0);
-	}
-	else
-	{
-		write(pip[1], line, ft_strlen(line));
-		write(pip[1], "\n", 1);
-		free(line);
-		here_doc_input(p, pip);
-	}
-}*/
-
-
-/*
-int main()
-{
-	int	i;
-
-	i = 0;
-	while (i++ < 20)
-		printf("%s\n", hdoc_filename(1));
-	printf("%s\n", hdoc_filename(0));
-	i = 0;
-	while (i++ < 20)
-		printf("%s\n", hdoc_filename(1));
-	return (0);
-}*/

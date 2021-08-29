@@ -5,7 +5,7 @@
  * a string that does not look inside "" / '' strings, so we can spot which
  * redirection, pipe or whatever is relevant or not when parsing.
  * Minishell  SHOULD NOT workr when given <<, >>, <, >, | inside commas. These
- * will always have to be gathered as arguments for a command. Just like bash.*/
+ *will always have to be gathered as arguments for a command. Just like bash.*/
 void	place_str_pointers(char **aux, char **str_blank, char **str_full)
 {
 	long double	displacement;

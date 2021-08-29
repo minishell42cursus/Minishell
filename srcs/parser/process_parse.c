@@ -61,7 +61,8 @@ void	process_command_parsing(t_shell *shell)
 	shell->p_lst = p_nd;
 	while (*shell->parse_rl)
 	{
-		p_nd->next = create_pnode(&shell->parse_rl, &shell->rl_aux, &shell->n_proc);
+		p_nd->next = create_pnode(&shell->parse_rl,
+				&shell->rl_aux, &shell->n_proc);
 		p_nd = p_nd->next;
 	}
 	free(shell->rl_tofree);

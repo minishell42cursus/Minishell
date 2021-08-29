@@ -130,27 +130,32 @@ void	place_str_pointers(char **aux, char **str_blank, char **str_full)
 		*str_blank = *str_blank + 1;
 }
 
+
+static void	write_line_on_hdoc(char *line, int fd)
+{
+	write(fd, line, ft_strlen(line));
+	write(fd, "\n", 1);
+	free(line);
+}	
+
+
 void	open_heredoc(char *eof, t_nod *node)
 {
 	char	*line;
 
 	chdir("./.tmp");
-	node->fdi = open(hdoc_filename(1), O_CREAT); 
+	node->fdi = open(hdoc_filename(1), O_RDWR | O_CREAT , 00644); 
 	while (1)
 	{
-		write(node->fdi, "$> ", 3);
-		get_next_line(node->fdi, &line);
+		write(node->fdo, "$> ", 3);
+		get_next_line(0, &line);
 		if (!ft_strncmp(line, eof, max_len(line, eof)))
 		{
 			free(line);
 			break ;
 		}
 		else
-		{
-			write(node->fdi, line, ft_strlen(line));
-			write(node->fdi, "\n", 1);
-			free(line);
-		}
+			write_line_on_hdoc(line, node->fdi);
 	}
 	chdir("../");
 }

@@ -15,6 +15,7 @@ int main(int argc, char *argv[], char *env[])
 		shell->rl = readline(MINISHELL);
 		if (!initial_parser(shell))
 		{
+			add_history(shell->rl);
 			process_command_parsing(shell); //detección del número de procesos y sus respectivas lineas de comandos.
 			heredoc_piece(shell);
 			(void)node;
@@ -30,9 +31,6 @@ int main(int argc, char *argv[], char *env[])
 		else
 			printf("$? = %i\n", shell->q_mark_err);
 		//env = exec_built_in(shell, env); //Función SOLO para testear builtins, luego esto va en el pipes
-		add_history(shell->rl);
-		if (shell->rl)
-			free(shell->rl);
 		//system("leaks minishell");
 	}
 	rl_clear_history();

@@ -15,10 +15,22 @@ void	place_str_pointers(char **aux, char **str_blank, char **str_full)
 		(*aux)++;
 	displacement = *aux - *str_blank;
 	while (displacement-- > 0)
+	{
+		if (**str_full == '*')
+			**str_full = ' ';
+		if (displacement <= 2)
+			**str_full = ' ';
 		*str_full = *str_full + 1;
+	}
 	displacement = *aux - *str_blank;
 	while (displacement-- > 0)
+	{
+		if (**str_blank == '*')
+			**str_blank = ' ';
+		if (displacement <= 2)
+			**str_blank = ' ';
 		*str_blank = *str_blank + 1;
+	}
 }
 
 /* function that gives a different string for each
@@ -92,7 +104,7 @@ static int	string_length_bash(char *str)
 	return (i);
 }
 
-char	*eof_gatherer(char **line)
+char	*eof_gatherer(char **line, int *n_hdoc)
 {
 	char	*eof;
 	char	*aux;
@@ -114,5 +126,6 @@ char	*eof_gatherer(char **line)
 	}
 	*aux = '\0';
 	*(--str) = '\\';
+	*n_hdoc = *n_hdoc + 1;
 	return (eof);
 }

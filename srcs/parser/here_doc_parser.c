@@ -21,7 +21,7 @@ static void	clean_other_hdoc(t_nod *node)
 	node->fdi = open(node->hdoc_name, O_RDWR | O_CREAT, 00644);
 }
 
-void	open_heredoc(char *eof, t_nod *node)
+static void	open_heredoc(char *eof, t_nod *node)
 {
 	char	*line;
 	int i = 0;
@@ -33,14 +33,6 @@ void	open_heredoc(char *eof, t_nod *node)
 		write(2, "$> ", 3);
 		get_next_line(0, &line);
 		i = 0;
-		/* PARA PROBAR SEÑALES SEÑORES
-		if (!line)
-			printf("something is happening\n");
-		while (line[i])
-		{
-			printf("\nletter: '%c', ascii:%i\n", line[i], line[i]);
-			i++;
-		}*/
 		if (!ft_strncmp(line, eof, ft_maxlen(line, eof)))
 		{
 			free(line);
@@ -52,7 +44,30 @@ void	open_heredoc(char *eof, t_nod *node)
 	chdir("../");
 }
 
-void	hd_checker(t_nod *node)
+static void	clean_hdoc_strings(t_nod *node)
+{
+	char	*aux;
+	int		counter;
+
+	counter = node->n_hdoc;
+	aux = node->line_save;
+	while (*aux && (counter > 1))
+	{
+		aux = ft_strnstr(aux, "\\", ft_strlen(aux));
+		*aux = ' ';
+		counter--;
+	}
+	aux = ft_strnstr(aux, "\\", ft_strlen(aux));
+	if (!aux)
+		return ;
+	aux++;
+	while (*aux == '*' && *aux)
+		*aux++ = ' ';
+	free(node->line_aux_save);
+	node->line = node->line_save;
+}
+
+static void	hd_checker(t_nod *node)
 {
 	char	*aux;
 	char	*eof;
@@ -65,7 +80,7 @@ void	hd_checker(t_nod *node)
 			break ;
 		else
 			place_str_pointers(&aux, &node->line_aux, &node->line);
-		eof = eof_gatherer(&node->line);
+		eof = eof_gatherer(&node->line, &node->n_hdoc);
 		open_heredoc(eof, node);
 		/*printf("this is the hdoc end of file: [%s]\n", eof);
 		printf("this is the node line_aux: [%s]\n", node->line_aux);
@@ -76,6 +91,13 @@ void	hd_checker(t_nod *node)
 		; //crear el heredoc con su fd, acutallizarlo, y escribir sobre el.
 		; // acuerdate de procesar ^D !!!
 	}
+	clean_hdoc_strings(node);
+	printf("this is the hdoc end of file: [%s]\n", eof);
+	//printf("this is the node line_aux: [%s]\n", node->line_aux);
+	printf("this is the node line: [%s]\n", node->line);
+	printf("this is the node line_save: [%s]\n", node->line_save);
+	//printf("this is the node line_aux_save: [%s]\n", node->line_aux_save);
+	printf("\n\n");
 }
 
 void	heredoc_piece(t_shell *shell)

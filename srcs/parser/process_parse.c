@@ -47,6 +47,7 @@ t_nod	*create_pnode(char **aux, char **str, int *n_proc)
 	process->line_aux = ft_substr(*aux, 0, len);
 	process->line_save = process->line;
 	process->line_aux_save = process->line_aux;
+	process->n_hdoc = 0;
 	pointer_mover(aux, str, len);
 	return (process);
 }

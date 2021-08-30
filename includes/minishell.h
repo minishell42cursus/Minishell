@@ -45,6 +45,7 @@ typedef struct s_nod
 	char			**cmd; // esto contendría, por ejemplo: cmd[0] = cat, cmd[1] = -e, cmd[2] = hola ... etc
 	int				btin;
 	char			*hdoc_name;
+	int				n_hdoc;
 	struct s_nod	*next;
 }			t_nod;
 
@@ -111,7 +112,7 @@ void	process_command_parsing(t_shell *shell);
 void	heredoc_piece(t_shell *shell);
 void	place_str_pointers(char **aux, char **str_blank, char **str_full);
 char	*hdoc_filename(int reset);
-char	*eof_gatherer(char **line);
+char	*eof_gatherer(char **line, int *n_hdoc);
 void	unlink_all_heredocs(t_shell *shell);
 
 // free  functions

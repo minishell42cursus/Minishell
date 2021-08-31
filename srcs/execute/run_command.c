@@ -20,7 +20,7 @@ int     ft_isbuiltin(char **args)
                 return (0);
 }
 
-void    ft_hub(char **args)
+void    ft_isrun(char **args)
 {
         if (!args)
                 return ;

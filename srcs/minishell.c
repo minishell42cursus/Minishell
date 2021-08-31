@@ -26,7 +26,7 @@ int main(int argc, char *argv[], char *env[])
 			if(ft_isbuiltin(&shell->rl))
 			{
 				printf("\nEs builting\n");
-				ft_hub(&shell->rl);
+				ft_isrun(&shell->rl);
 			}
 			; //lanzamiento de procesos.
 			; //Aquí podríamos hacer una recopilación de todas las cosas que liberaremos después de la ejecucion de los comandos.

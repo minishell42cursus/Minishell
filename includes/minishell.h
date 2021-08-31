@@ -88,7 +88,7 @@ void	ft_signal_main(void);
 // execute / run_command
 
 int     ft_isbuiltin(char **args);
-void    ft_hub(char **args);
+void    ft_isrun(char **args);
 
 // builtins
 void     ft_echo(char *argv[]);

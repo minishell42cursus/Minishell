@@ -16,8 +16,6 @@ void	place_str_pointers(char **aux, char **str_blank, char **str_full)
 	displacement = *aux - *str_blank;
 	while (displacement-- > 0)
 	{
-		if (**str_full == '*')
-			**str_full = ' ';
 		if (displacement <= 2)
 			**str_full = ' ';
 		*str_full = *str_full + 1;
@@ -25,8 +23,6 @@ void	place_str_pointers(char **aux, char **str_blank, char **str_full)
 	displacement = *aux - *str_blank;
 	while (displacement-- > 0)
 	{
-		if (**str_blank == '*')
-			**str_blank = ' ';
 		if (displacement <= 2)
 			**str_blank = ' ';
 		*str_blank = *str_blank + 1;

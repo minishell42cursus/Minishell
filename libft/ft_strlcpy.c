@@ -2,10 +2,8 @@
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	size_t	n;
 	size_t	len;
 
-	n = 0;
 	if (!src || !dest)
 		return (0);
 	len = ft_strlen(src);

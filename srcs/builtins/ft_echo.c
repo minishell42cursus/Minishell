@@ -1,39 +1,21 @@
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-int	ft_echo(char *argv[])
+void	ft_echo(char *argv[])
 {
-	int	i;
-	int	flag;
+        int             i;
+        bool    flag;
 
-	i = 1;
-	flag = 1;
-	if (argv[1])
+        flag = 0;
+        i = 0;
+	if (ft_strcmp(argv[0], "echo") == 0 && ft_strlen(*argv) == 4)
 	{
-		if (ft_strcmp(argv[1], "-n") == 0)
-			flag = 0;
-		while (argv[i])
-		{
-			if (ft_strcmp(argv[i], "-n") != 0)
-			{
-				ft_putstr_fd(argv[i], 1);
-				if (argv[i + 1] && ft_strlen(argv[i + 1]))
-					write(1, " ", 1);
-			}
-			i++;
-		}
+                ft_putstr_fd("\n", STDOUT_FILENO);
+		return ;
 	}
-	if (flag)
-		write(1, "\n", 1);
-	return (0);
+        while (argv[++i] && !ft_strncmp(argv[i], "-n", 3))
+                flag = 1;
+	while (argv[i])
+		ft_putstr_fd(argv[i++], STDOUT_FILENO);
+	if (flag == 0)
+		ft_putstr_fd("\n", STDOUT_FILENO);
 }
-/*
-int	main(int argc, char *argv[])
-{
-	int	value;
-
-	(void)argc;
-	value = ft_echo(argv);
-	printf("%d", value);
-	return (1);
-}
-*/

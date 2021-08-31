@@ -20,10 +20,10 @@ SRCS_FILES	= 	minishell \
 				raise_error
 				#tabdup
 
-#SRC_BLTIN	= 	ft_pwd \
-				ft_env \
-			    ft_exit \
+SRC_BLTIN	= 	ft_pwd \
 				ft_echo \
+				#ft_env \
+			    ft_exit \
 				ft_cd \
 				ft_export \
 				ft_unset
@@ -37,7 +37,7 @@ SRC_PARSE	=	comma_parser \
 
 SRC_SIG		= 	signal
 
-#SRC_EXEC	=	run_command
+SRC_EXEC	=	run_command
 
 SRC_ERR		=	stderr_outputs
 

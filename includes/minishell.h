@@ -17,7 +17,6 @@
 # include "libft.h"
 
 # define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
-//# define MINISHELL	"\033[32m$🔥🔥>  \033[0m"
 # define MINISHELL	"$🔥💀minihell💀🔥> "
 
 
@@ -88,10 +87,11 @@ void	ft_signal_main(void);
 
 // execute / run_command
 
-char    **exec_built_in(t_shell *shell, char **env);
+int     ft_isbuiltin(char **args);
+void    ft_hub(char **args);
 
 // builtins
-int     ft_echo(char *argv[]);
+void     ft_echo(char *argv[]);
 void	ft_env(char **env);
 void    ft_exit(t_shell *shell, char **env);
 void    ft_pwd(void);

@@ -1,11 +1,7 @@
 #include "minishell.h"
 
-static void	write_line_on_hdoc(char *line, int fd)
-{
-	write(fd, line, ft_strlen(line));
-	write(fd, "\n", 1);
-	free(line);
-}
+void	write_line_on_hdoc(char *line, int fd);
+void	rebuild_aux_strings(t_nod *node);
 
 static void	clean_other_hdoc(t_nod *node)
 {
@@ -82,23 +78,18 @@ static void	hd_checker(t_nod *node)
 			place_str_pointers(&aux, &node->line_aux, &node->line);
 		eof = eof_gatherer(&node->line, &node->n_hdoc);
 		open_heredoc(eof, node);
-		/*printf("this is the hdoc end of file: [%s]\n", eof);
-		printf("this is the node line_aux: [%s]\n", node->line_aux);
-		printf("this is the node line: [%s]\n", node->line);
-		printf("this is the node line_save: [%s]\n", node->line_save);
-		printf("this is the node line_aux_save: [%s]\n", node->line_aux_save);
-		printf("\n\n");*/
 		; //crear el heredoc con su fd, acutallizarlo, y escribir sobre el.
 		; // acuerdate de procesar ^D !!!
 	}
 	clean_hdoc_strings(node);
-	printf("this is the hdoc end of file: [%s]\n", eof);
+	/*printf("this is the hdoc end of file: [%s]\n", eof);
 	//printf("this is the node line_aux: [%s]\n", node->line_aux);
 	printf("this is the node line: [%s]\n", node->line);
 	printf("this is the node line_save: [%s]\n", node->line_save);
 	//printf("this is the node line_aux_save: [%s]\n", node->line_aux_save);
-	printf("\n\n");
+	printf("\n\n");*/
 }
+
 
 void	heredoc_piece(t_shell *shell)
 {
@@ -110,6 +101,7 @@ void	heredoc_piece(t_shell *shell)
 	while (i > 0)
 	{
 		hd_checker(node);
+		rebuild_aux_strings(node);
 		node = node->next;
 		i--;
 	}

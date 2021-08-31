@@ -46,6 +46,7 @@ typedef struct s_nod
 	int				btin;
 	char			*hdoc_name;
 	int				n_hdoc;
+	int				launch;
 	struct s_nod	*next;
 }			t_nod;
 
@@ -110,10 +111,15 @@ void	process_command_parsing(t_shell *shell);
 // here_doc_related
 
 void	heredoc_piece(t_shell *shell);
-void	place_str_pointers(char **aux, char **str_blank, char **str_full);
 char	*hdoc_filename(int reset);
 char	*eof_gatherer(char **line, int *n_hdoc);
 void	unlink_all_heredocs(t_shell *shell);
+
+// STRING PRESTIDIGITATION
+
+void	place_str_pointers(char **aux, char **str_blank, char **str_full);
+void	edit_string(char **str, int *i);
+int		string_length_bash(char *str);
 
 // free  functions
 

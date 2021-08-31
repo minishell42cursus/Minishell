@@ -18,6 +18,7 @@ int main(int argc, char *argv[], char *env[])
 			add_history(shell->rl);
 			process_command_parsing(shell); //detección del número de procesos y sus respectivas lineas de comandos.
 			heredoc_piece(shell);
+			//other_io_redirections(shell);
 			(void)node;
 			; //apertura de here_docs.
 			; //apertura de otros fd's.

@@ -34,7 +34,8 @@ SRC_PARSE	=	comma_parser \
 				process_parse \
 				here_doc_parser \
 				here_doc_utils \
-				string_manipulation
+				string_manipulation \
+				other_redirections
 
 SRC_SIG		= 	signal
 

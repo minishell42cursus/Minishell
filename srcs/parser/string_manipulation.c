@@ -52,24 +52,23 @@ int	string_length_bash(char *str)
  * redirection, pipe or whatever is relevant or not when parsing.
  * Minishell  SHOULD NOT workr when given <<, >>, <, >, | inside commas. These
  *will always have to be gathered as arguments for a command. Just like bash.*/
-void	place_str_pointers(char **aux, char **str_blank, char **str_full)
+void	place_str_pointers(char **aux, char **str_blank, char **str_full, int i)
 {
 	long double	displacement;
 
-	*aux = *aux + 2;
 	while (**aux == ' ')
 		(*aux)++;
 	displacement = *aux - *str_blank;
 	while (displacement-- > 0)
 	{
-		if (displacement <= 2)
+		if ((int)displacement <= i)
 			**str_full = ' ';
 		*str_full = *str_full + 1;
 	}
 	displacement = *aux - *str_blank;
 	while (displacement-- > 0)
 	{
-		if (displacement <= 2)
+		if ((int)displacement <= i)
 			**str_blank = ' ';
 		*str_blank = *str_blank + 1;
 	}

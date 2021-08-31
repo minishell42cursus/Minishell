@@ -73,21 +73,16 @@ static void	hd_checker(t_nod *node)
 		if (!aux)
 			break ;
 		else
-			place_str_pointers(&aux, &node->line_aux, &node->line);
+		{
+			aux = aux + 2;
+			place_str_pointers(&aux, &node->line_aux, &node->line, 2);
+		}
 		eof = eof_gatherer(&node->line, &node->n_hdoc);
 		open_heredoc(eof, node);
-		; //crear el heredoc con su fd, acutallizarlo, y escribir sobre el.
-		; // acuerdate de procesar ^D !!!
+		; // acuerdate de procesar SEÑALES EN HEREDOC ^D !!!
 	}
 	clean_hdoc_strings(node);
-	/*printf("this is the hdoc end of file: [%s]\n", eof);
-	//printf("this is the node line_aux: [%s]\n", node->line_aux);
-	printf("this is the node line: [%s]\n", node->line);
-	printf("this is the node line_save: [%s]\n", node->line_save);
-	//printf("this is the node line_aux_save: [%s]\n", node->line_aux_save);
-	printf("\n\n");*/
 }
-
 
 void	heredoc_piece(t_shell *shell)
 {
@@ -100,6 +95,8 @@ void	heredoc_piece(t_shell *shell)
 	{
 		hd_checker(node);
 		rebuild_aux_strings(node);
+		//printf("node->line: [%s]\n", node->line);
+		//printf("node->line_aux: [%s]\n", node->line_aux);
 		node = node->next;
 		i--;
 	}

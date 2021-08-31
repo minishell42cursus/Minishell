@@ -101,23 +101,24 @@ char    **ft_export(char **env, char **argv);
 char    **ft_unset(char **env, char **av);
 int		len_name(char *str);
 
-// parser_fts
+// error control parser fts
 
 int		initial_parser(t_shell *shell);
 int		comma_parser(char **str, int *q_mark_err);
 int		redirection_pipe_parser(char **str, int *q_mark_err);
 void	process_command_parsing(t_shell *shell);
 
-// here_doc_related
+// redirection related
 
 void	heredoc_piece(t_shell *shell);
 char	*hdoc_filename(int reset);
 char	*eof_gatherer(char **line, int *n_hdoc);
 void	unlink_all_heredocs(t_shell *shell);
+void	other_io_redirections(t_shell *shell);
 
 // STRING PRESTIDIGITATION
 
-void	place_str_pointers(char **aux, char **str_blank, char **str_full);
+void	place_str_pointers(char **aux, char **str_blank, char **str_full, int i);
 void	edit_string(char **str, int *i);
 int		string_length_bash(char *str);
 

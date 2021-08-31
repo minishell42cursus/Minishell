@@ -20,7 +20,6 @@ static void	clean_other_hdoc(t_nod *node)
 static void	open_heredoc(char *eof, t_nod *node)
 {
 	char	*line;
-	int i = 0;
 
 	chdir("./.tmp");
 	clean_other_hdoc(node);
@@ -28,7 +27,6 @@ static void	open_heredoc(char *eof, t_nod *node)
 	{
 		write(2, "$> ", 3);
 		get_next_line(0, &line);
-		i = 0;
 		if (!ft_strncmp(line, eof, ft_maxlen(line, eof)))
 		{
 			free(line);

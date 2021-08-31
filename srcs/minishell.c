@@ -24,6 +24,11 @@ int main(int argc, char *argv[], char *env[])
 			; //apertura de otros fd's.
 			; //Expansión de variables de entorno y strings (están blanqueadas hasta este punto).
 			; //recolección de comando + respectivos argv's.
+			if(ft_isbuiltin(&shell->rl))
+			{
+				printf("\nEs builting\n");
+				ft_isrun(&shell->rl);
+			}
 			; //lanzamiento de procesos.
 			; //Aquí podríamos hacer una recopilación de todas las cosas que liberaremos después de la ejecucion de los comandos.
 			unlink_all_heredocs(shell);

@@ -17,11 +17,15 @@ static void	clean_other_hdoc(t_nod *node)
 	node->fdi = open(node->hdoc_name, O_RDWR | O_CREAT, 00644);
 }
 
+/* Aquí hace falta meter que me devuelva a la carpeta en la
+ * que se encontraba antes de entrar en el directorio de tmp.
+ * De momento es tal que vuelve a la carpeta minishell si es que
+ * estaba allí, pero podría ser que estuviese en otro sitio.*/
 static void	open_heredoc(char *eof, t_nod *node)
 {
 	char	*line;
 
-	chdir("./.tmp");
+	chdir(PATH_TO_TMP);
 	clean_other_hdoc(node);
 	while (1)
 	{

@@ -18,6 +18,7 @@
 
 # define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
 # define MINISHELL	"$🔥💀minihell💀🔥> "
+# define PATH_TO_TMP	"/Users/carce-bo/Desktop/cursus42/entregas/minishell/.tmp"
 
 
 # define OK		1
@@ -32,6 +33,7 @@
 //	5 : unset
 //	6 : exit
 
+/*Process node structure*/
 typedef struct s_nod
 {
 	int				p_nbr;
@@ -49,6 +51,15 @@ typedef struct s_nod
 	struct s_nod	*next;
 }			t_nod;
 
+/*Environment variable struct*/
+typedef struct	s_var
+{
+	char			*name;
+	char			*value;
+	struct s_var	*next;
+}				t_var;
+
+/*General shell struct*/
 typedef struct s_shell
 {
 	int	index;
@@ -65,7 +76,10 @@ typedef struct s_shell
 	t_list	*lst_env;
 	t_nod	*p_lst;
 	int		q_mark_err;
+	t_var	*envar;
 }				t_shell;
+
+t_shell	*g_shell;
 
 // inicialise
 
@@ -119,8 +133,8 @@ void	other_io_redirections(t_shell *shell);
 // STRING PRESTIDIGITATION
 
 void	place_str_pointers(char **aux, char **str_blank, char **str_full, int i);
-void	edit_string(char **str, int *i);
-int		string_length_bash(char *str);
+void	edit_string(char **str, int *i, int envar);
+int		string_length_bash(char *str, int envar);
 
 // free  functions
 

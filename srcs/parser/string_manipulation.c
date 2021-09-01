@@ -1,12 +1,16 @@
 #include "minishell.h"
 
-void	edit_string(char **str, int *i)
+void	edit_string(char **str, int *i, int envar)
 {
 	if (**str == '\"')
 	{
 		**str = '*';
 		while (*(++(*str)) != '\"')
+		{
+			if (**str == '$' && envar == OK)
+				**str = '&';
 			(*i)++;
+		}
 	}
 	else
 	{
@@ -28,7 +32,7 @@ void	edit_string(char **str, int *i)
  * This function apart from computing this length it marks with a
  * '*' those chars that will not have to be written inside the
  * final string that has to be gathered. 2 in 1 :D*/
-int	string_length_bash(char *str)
+int	string_length_bash(char *str, int envar)
 {
 	int	i;
 
@@ -37,8 +41,10 @@ int	string_length_bash(char *str)
 		str++;
 	while (*str != ' ' && *str != '<' && *str != '>' && *str)
 	{
+		if (*str == '$' && envar == OK)
+			*str++ = '\\';
 		if (*str == '\"' || *str == '\'')
-			edit_string(&str, &i);
+			edit_string(&str, &i, envar);
 		else
 			i++;
 		str++;

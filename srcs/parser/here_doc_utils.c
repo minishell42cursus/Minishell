@@ -32,7 +32,7 @@ char	*eof_gatherer(char **line, int *n_hdoc)
 	char	*str;
 	int		len;
 
-	len = string_length_bash(*line);
+	len = string_length_bash(*line, KO);
 	aux = malloc(sizeof(char) * (len + 1));
 	eof = aux;
 	str = *line;

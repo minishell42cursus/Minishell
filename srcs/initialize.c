@@ -5,6 +5,7 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 	t_shell	*shell;
 
 	shell = malloc(sizeof(t_shell));
+	g_shell = shell;
 	shell->ac = ac;
 	shell->av = av;
 	shell->env = env;
@@ -12,6 +13,7 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 	shell->fdo = dup(1);
 	shell->q_mark_err = 0;
 	shell->n_proc = 0;
+	shell->envar = NULL;
 	return (shell);
 //	shell->lst_env = NULL;
 //	while (*env)

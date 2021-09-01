@@ -8,6 +8,7 @@ int main(int argc, char *argv[], char *env[])
 	if (argc != 1) // No lo había pensado, pero esto es bastante importante.
 		call_error(); 
 	shell = init_megastruct(argc, argv, env); //Función para inicializar datos
+	g_shell = shell;
 	ft_signal_main(); //Función para señales (finalizado)
 	//env = tabdup(env);
 	while (1)

@@ -8,7 +8,7 @@ void	edit_string(char **str, int *i, int envar)
 		while (*(++(*str)) != '\"')
 		{
 			if (**str == '$' && envar == OK)
-				**str = '&';
+				*((*str)++) = '&';
 			(*i)++;
 		}
 	}

@@ -49,7 +49,7 @@ typedef struct s_nod
 	int				n_hdoc;
 	int				launch;
 	struct s_nod	*next;
-}			t_nod;
+}					t_nod;
 
 /*Environment variable struct*/
 typedef struct	s_var
@@ -95,6 +95,7 @@ void	forbidden_char_found(char *str, int *q_mark_err);
 void	command_not_found(char **cmd);
 void	error_msg_relative_to_file(char *file);
 void	call_error(void);
+void	ambiguous_redirect_error(char *name, int *launch);
 
 // signals / signal
 
@@ -149,5 +150,10 @@ char	*ft_strjoin_n_free(char *s1, char *s2);
 int		get_next_line(int fd, char **line);
 int		tablen(char **tab);
 char	**tabdup(char **tab);
+
+// TESTS
+
+void	add_variable_to_local_env(void);
+
 
 #endif

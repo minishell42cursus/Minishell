@@ -9,6 +9,7 @@ int main(int argc, char *argv[], char *env[])
 		call_error(); 
 	shell = init_megastruct(argc, argv, env); //Función para inicializar datos
 	g_shell = shell;
+	add_variable_to_local_env(); //esto es para testear variables de entorno locales (fuera de env)
 	ft_signal_main(); //Función para señales (finalizado)
 	//env = tabdup(env);
 	while (1)
@@ -44,14 +45,3 @@ int main(int argc, char *argv[], char *env[])
 	//system("leaks minishell");
 	return (0);
 }
-
-//poner despues de process_command_parsing(shell) para testear la correcta creación de la lista y sus respectivas lineas de comando:
-
-			/*node = shell->p_lst;
-			while (shell->n_proc > 0)
-			{
-				//printf("node pointer: %p\nprocess number: %i\nstring: %p\n", node, node->p_nbr, node->line); 
-				//printf("process number: %i\n string: |%s|\n", node->p_nbr, node->line); 
-				node = node->next;
-				shell->n_proc--;
-			}*/

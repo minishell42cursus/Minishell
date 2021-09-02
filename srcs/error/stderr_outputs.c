@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 18:29:54 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/08/31 18:07:06 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/02 16:17:32 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ void	command_not_found_error(char **cmd)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd("command not found\n", 2);
 	exit(0);
+}
+
+void	ambiguous_redirect_error(char *name, int *launch)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("$", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("ambiguous redirect\n", 2);
+	*launch = KO;
+	g_shell->q_mark_err = 1;
 }
 
 void	error_msg_relative_to_file(char *file)

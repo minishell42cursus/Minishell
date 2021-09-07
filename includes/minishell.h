@@ -24,14 +24,6 @@
 # define OK		1
 # define KO		0
 
-// index value:
-//	0 : echo
-//	1 : pwd
-//	2 : env
-//	3 : cd
-//	4 : export
-//	5 : unset
-//	6 : exit
 
 /*Process node structure*/
 typedef struct s_nod

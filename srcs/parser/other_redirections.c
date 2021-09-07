@@ -8,7 +8,7 @@ void	add_variable_to_local_env(void)
 
 	g_shell->envar = malloc(sizeof(t_var));
 	g_shell->envar->name = ft_strdup("var1");
-	g_shell->envar->value = ft_strdup("hey");
+	g_shell->envar->value = ft_strdup("paloma");
 	nod = malloc(sizeof(t_var));
 	nod->name = ft_strdup("lmaoo");
 	nod->value = ft_strdup("42");

@@ -8,10 +8,10 @@ void	add_variable_to_local_env(void)
 
 	g_shell->envar = malloc(sizeof(t_var));
 	g_shell->envar->name = ft_strdup("var1");
-	g_shell->envar->value = ft_strdup("paloma");
+	g_shell->envar->value = ft_strdup("123");
 	nod = malloc(sizeof(t_var));
-	nod->name = ft_strdup("lmaoo");
-	nod->value = ft_strdup("42");
+	nod->name = ft_strdup("var2");
+	nod->value = ft_strdup("12");
 	nod->next = NULL;
 	g_shell->envar->next = nod;
 }
@@ -22,24 +22,22 @@ void	add_variable_to_local_env(void)
  * de llas definiciones de las variables de entorno */
 char	*check_env(char *name)
 {
-	char	**env;
 	int		i;
 	char	*aux;
 	char	*value;
 
-	env = g_shell->env;
+	aux = ft_strjoin(name, "=");
 	i = 0;
-	while (env[i])
+	while (g_shell->env[i])
 	{
-		aux = ft_strjoin(name, "=");
-		if (!ft_strncmp(env[i], aux, ft_strlen(aux)))
+		if (!ft_strncmp(g_shell->env[i], aux, ft_strlen(aux)))
 			break ;
-		free(aux);
 		i++;
 	}
-	if (!env[i])
-		return (NULL);
-	value = ft_strtrim(env[i], aux);
+	if (!g_shell->env[i])
+		value = NULL;
+	else
+		value = ft_strtrim(g_shell->env[i], aux);
 	free(aux);
 	return (value);
 }
@@ -55,7 +53,7 @@ char	*check_local_env(char *name)
 			return (ft_strdup(var->value));
 		var = var->next;
 	}
-	return (NULL);
+	return (ft_strdup(""));
 }
 
 char	*get_var_name(char *str)
@@ -78,10 +76,7 @@ char	*get_var_value(char *name)
 	value = check_env(name);
 	if (!value)
 		value = check_local_env(name);
-	if (!value)
-		return (NULL);
-	else
-		return (value);
+	return (value);
 }
 
 /* String is pointing to a \  or &, hardcoded there to be
@@ -94,13 +89,13 @@ char	*modify_length(char *str, int *len, int *i)
 
 	var_name = get_var_name(str);
 	var_value = get_var_value(var_name);
-	//printf("var1 value: [%s]\n", var_value);
+	printf("var1 value: [%s]\n", var_value);
 	length_wo_expansion = ft_strlen(var_name);
 	//printf("length of variable wo exp: %i\n", length_wo_expansion);
 	//printf("length of var_value: %zu\n", ft_strlen(var_value));
 	free(var_name);
 	//printf("length before modification: %i\n", *len);
-	if (!var_value)
+	if (!*var_value)
 		*len = *len - length_wo_expansion;
 	else
 		*len = *len - length_wo_expansion + ft_strlen(var_value);
@@ -116,24 +111,22 @@ void	add_envar_len(int *len, char *str)
 
 	i = *len;
 	//printf("previous length: [%i]\n", *len);
-	//printf("this is the string to be modified: [%s]\n", str);
+	printf("this is the string to be modified: [%s]\n", str);
 	while (*str == ' ')
 		str++;
 	while (i > 0)
 	{
 		//printf("%i\n", i);
-		//printf("string along the buclesito: [%s]\n", str);
+		printf("string along the buclesito: [%s]\n", str);
 		if (*str == '\\' || *str == '&')
 		{
-			//printf("string when finding dolla sign: [%s]\n", str);
+			printf("string when finding dolla sign: [%s]\n", str);
 			str = modify_length(++str, len, &i);
-			//printf("string after modifying length: [%s]\n", str);
+			printf("string after modifying length: [%s]\n", str);
 		}
-		else
-		{
-			str++;
+		if (*str != '*')
 			i--;
-		}
+		str++;
 	}
 	//printf("string before going out of length adder: [%s]\n", str);
 	//printf("new length: [%i]\n", *len);
@@ -160,9 +153,13 @@ void	do_expand_var(char **line, char **filename, int *len, char *var_value)
 	//printf("fourth layer: %p\n", filename);
 	//printf("vaue of variable: [%s]\n", var_value);
 	//printf("line before movement: [%s]\n", *line);
+	**line = ' ';
 	*line = *line + 1;
 	while (ft_isalnum((*line)[i]))
+	{
+		(*line)[i] = ' ';
 		i++;
+	}
 	//printf("length of var: %i\n", i);
 	*line = *line + i;
 	//printf("line after movement: [%s]\n", *line);
@@ -196,35 +193,39 @@ void	write_filename(char **line, char **filename, int *len, int *launch)
 
 	//printf("second layer: %p\n", filename);
 	aux = *filename;
-	printf("line before starting loop: [%s]\n", *line);
+	//printf("\n\n\n\n\n");
+	//printf("line before starting loop: [%s]\n", *line);
 	//printf("its pointer: [%p], *[%p]\n", line, *line);
 	while (*len > 0 && *launch == OK)
 	{
-		printf("line inside writing loop: [%s]\n", *line);
+		//printf("line inside writing loop: [%s]\n", *line);
 		//printf("its pointer: [%p], *[%p]\n", line, *line);
 		//printf("filename inside writing loop: [%s]\n", filename);
 		if (**line == '\\' || **line == '&')
 		{
-			printf("line before movement: [%s]\n", *line);
-			printf("len before movement: %i\n", *len);
+			//printf("line before movement: [%s]\n", *line);
+			//printf("len before movement: %i\n", *len);
 			expand_var_name(line, filename, len, launch);
-			printf("line after movement: [%s]\n", *line);
-			printf("len after movement: %i\n", *len);
+			//printf("line after movement: [%s]\n", *line);
+			//printf("len after movement: %i\n", *len);
 		}
 		else if (**line != '*' && **line != '\\' && **line != '&' && **line)
 		{
-			printf("line before second if movement: [%s]\n", *line);
-			*((*filename)++) = *((*line)++);
+			//printf("line before second if movement: [%s]\n", *line);
+			*((*filename)++) = **line;
+			*((*line)++) = ' ';
 			*len = *len - 1;
-			printf("line after second if movement: [%s]\n", *line);
+			//printf("line after second if movement: [%s]\n", *line);
 		}
 		else
 		{
-			printf("line before being blanked: [%s]\n", *line);
+			//printf("line before being blanked: [%s]\n", *line);
 			*((*line)++) = ' ';
-			printf("line after being blanked: [%s]\n", *line);
+			//printf("line after being blanked: [%s]\n", *line);
 		}
 	}
+	while (**line == '*')
+		*((*line)++) = ' ';
 	if (*launch == KO)
 		free(aux);
 	else
@@ -245,7 +246,8 @@ char	*filename_gatherer(char **line, int *launch)
 	aux = filename;
 	//printf("first layer: %p\n", &filename);
 	write_filename(line, &aux, &len, launch);
-	printf("filename: [%s]\n", filename);
+	if (*launch == OK)
+		printf("filename: [%s]\n", filename);
 	return (filename);
 }
 
@@ -256,6 +258,10 @@ void	double_right_red(t_nod *node, char **aux)
 	place_str_pointers(aux, &node->line_aux, &node->line, 2);
 	//printf("LA LINEA FTER PLACE_STR_POINTERS:[%s]\n", node->line);
 	filename = filename_gatherer(&node->line, &node->launch);
+	printf("node->line: [%s]\n", node->line);
+	printf("node->line_save: [%s]\n", node->line_save);
+	printf("node->line_aux_save: [%s]\n", node->line_aux_save);
+	printf("node->line_aux [%s]\n", node->line_aux);
 	/*printf("filename: [%s]\n", filename);
 	printf("node->line_aux: [%s]\n", node->line_aux);
 	printf("node->line: [%s]\n", node->line);*/

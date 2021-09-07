@@ -23,7 +23,7 @@ void	unlink_all_heredocs(t_shell *shell)
 
 	i = shell->n_proc;
 	node = shell->p_lst;
-	chdir("./.tmp");
+	chdir("./tmp");
 	while (i > 0)
 	{
 		if (node->hdoc_name)

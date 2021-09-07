@@ -65,7 +65,6 @@ typedef struct s_shell
 	int		fdi;
 	int		fdo;
 	int		n_proc;
-	t_list	*lst_env;
 	t_nod	*p_lst;
 	int		q_mark_err;
 	t_var	*envar;

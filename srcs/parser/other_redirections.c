@@ -56,16 +56,22 @@ char	*check_local_env(char *name)
 	return (ft_strdup(""));
 }
 
+/*Theres an adjustment so if an apparent environment variable
+ * starts with a number and not a letter it only gets that number
+ * as the name of the variable, and so it searches for something that
+ * doesnt exist and correctly gives a null string as value.*/
 char	*get_var_name(char *str)
 {
 	int		len;
 	char	*name;
 
 	len = 0;
-	while (ft_isalnum(str[len]))
-		len++;
+	if (!ft_isdigit(str[len++]))
+	{
+		while (ft_isalnum(str[len]))
+			len++;
+	}
 	name = ft_substr(str, 0, len);
-	//printf("var name: [%s]\n", name); 
 	return (name);
 }
 
@@ -136,24 +142,24 @@ void	add_envar_len(int *len, char *str)
 	//printf("new length: [%i]\n", *len);
 }
 
+/* Same as the get name of variable. It is meant to only get one char
+ * if the variable name starts with a number and not a letter*/
 void	do_expand_var(char **line, char **filename, int *len, char *var_value)
 {
 	int	i;
 
 	i = 0;
-	//printf("fourth layer: %p\n", filename);
-	//printf("vaue of variable: [%s]\n", var_value);
-	//printf("line before movement: [%s]\n", *line);
 	**line = ' ';
 	*line = *line + 1;
-	while (ft_isalnum((*line)[i]))
+	if (!ft_isdigit((*line)[i++]))
 	{
-		(*line)[i] = ' ';
-		i++;
+		while (ft_isalnum((*line)[i]))
+		{
+			(*line)[i] = ' ';
+			i++;
+		}
 	}
-	//printf("length of var: %i\n", i);
 	*line = *line + i;
-	//printf("line after movement: [%s]\n", *line);
 	while (*var_value)
 	{
 		*((*filename)++) = *var_value++;
@@ -390,13 +396,7 @@ void	other_io_redirections(t_shell *shell)
 	while (i > 0)
 	{
 		redirection_checker(node);
-		//printf("node->line: [%s]\n", node->line);
-		//printf("node->line_save: [%s]\n", node->line_save);
-		//printf("node->line_aux_save: [%s]\n", node->line_aux_save);
-		//printf("node->line_aux [%s]\n", node->line_aux); 
 		clean_hdoc_bar(node);
-		//printf(" after cleanse node->line: [%s]\n", node->line);
-		//printf(" after cleanse node->line_save: [%s]\n", node->line_save);
 		node = node->next;
 		i--;
 	}

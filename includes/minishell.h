@@ -69,7 +69,6 @@ typedef struct s_shell
 	char	*rl_tofree;
 	char	*rl_aux;
 	char	ac;
-	char	**av;
 	char	**env;
 	int		fdi;
 	int		fdo;

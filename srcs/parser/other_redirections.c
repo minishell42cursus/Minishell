@@ -124,9 +124,12 @@ void	add_envar_len(int *len, char *str)
 			str = modify_length(++str, len, &i);
 			//printf("string after modifying length: [%s]\n", str);
 		}
-		if (*str != '*')
+		else if (*str != '*')
+		{
+			str++;
 			i--;
-		if (*str != '\\' && *str != '&')
+		}
+		else
 			str++;
 	}
 	//printf("string before going out of length adder: [%s]\n", str);
@@ -256,7 +259,6 @@ void	move_str_pointers(char **str, char **aux, int i)
 	while (displacement-- > 0)
 		*aux = *aux + 1;
 }
-
 
 void	open_on_append_mode(t_nod *node, char *filename)
 {

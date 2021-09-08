@@ -89,7 +89,7 @@ char	*modify_length(char *str, int *len, int *i)
 
 	var_name = get_var_name(str);
 	var_value = get_var_value(var_name);
-	printf("var1 value: [%s]\n", var_value);
+	//printf("var1 value: [%s]\n", var_value);
 	length_wo_expansion = ft_strlen(var_name);
 	//printf("length of variable wo exp: %i\n", length_wo_expansion);
 	//printf("length of var_value: %zu\n", ft_strlen(var_value));
@@ -111,38 +111,26 @@ void	add_envar_len(int *len, char *str)
 
 	i = *len;
 	//printf("previous length: [%i]\n", *len);
-	printf("this is the string to be modified: [%s]\n", str);
+	//printf("this is the string to be modified: [%s]\n", str);
 	while (*str == ' ')
 		str++;
 	while (i > 0)
 	{
 		//printf("%i\n", i);
-		printf("string along the buclesito: [%s]\n", str);
+		//printf("string along the buclesito: [%s]\n", str);
 		if (*str == '\\' || *str == '&')
 		{
-			printf("string when finding dolla sign: [%s]\n", str);
+			//printf("string when finding dolla sign: [%s]\n", str);
 			str = modify_length(++str, len, &i);
-			printf("string after modifying length: [%s]\n", str);
+			//printf("string after modifying length: [%s]\n", str);
 		}
 		if (*str != '*')
 			i--;
-		str++;
+		if (*str != '\\' && *str != '&')
+			str++;
 	}
 	//printf("string before going out of length adder: [%s]\n", str);
 	//printf("new length: [%i]\n", *len);
-}
-
-void	ambiguous_redirect_check(char *var_name, char *var_value, int *launch)
-{
-	char	*aux;
-
-	aux = ft_strnstr(var_value, " ", ft_maxlen(var_value, " "));
-	if (aux)
-	{
-		ambiguous_redirect_error(var_name, launch);
-		free(var_name);
-		free(var_value);
-	}
 }
 
 void	do_expand_var(char **line, char **filename, int *len, char *var_value)
@@ -174,12 +162,17 @@ void	expand_var_name(char **line, char **filename, int *len, int *launch)
 {
 	char	*var_name;
 	char	*var_value;
+	char	*aux;
 	
 	//printf("third layer: %p\n", filename);
 	var_name = get_var_name((*line + 1));
 	var_value = get_var_value(var_name);
 	if (**line == '\\' && var_value)
-		ambiguous_redirect_check(var_name, var_value, launch);
+	{
+		aux = ft_strnstr(var_value, " ", ft_maxlen(var_value, " "));
+		if (aux)
+			ambiguous_redirect_error(var_name, launch);
+	}
 	if (*launch == OK)
 		do_expand_var(line, filename, len, var_value);
 	free(var_name);
@@ -239,32 +232,56 @@ char	*filename_gatherer(char **line, int *launch)
 	int		len;
 
 	len = string_length_bash(*line, OK);
-	printf("initial length: %i\n", len);
+	//printf("initial length: %i\n", len);
 	add_envar_len(&len, *line);
-	printf("final length: %i\n", len);
+	//printf("final length: %i\n", len);
 	filename = malloc(sizeof(char) * (len + 1));
 	aux = filename;
 	//printf("first layer: %p\n", &filename);
 	write_filename(line, &aux, &len, launch);
 	if (*launch == OK)
-		printf("filename: [%s]\n", filename);
+		;
+		//printf("filename: [%s]\n", filename);
 	return (filename);
+}
+
+void	move_str_pointers(char **str, char **aux, int i)
+{
+	int	displacement;
+
+	displacement = i;
+	while (displacement-- > 0)
+		*str = *str + 1;
+	displacement = i;
+	while (displacement-- > 0)
+		*aux = *aux + 1;
 }
 
 void	double_right_red(t_nod *node, char **aux)
 {
 	char	*filename;
+	int		displacement;
 
 	place_str_pointers(aux, &node->line_aux, &node->line, 2);
-	//printf("LA LINEA FTER PLACE_STR_POINTERS:[%s]\n", node->line);
 	filename = filename_gatherer(&node->line, &node->launch);
+	if (node->launch == OK)
+	{
+		if (node->fdo != 1)
+			close(node->fdo);
+		node->fdo = open(filename, O_APPEND | O_WRONLY | O_CREAT, 00644);
+		if (node->fdo == -1)
+			error_msg_relative_to_file(filename, &node->launch);
+		else
+			free(filename);
+	}
+	displacement = node->line - node->line_save;
+	displacement -= (node->line_aux - node->line_aux_save);
+	move_str_pointers(&node->line_aux, aux, displacement);
+	printf("aux: [%s]\n", *aux);
 	printf("node->line: [%s]\n", node->line);
 	printf("node->line_save: [%s]\n", node->line_save);
 	printf("node->line_aux_save: [%s]\n", node->line_aux_save);
-	printf("node->line_aux [%s]\n", node->line_aux);
-	/*printf("filename: [%s]\n", filename);
-	printf("node->line_aux: [%s]\n", node->line_aux);
-	printf("node->line: [%s]\n", node->line);*/
+	printf("node->line_aux [%s]\n", node->line_aux); 
 }
 
 void	redirection_checker(t_nod *node)
@@ -272,14 +289,16 @@ void	redirection_checker(t_nod *node)
 	char	*aux;
 
 	aux = node->line_aux;
-	while (*aux)
+	while (*aux && node->launch == OK)
 	{
 		if (*aux == '>' || *aux == '<')
 		{
 			if (*(aux + 1) == '>')
 			{
 				aux = aux + 2;
+				//printf("aux after displacement: [%s]\n", aux);
 				double_right_red(node, &aux);
+				//printf("aux after gathering redireciton peice: [%s]\n", aux);
 			}
 			else
 			{

@@ -9,7 +9,7 @@ void	edit_string(char **str, int *i, int envar)
 		{
 			if (**str == '$' && envar == OK)
 			{
-				if ((*(*str + 1)) != '$' && *(*str + 1))
+				if ((*(*str + 1)) != ' ' && *(*str + 1))
 				//printf("before %s\n", *str);
 				{
 					**str = '&';
@@ -53,7 +53,7 @@ int	string_length_bash(char *str, int envar)
 	{
 		if (*str == '$' && envar == OK)
 		{
-			if (*(str + 1) != '$')
+			if (*(str + 1) != ' ' && *(str + 1))
 				*str++ = '\\';
 		}
 		if (*str == '\"' || *str == '\'')
@@ -77,7 +77,7 @@ int	string_length_bash(char *str, int envar)
  *will always have to be gathered as arguments for a command. Just like bash.*/
 void	place_str_pointers(char **aux, char **str_blank, char **str_full, int i)
 {
-	long double	displacement;
+	long long int	displacement;
 
 	while (**aux == ' ')
 		(*aux)++;

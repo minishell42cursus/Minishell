@@ -18,12 +18,10 @@ int main(int argc, char *argv[], char *env[])
 		if (!initial_parser(shell))
 		{
 			add_history(shell->rl);
-			process_command_parsing(shell); //detección del número de procesos y sus respectivas lineas de comandos.
+			process_command_parsing(shell);
 			heredoc_piece(shell);
 			other_io_redirections(shell);
 			(void)node;
-			; //apertura de here_docs.
-			; //apertura de otros fd's.
 			; //Expansión de variables de entorno y strings (están blanqueadas hasta este punto).
 			; //recolección de comando + respectivos argv's.
 			if(ft_isbuiltin(&shell->rl))
@@ -38,7 +36,6 @@ int main(int argc, char *argv[], char *env[])
 		}
 		else
 			printf("$? = %i\n", shell->q_mark_err);
-		//env = exec_built_in(shell, env); //Función SOLO para testear builtins, luego esto va en el pipes
 		//system("leaks minishell");
 	}
 	rl_clear_history();

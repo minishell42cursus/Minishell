@@ -84,7 +84,7 @@ void	multiline_error(int *q_mark_err);
 void	parse_error_near(char *str, int *q_mark_err);
 void	forbidden_char_found(char *str, int *q_mark_err);
 void	command_not_found(char **cmd);
-void	error_msg_relative_to_file(char *file);
+void	error_msg_relative_to_file(char *file, int *launch);
 void	call_error(void);
 void	ambiguous_redirect_error(char *name, int *launch);
 
@@ -98,6 +98,7 @@ int     ft_isbuiltin(char **args);
 void    ft_isrun(char **args);
 
 // builtins
+
 void     ft_echo(char *argv[]);
 void	ft_env(char **env);
 void    ft_exit(t_shell *shell, char **env);

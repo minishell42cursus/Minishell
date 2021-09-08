@@ -38,13 +38,13 @@
 typedef struct s_nod
 {
 	int				p_nbr;
-	char			*line; // de top | cat -e < a, del segundo proceso: line = "cat -e < a"
+	char			*line;
 	char			*line_aux;
 	char			*line_save;
 	char			*line_aux_save;
 	int				fdi;
 	int				fdo;
-	char			**cmd; // esto contendría, por ejemplo: cmd[0] = cat, cmd[1] = -e, cmd[2] = hola ... etc
+	char			**cmd;
 	int				btin;
 	char			*hdoc_name;
 	int				n_hdoc;
@@ -58,12 +58,12 @@ typedef struct	s_var
 	char			*name;
 	char			*value;
 	struct s_var	*next;
-}				t_var;
+}					t_var;
 
 /*General shell struct*/
 typedef struct s_shell
 {
-	int	index;
+	int		index;
 	char	*rl;
 	char	*parse_rl;
 	char	*rl_tofree;

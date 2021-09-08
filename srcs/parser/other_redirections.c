@@ -330,11 +330,11 @@ void	do_redirection(t_nod *node, char **aux, int red, int red_io)
 	displacement = node->line - node->line_save;
 	displacement -= (node->line_aux - node->line_aux_save);
 	move_str_pointers(&node->line_aux, aux, displacement);
-	printf("aux: [%s]\n", *aux);
-	printf("node->line: [%s]\n", node->line);
-	printf("node->line_save: [%s]\n", node->line_save);
-	printf("node->line_aux_save: [%s]\n", node->line_aux_save);
-	printf("node->line_aux [%s]\n", node->line_aux); 
+	//printf("aux: [%s]\n", *aux);
+	//printf("node->line: [%s]\n", node->line);
+	//printf("node->line_save: [%s]\n", node->line_save);
+	//printf("node->line_aux_save: [%s]\n", node->line_aux_save);
+	//printf("node->line_aux [%s]\n", node->line_aux); 
 }
 
 void	redirection_checker(t_nod *node)
@@ -364,6 +364,20 @@ void	redirection_checker(t_nod *node)
 	}
 }
 
+void	clean_hdoc_bar(t_nod *node)
+{
+	char *aux;
+
+	aux = node->line_save;
+	while (*aux)
+	{
+		if (*aux == '\\')
+			*aux = ' ';
+		aux++;
+	}
+	free(node->line_aux_save);
+}
+
 void	other_io_redirections(t_shell *shell)
 {
 	int		i;
@@ -374,10 +388,13 @@ void	other_io_redirections(t_shell *shell)
 	while (i > 0)
 	{
 		redirection_checker(node);
-		printf("node->line: [%s]\n", node->line);
-		printf("node->line_save: [%s]\n", node->line_save);
-		printf("node->line_aux_save: [%s]\n", node->line_aux_save);
-		printf("node->line_aux [%s]\n", node->line_aux); 
+		//printf("node->line: [%s]\n", node->line);
+		//printf("node->line_save: [%s]\n", node->line_save);
+		//printf("node->line_aux_save: [%s]\n", node->line_aux_save);
+		//printf("node->line_aux [%s]\n", node->line_aux); 
+		clean_hdoc_bar(node);
+		//printf(" after cleanse node->line: [%s]\n", node->line);
+		//printf(" after cleanse node->line_save: [%s]\n", node->line_save);
 		node = node->next;
 		i--;
 	}

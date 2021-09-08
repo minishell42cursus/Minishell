@@ -10,8 +10,8 @@ void	add_variable_to_local_env(void)
 	g_shell->envar->name = ft_strdup("var1");
 	g_shell->envar->value = ft_strdup("123");
 	nod = malloc(sizeof(t_var));
-	nod->name = ft_strdup("var2");
-	nod->value = ft_strdup("12");
+	nod->name = ft_strdup("a2");
+	nod->value = ft_strdup("hello");
 	nod->next = NULL;
 	g_shell->envar->next = nod;
 }
@@ -257,22 +257,75 @@ void	move_str_pointers(char **str, char **aux, int i)
 		*aux = *aux + 1;
 }
 
-void	double_right_red(t_nod *node, char **aux)
+
+void	open_on_append_mode(t_nod *node, char *filename)
+{
+	if (node->fdo != 1)
+		close(node->fdo);
+	node->fdo = open(filename, O_APPEND | O_RDWR | O_CREAT, 00644);
+	if (node->fdo == -1)
+		error_msg_relative_to_file(filename, &node->launch);
+}
+
+void	open_on_truncate_mode(t_nod *node, char *filename)
+{
+	if (node->fdo != 1)
+		close(node->fdo);
+	node->fdo = open(filename, O_CREAT | O_RDWR | O_TRUNC, 00644);
+	if (node->fdo == -1)
+		error_msg_relative_to_file(filename, &node->launch);
+}
+
+int	check_for_hdoc_priority(char *str)
+{
+	while (*str)
+	{
+		if (*str == '\\')
+			return (-1);
+		str++;
+	}
+	return (0);	
+}
+
+void	open_to_input(t_nod *node, char *filename)
+{
+	int fd;
+
+	fd = check_for_hdoc_priority(node->line);
+	if (fd == -1)
+	{
+		fd = open(filename, O_RDONLY);
+		if (fd == -1)
+			error_msg_relative_to_file(filename, &node->launch);
+	}
+	else
+	{
+		if (node->fdi != 0)
+			close(node->fdi);
+		node->fdi = open(filename, O_RDONLY);
+		if (node->fdi == -1)
+			error_msg_relative_to_file(filename, &node->launch);
+	}
+}
+
+/* red can be single or double, and red_io will give the reader and the code
+ * a hint as to what the redirection is redirecting, input or output.*/
+void	do_redirection(t_nod *node, char **aux, int red, int red_io)
 {
 	char	*filename;
 	int		displacement;
 
-	place_str_pointers(aux, &node->line_aux, &node->line, 2);
+	place_str_pointers(aux, &node->line_aux, &node->line, red);
 	filename = filename_gatherer(&node->line, &node->launch);
 	if (node->launch == OK)
 	{
-		if (node->fdo != 1)
-			close(node->fdo);
-		node->fdo = open(filename, O_APPEND | O_WRONLY | O_CREAT, 00644);
-		if (node->fdo == -1)
-			error_msg_relative_to_file(filename, &node->launch);
+		if (red == DOUBLE && red_io == OUTPUT)
+			open_on_append_mode(node, filename);
+		else if (red == SINGLE && red_io == OUTPUT)
+			open_on_truncate_mode(node, filename);
 		else
-			free(filename);
+			open_to_input(node, filename);
+		free(filename);
 	}
 	displacement = node->line - node->line_save;
 	displacement -= (node->line_aux - node->line_aux_save);
@@ -296,14 +349,14 @@ void	redirection_checker(t_nod *node)
 			if (*(aux + 1) == '>')
 			{
 				aux = aux + 2;
-				//printf("aux after displacement: [%s]\n", aux);
-				double_right_red(node, &aux);
-				//printf("aux after gathering redireciton peice: [%s]\n", aux);
+				do_redirection(node, &aux, DOUBLE, OUTPUT);
 			}
 			else
 			{
-				aux = aux + 1;
-				//single_red(node, &aux);
+				if (*aux++ == '>')
+					do_redirection(node, &aux, SINGLE, OUTPUT);
+				else
+					do_redirection(node, &aux, SINGLE, INPUT);
 			}
 		}
 		else
@@ -321,6 +374,10 @@ void	other_io_redirections(t_shell *shell)
 	while (i > 0)
 	{
 		redirection_checker(node);
+		printf("node->line: [%s]\n", node->line);
+		printf("node->line_save: [%s]\n", node->line_save);
+		printf("node->line_aux_save: [%s]\n", node->line_aux_save);
+		printf("node->line_aux [%s]\n", node->line_aux); 
 		node = node->next;
 		i--;
 	}

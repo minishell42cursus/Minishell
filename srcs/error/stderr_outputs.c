@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 18:29:54 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/08 16:43:19 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/08 18:05:23 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	error_msg_relative_to_file(char *file, int *launch)
 	str = strerror(errno);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(file, 2);
-	free(file);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);

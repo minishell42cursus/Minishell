@@ -21,8 +21,17 @@
 # define PATH_TO_TMP	"/Users/carce-bo/Desktop/cursus42/entregas/minishell/tmp"
 
 
-# define OK		1
-# define KO		0
+// General macros
+
+# define OK			1
+# define KO			0
+
+// Redirection macros
+
+# define DOUBLE 	2
+# define SINGLE		1
+# define OUTPUT		1
+# define INPUT		0
 
 
 /*Process node structure*/

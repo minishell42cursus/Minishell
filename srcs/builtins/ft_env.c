@@ -1,21 +1,39 @@
 #include <stdio.h>
 
-void ft_env(char **env)
+char	**ft_orderenv(char **env)
 {
-	int i;
+	int			i;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		printf("%s\n", env[i]);
 		i++;
 	}
+	
+	return (env);
 }
 
-/*int main (int argc, char **argv, char **env)
+void ft_env(char **env, int mode)
 {
-	(void)argc;
-	(void)argv;
+	int i;
 
-	bi_env(env);
-}*/
+	if (mode == 0)
+	{
+		i = 0;
+		while(env[i])
+		{
+			printf("%s\n", env[i]);
+			i++;
+		}
+	}
+	else
+	{
+		i = 0;
+		while (env[i])
+		{
+			printf("%s\n", env[i]);
+			i++;
+		}
+	}
+}

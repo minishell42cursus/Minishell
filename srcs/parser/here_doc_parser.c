@@ -88,13 +88,13 @@ static void	hd_checker(t_nod *node)
 	clean_hdoc_strings(node);
 }
 
-void	heredoc_piece(t_shell *shell)
+void	heredoc_piece(void)
 {
 	int		i;
 	t_nod	*node;
 
-	i = shell->n_proc;
-	node = shell->p_lst;
+	i = g_shell->n_proc;
+	node = g_shell->p_lst;
 	while (i > 0)
 	{
 		hd_checker(node);

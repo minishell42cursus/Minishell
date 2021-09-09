@@ -53,19 +53,19 @@ t_nod	*create_pnode(char **aux, char **str, int *n_proc)
 	return (process);
 }
 
-void	process_command_parsing(t_shell *shell)
+void	process_command_parsing(void)
 {
 	t_nod	*p_nd;
 
-	shell->parse_rl = shell->rl_tofree;
-	shell->rl_aux = shell->rl;
-	p_nd = create_pnode(&shell->parse_rl, &shell->rl_aux, &shell->n_proc);
-	shell->p_lst = p_nd;
-	while (*shell->parse_rl)
+	g_shell->parse_rl = g_shell->rl_tofree;
+	g_shell->rl_aux = g_shell->rl;
+	p_nd = create_pnode(&g_shell->parse_rl, &g_shell->rl_aux, &g_shell->n_proc);
+	g_shell->p_lst = p_nd;
+	while (*g_shell->parse_rl)
 	{
-		p_nd->next = create_pnode(&shell->parse_rl,
-				&shell->rl_aux, &shell->n_proc);
+		p_nd->next = create_pnode(&g_shell->parse_rl,
+				&g_shell->rl_aux, &g_shell->n_proc);
 		p_nd = p_nd->next;
 	}
-	free(shell->rl_tofree);
+	free(g_shell->rl_tofree);
 }

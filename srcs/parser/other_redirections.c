@@ -386,13 +386,13 @@ void	clean_hdoc_bar(t_nod *node)
 	free(node->line_aux_save);
 }
 
-void	other_io_redirections(t_shell *shell)
+void	other_io_redirections(void)
 {
 	int		i;
 	t_nod	*node;
 
-	i = shell->n_proc;
-	node = shell->p_lst;
+	i = g_shell->n_proc;
+	node = g_shell->p_lst;
 	while (i > 0)
 	{
 		redirection_checker(node);

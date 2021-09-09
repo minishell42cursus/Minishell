@@ -121,15 +121,15 @@ int		len_name(char *str);
 int		initial_parser(t_shell *shell);
 int		comma_parser(char **str, int *q_mark_err);
 int		redirection_pipe_parser(char **str, int *q_mark_err);
-void	process_command_parsing(t_shell *shell);
+void	process_command_parsing(void);
 
 // redirection related
 
-void	heredoc_piece(t_shell *shell);
+void	heredoc_piece(void);
 char	*hdoc_filename(int reset);
 char	*eof_gatherer(char **line, int *n_hdoc);
 void	unlink_all_heredocs(t_shell *shell);
-void	other_io_redirections(t_shell *shell);
+void	other_io_redirections(void);
 
 // STRING PRESTIDIGITATION
 

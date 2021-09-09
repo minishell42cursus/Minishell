@@ -112,7 +112,7 @@ void     ft_echo(char *argv[]);
 void	ft_env(char **env);
 void    ft_exit(t_shell *shell, char **env);
 void    ft_pwd(void);
-char	**ft_cd(char *str, char **env);
+void	ft_cd(char *str, char **env);
 void	ft_export(char **env, char **argv);
 char    **ft_unset(char **env, char **av);
 int		len_name(char *str);

@@ -2,7 +2,7 @@
 
 int 	check_in_env_u(char *str, char **env);
 
-char	**ft_cd(char *str, char **env)
+void	ft_cd(char *str, char **env)
 {
 	char	*pwd;
 	char	*tmp;
@@ -24,7 +24,6 @@ char	**ft_cd(char *str, char **env)
 		free(tmp);
 		env[i[0]] = pwd;
 	}
-	return (env);
 }
 
 /*int main (int argc, char **argv, char **env)

@@ -61,7 +61,7 @@ void	ft_export(char **env, char **argv)
 	i = 0;
 	
 	if (!argv[0])
-		ft_env(argv, env);
+		ft_env(env);
 	return ;
 	while(argv[i])
 	{

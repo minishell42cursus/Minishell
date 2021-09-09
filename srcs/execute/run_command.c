@@ -32,12 +32,12 @@ void    ft_isrun(char **args)
                 ft_export(args, g_shell->env);
         else if (ft_strlen(args[0]) == 3 && !ft_strncmp(args[0], "env", 3))
                 ft_env(g_shell->env);
+        else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "exit", 4))
+                ft_exit(g_shell, g_shell->env);
         /*else if (ft_strlen(args[0]) == 2 && !ft_strncmp(args[0], "cd", 2))
                 ft_cd(args);
         else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "unset", 5))
                 ft_unset(args);
-        else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "exit", 4))
-                ft_exit(args);
         else
                 ft_error(127, "Command not found", 0);*/
 }

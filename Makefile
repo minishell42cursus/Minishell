@@ -42,7 +42,8 @@ SRC_SIG		= 	signal
 
 SRC_EXEC	=	run_command
 
-SRC_ERR		=	stderr_outputs
+SRC_ERR		=	stderr_outputs \
+				stderr_outputs_extra
 
 SRC_FREE	=	free_functions
 

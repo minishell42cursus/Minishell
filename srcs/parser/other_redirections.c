@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/09 22:40:52 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 00:43:25 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ void	do_expand_var(char **line, char **filename, int *len, char *var_value)
 	int	i;
 
 	i = 0;
-	**line = ' ';
-	*line = *line + 1;
+	*((*line)++) = ' ';
 	if (!ft_isdigit((*line)[i++]))
 	{
 		while (ft_isalnum((*line)[i]))
@@ -85,6 +84,7 @@ void	do_expand_var(char **line, char **filename, int *len, char *var_value)
 			i++;
 		}
 	}
+	**line = ' ';
 	*line = *line + i;
 	while (*var_value)
 	{
@@ -131,7 +131,7 @@ void	write_filename(char **line, char **filename, int *len, int *launch)
 		else
 			*((*line)++) = ' ';
 	}
-	while (**line == '*')
+	while ((**line == '*' || (**line != '<' && **line != '>' && **line != ' ')) && **line)
 		*((*line)++) = ' ';
 	if (*launch == KO)
 		free(aux);
@@ -277,6 +277,7 @@ void	clean_hdoc_bar(t_nod *node)
 			*aux = ' ';
 		aux++;
 	}
+	node->line = node->line_save;
 	free(node->line_aux_save);
 }
 

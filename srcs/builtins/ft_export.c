@@ -54,19 +54,20 @@ char	**ad_arg(char **env, char *str)
 	return (env2);
 }
 
-char	**ft_export(char **env, char **argv)
+void	ft_export(char **env, char **argv)
 {
 	int i;
 
 	i = 0;
+	
 	if (!argv[0])
-		ft_env(env);
+		ft_env(argv, env);
+	return ;
 	while(argv[i])
 	{
 		env = ad_arg(env, argv[i]);
 		i++;
 	}
-	return (env);
 }
 
 /*int main(int argc, char **argv, char **env)

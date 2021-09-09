@@ -17,12 +17,12 @@ GNL_DIR		=	gnl/
 
 SRCS_FILES	= 	minishell \
 				initialize \
-				raise_error
-				#tabdup
+				raise_error \
+				tabdup
 
 SRC_BLTIN	= 	ft_pwd \
 				ft_echo \
-				#ft_env \
+				ft_env \
 			    ft_exit \
 				ft_cd \
 				ft_export \

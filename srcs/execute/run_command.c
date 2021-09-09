@@ -28,12 +28,12 @@ void    ft_isrun(char **args)
                 ft_pwd();
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "echo", 4))
                 ft_echo(args);
-  /*      else if (ft_strlen(args[0]) == 2 && !ft_strncmp(args[0], "cd", 2))
-                ft_cd(args);
-        else if (ft_strlen(args[0]) == 3 && !ft_strncmp(args[0], "env", 3))
-                ft_env(args, g_sh.env);
         else if (ft_strlen(args[0]) == 6 && !ft_strncmp(args[0], "export", 6))
-                ft_export(args);
+                ft_export(args, g_shell->env);
+        else if (ft_strlen(args[0]) == 3 && !ft_strncmp(args[0], "env", 3))
+                ft_env(g_shell->env);
+        /*else if (ft_strlen(args[0]) == 2 && !ft_strncmp(args[0], "cd", 2))
+                ft_cd(args);
         else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "unset", 5))
                 ft_unset(args);
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "exit", 4))

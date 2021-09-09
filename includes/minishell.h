@@ -18,7 +18,8 @@
 
 # define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
 # define MINISHELL	"$🔥💀minihell💀🔥> "
-# define PATH_TO_TMP	"/Users/carce-bo/Desktop/cursus42/entregas/minishell/tmp"
+//# define PATH_TO_TMP	"/Users/carce-bo/Desktop/cursus42/entregas/minishell/tmp"
+# define PATH_TO_TMP    "/Users/aguerrer/42cursus/minishell/Minishell/tmp"
 
 
 // General macros
@@ -112,9 +113,10 @@ void	ft_env(char **env);
 void    ft_exit(t_shell *shell, char **env);
 void    ft_pwd(void);
 char	**ft_cd(char *str, char **env);
-char    **ft_export(char **env, char **argv);
+void	ft_export(char **env, char **argv);
 char    **ft_unset(char **env, char **av);
 int		len_name(char *str);
+char	**ad_arg(char **env, char *str);
 
 // error control parser fts
 

@@ -17,9 +17,10 @@ int main(int argc, char *argv[], char *env[])
 		if (!initial_parser(shell))
 		{
 			add_history(shell->rl);
-			process_command_parsing(shell);
-			heredoc_piece(shell);
-			other_io_redirections(shell);
+			process_command_parsing();
+			heredoc_piece();
+			other_io_redirections();
+			//gather_process_arguments();
 			(void)node;
 			; //Expansión de variables de entorno y strings (están blanqueadas hasta este punto).
 			; //recolección de comando + respectivos argv's.

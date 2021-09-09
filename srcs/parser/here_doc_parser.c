@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc_parser.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/09 22:35:25 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	write_line_on_hdoc(char *line, int fd);
@@ -5,8 +17,6 @@ void	rebuild_aux_strings(t_nod *node);
 
 static void	clean_other_hdoc(t_nod *node)
 {
-	//Aquí hace falta una llamada a ft_cd que me lleve de donde esté a la carpeta
-	// /Users/carce-bo/Desktop/cursus42/entregas/minishell/.tmp.
 	if (node->fdi != 0)
 	{
 		close(node->fdi);
@@ -83,7 +93,6 @@ static void	hd_checker(t_nod *node)
 		}
 		eof = eof_gatherer(&node->line, &node->n_hdoc);
 		open_heredoc(eof, node);
-		; // acuerdate de procesar SEÑALES EN HEREDOC ^D !!!
 	}
 	clean_hdoc_strings(node);
 }
@@ -99,8 +108,6 @@ void	heredoc_piece(void)
 	{
 		hd_checker(node);
 		rebuild_aux_strings(node);
-		//printf("node->line: [%s]\n", node->line);
-		//printf("node->line_aux: [%s]\n", node->line_aux);
 		node = node->next;
 		i--;
 	}

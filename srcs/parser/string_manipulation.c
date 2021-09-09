@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_manipulation.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/09 22:40:12 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/09 22:40:13 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	edit_string(char **str, int *i, int envar)
@@ -10,12 +22,10 @@ void	edit_string(char **str, int *i, int envar)
 			if (**str == '$' && envar == OK)
 			{
 				if ((*(*str + 1)) != ' ' && *(*str + 1))
-				//printf("before %s\n", *str);
 				{
 					**str = '&';
 					(*i)--;
 				}
-				//printf("after %s\n", *str);
 			}
 			(*i)++;
 		}
@@ -26,7 +36,6 @@ void	edit_string(char **str, int *i, int envar)
 		while (*(++(*str)) != '\'')
 			(*i)++;
 	}
-	//printf("atexit %s\n", *str);
 	**str = '*';
 }
 
@@ -46,7 +55,6 @@ int	string_length_bash(char *str, int envar)
 	int	i;
 
 	i = 0;
-	//printf("this is the  string i take length from : [%s]\n", str);
 	while (*str == ' ')
 		str++;
 	while (*str != ' ' && *str != '<' && *str != '>' && *str)
@@ -57,11 +65,7 @@ int	string_length_bash(char *str, int envar)
 				*str++ = '\\';
 		}
 		if (*str == '\"' || *str == '\'')
-		{
-			//printf("before %s\n", str);
 			edit_string(&str, &i, envar);
-			//printf("after %s\n", str);
-		}
 		else
 			i++;
 		str++;

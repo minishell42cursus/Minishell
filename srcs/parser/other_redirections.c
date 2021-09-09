@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 00:43:25 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 00:48:07 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	write_filename(char **line, char **filename, int *len, int *launch)
 		else
 			*((*line)++) = ' ';
 	}
-	while ((**line == '*' || (**line != '<' && **line != '>' && **line != ' ')) && **line)
+	while (**line == '*')
 		*((*line)++) = ' ';
 	if (*launch == KO)
 		free(aux);

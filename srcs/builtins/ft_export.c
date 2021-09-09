@@ -61,13 +61,13 @@ void	ft_export(char **env, char **argv)
 	i = 0;
 	(void)argv;
 	//if (!argv[0])
-	printf("%s\n", env[i]);
 	ft_env(env, 1);
-	/*while(argv[i])
+	return ;
+	while(argv[i])
 	{
 		env = ad_arg(env, argv[i]);
 		i++;
-	}*/
+	}
 }
 
 /*int main(int argc, char **argv, char **env)

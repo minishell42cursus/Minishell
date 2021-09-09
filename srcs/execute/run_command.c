@@ -31,7 +31,7 @@ void    ft_isrun(char **args)
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "echo", 4))
                 ft_echo(args);
         else if (ft_strlen(args[0]) == 6 && !ft_strncmp(args[0], "export", 6))
-                ft_export(args, g_shell->env);
+                ft_export(g_shell->env, args);
         else if (ft_strlen(args[0]) == 3 && !ft_strncmp(args[0], "env", 3))
                 ft_env(g_shell->env, 0);
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "exit", 4))

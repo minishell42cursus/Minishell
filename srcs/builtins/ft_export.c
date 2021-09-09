@@ -19,7 +19,7 @@ int 	check_in_env(char *str, char **env)
 	sz = len_name(str);
 	while (env[i])
 	{
-		if (memcmp(env[i], str, sz + 1) == 0)
+		if (ft_memcmp(env[i], str, sz + 1) == 0)
 			return (i);
 		i++;
 	}

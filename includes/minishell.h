@@ -109,6 +109,7 @@ void    ft_isrun(char **args);
 // builtins
 
 void     ft_echo(char *argv[]);
+void	ft_clear();
 void	ft_env(char **env);
 void    ft_exit(t_shell *shell, char **env);
 void    ft_pwd(void);

@@ -16,6 +16,8 @@ int     ft_isbuiltin(char **args)
                 return (1);
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "exit", 4))
                 return (1);
+        else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "clear", 5))
+                return (1);
         else
                 return (0);
 }
@@ -34,6 +36,8 @@ void    ft_isrun(char **args)
                 ft_env(g_shell->env);
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "exit", 4))
                 ft_exit(g_shell, g_shell->env);
+        else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "clear", 5))
+                ft_clear();
         /*else if (ft_strlen(args[0]) == 2 && !ft_strncmp(args[0], "cd", 2))
                 ft_cd(args);
         else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "unset", 5))

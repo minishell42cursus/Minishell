@@ -26,7 +26,8 @@ SRC_BLTIN	= 	ft_pwd \
 			    ft_exit \
 				ft_cd \
 				ft_export \
-				ft_unset
+				ft_unset \
+				ft_clear
 
 SRC_PARSE	=	comma_parser \
 				forbidden_stuff_parser \

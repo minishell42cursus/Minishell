@@ -10,6 +10,7 @@ void	ft_exit(t_shell *shell, char **env)
 		free(env[i]);
 		i++;
 	}
+	free(env[i]);
 	free(env);
 	shell = NULL;
 	printf("exit\n");

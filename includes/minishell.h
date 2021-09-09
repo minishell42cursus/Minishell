@@ -142,6 +142,11 @@ int		string_length_bash(char *str, int envar);
 void	free_process_list(t_shell *shell);
 void	free_command(t_shell *shell);
 
+// env search related functions
+
+char	*get_var_name(char *str);
+char	*get_var_value(char *name);
+
 //Get next line utils:
 
 # define BUFFER_SIZE 100

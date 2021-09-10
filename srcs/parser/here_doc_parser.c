@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/09 22:35:25 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 14:06:04 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	rebuild_aux_strings(t_nod *node);
 
 static void	clean_other_hdoc(t_nod *node)
 {
+
 	if (node->fdi != 0)
 	{
 		close(node->fdi);

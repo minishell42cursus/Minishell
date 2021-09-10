@@ -6,11 +6,13 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 00:48:07 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 16:01:32 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	rebuild_aux_strings(t_nod *node);
 
 void	add_variable_to_local_env(void)
 {
@@ -291,7 +293,11 @@ void	other_io_redirections(void)
 	while (i > 0)
 	{
 		redirection_checker(node);
-		clean_hdoc_bar(node);
+		if (node->launch == OK)
+		{
+			clean_hdoc_bar(node);
+			rebuild_aux_strings(node);
+		}
 		node = node->next;
 		i--;
 	}

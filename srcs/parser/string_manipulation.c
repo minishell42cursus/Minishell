@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:12 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 13:54:25 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 17:00:33 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int	string_length_bash(char *str, int envar)
 	}
 	return (i);
 }
+
+
 
 /* A pointer mover. We work with 2 strings, the one that has something inside
  * the commas, and the one that doesnt. This is because its easier to work with

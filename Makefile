@@ -36,7 +36,8 @@ SRC_PARSE	=	comma_parser \
 				here_doc_utils \
 				string_manipulation \
 				other_redirections \
-				env_search_related
+				env_search_related \
+				command_argument_gathering
 
 SRC_SIG		= 	signal
 

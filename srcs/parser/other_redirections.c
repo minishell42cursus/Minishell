@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 16:01:32 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 17:17:30 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	add_variable_to_local_env(void)
 	t_var	*nod;
 
 	g_shell->envar = malloc(sizeof(t_var));
-	g_shell->envar->name = ft_strdup("var1");
+	g_shell->envar->name = ft_strdup("a");
 	g_shell->envar->value = ft_strdup("123");
 	nod = malloc(sizeof(t_var));
 	nod->name = ft_strdup("a2");
@@ -115,7 +115,7 @@ void	expand_var_name(char **line, char **filename, int *len, int *launch)
 	free(var_value);
 }
 
-void	write_filename(char **line, char **filename, int *len, int *launch)
+void	write_str_w_envar(char **line, char **filename, int *len, int *launch)
 {
 	char	*aux;
 
@@ -151,7 +151,7 @@ char	*filename_gatherer(char **line, int *launch)
 	add_envar_len(&len, *line);
 	filename = malloc(sizeof(char) * (len + 1));
 	aux = filename;
-	write_filename(line, &aux, &len, launch);
+	write_str_w_envar(line, &aux, &len, launch);
 	return (filename);
 }
 

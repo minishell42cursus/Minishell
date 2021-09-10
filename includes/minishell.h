@@ -131,6 +131,10 @@ char	*eof_gatherer(char **line, int *n_hdoc);
 void	unlink_all_heredocs(t_shell *shell);
 void	other_io_redirections(void);
 
+// command argument gathering related
+
+void	gather_process_arguments(void);
+
 // STRING PRESTIDIGITATION
 
 void	place_str_pointers(char **aux, char **str_blank, char **str_full, int i);

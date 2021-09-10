@@ -1,88 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   other_redirections.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/10 17:17:30 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-// Laboratorio de pruebas:
+void	rebuild_aux_strings(t_nod *node);
 
 void	add_variable_to_local_env(void)
 {
 	t_var	*nod;
 
 	g_shell->envar = malloc(sizeof(t_var));
-	g_shell->envar->name = ft_strdup("var1");
+	g_shell->envar->name = ft_strdup("a");
 	g_shell->envar->value = ft_strdup("123");
 	nod = malloc(sizeof(t_var));
 	nod->name = ft_strdup("a2");
 	nod->value = ft_strdup("hello");
 	nod->next = NULL;
 	g_shell->envar->next = nod;
-}
-
-/* glitch: Si la variable se llama
- * hola y acaba en hola=, explota. Como ajuste
- * podriamos hacer que '=' no pudiese entrar dentro
- * de llas definiciones de las variables de entorno */
-char	*check_env(char *name)
-{
-	int		i;
-	char	*aux;
-	char	*value;
-
-	aux = ft_strjoin(name, "=");
-	i = 0;
-	while (g_shell->env[i])
-	{
-		if (!ft_strncmp(g_shell->env[i], aux, ft_strlen(aux)))
-			break ;
-		i++;
-	}
-	if (!g_shell->env[i])
-		value = NULL;
-	else
-		value = ft_strtrim(g_shell->env[i], aux);
-	free(aux);
-	return (value);
-}
-
-char	*check_local_env(char *name)
-{
-	t_var	*var;
-
-	var = g_shell->envar;
-	while (var)
-	{
-		if (!ft_strncmp(var->name, name, ft_maxlen(var->name, name)))
-			return (ft_strdup(var->value));
-		var = var->next;
-	}
-	return (ft_strdup(""));
-}
-
-/*Theres an adjustment so if an apparent environment variable
- * starts with a number and not a letter it only gets that number
- * as the name of the variable, and so it searches for something that
- * doesnt exist and correctly gives a null string as value.*/
-char	*get_var_name(char *str)
-{
-	int		len;
-	char	*name;
-
-	len = 0;
-	if (!ft_isdigit(str[len++]))
-	{
-		while (ft_isalnum(str[len]))
-			len++;
-	}
-	name = ft_substr(str, 0, len);
-	return (name);
-}
-
-char	*get_var_value(char *name)
-{
-	char	*value;
-
-	value = check_env(name);
-	if (!value)
-		value = check_local_env(name);
-	return (value);
 }
 
 /* String is pointing to a \  or &, hardcoded there to be
@@ -95,18 +38,13 @@ char	*modify_length(char *str, int *len, int *i)
 
 	var_name = get_var_name(str);
 	var_value = get_var_value(var_name);
-	//printf("var1 value: [%s]\n", var_value);
 	length_wo_expansion = ft_strlen(var_name);
-	//printf("length of variable wo exp: %i\n", length_wo_expansion);
-	//printf("length of var_value: %zu\n", ft_strlen(var_value));
 	free(var_name);
-	//printf("length before modification: %i\n", *len);
 	if (!*var_value)
 		*len = *len - length_wo_expansion;
 	else
 		*len = *len - length_wo_expansion + ft_strlen(var_value);
 	*i = *i - length_wo_expansion;
-	//printf("length after modification: %i\n", *len);
 	free(var_value);
 	return (str + length_wo_expansion);
 }
@@ -116,20 +54,12 @@ void	add_envar_len(int *len, char *str)
 	int	i;
 
 	i = *len;
-	//printf("previous length: [%i]\n", *len);
-	//printf("this is the string to be modified: [%s]\n", str);
 	while (*str == ' ')
 		str++;
 	while (i > 0)
 	{
-		//printf("%i\n", i);
-		//printf("string along the buclesito: [%s]\n", str);
 		if (*str == '\\' || *str == '&')
-		{
-			//printf("string when finding dolla sign: [%s]\n", str);
 			str = modify_length(++str, len, &i);
-			//printf("string after modifying length: [%s]\n", str);
-		}
 		else if (*str != '*')
 		{
 			str++;
@@ -138,8 +68,6 @@ void	add_envar_len(int *len, char *str)
 		else
 			str++;
 	}
-	//printf("string before going out of length adder: [%s]\n", str);
-	//printf("new length: [%i]\n", *len);
 }
 
 /* Same as the get name of variable. It is meant to only get one char
@@ -149,8 +77,7 @@ void	do_expand_var(char **line, char **filename, int *len, char *var_value)
 	int	i;
 
 	i = 0;
-	**line = ' ';
-	*line = *line + 1;
+	*((*line)++) = ' ';
 	if (!ft_isdigit((*line)[i++]))
 	{
 		while (ft_isalnum((*line)[i]))
@@ -159,6 +86,7 @@ void	do_expand_var(char **line, char **filename, int *len, char *var_value)
 			i++;
 		}
 	}
+	**line = ' ';
 	*line = *line + i;
 	while (*var_value)
 	{
@@ -172,8 +100,7 @@ void	expand_var_name(char **line, char **filename, int *len, int *launch)
 	char	*var_name;
 	char	*var_value;
 	char	*aux;
-	
-	//printf("third layer: %p\n", filename);
+
 	var_name = get_var_name((*line + 1));
 	var_value = get_var_value(var_name);
 	if (**line == '\\' && var_value)
@@ -186,45 +113,25 @@ void	expand_var_name(char **line, char **filename, int *len, int *launch)
 		do_expand_var(line, filename, len, var_value);
 	free(var_name);
 	free(var_value);
-	//printf("XD this is the line: [%s]\n", *line);
 }
 
-void	write_filename(char **line, char **filename, int *len, int *launch)
+void	write_str_w_envar(char **line, char **filename, int *len, int *launch)
 {
 	char	*aux;
 
-	//printf("second layer: %p\n", filename);
 	aux = *filename;
-	//printf("\n\n\n\n\n");
-	//printf("line before starting loop: [%s]\n", *line);
-	//printf("its pointer: [%p], *[%p]\n", line, *line);
 	while (*len > 0 && *launch == OK)
 	{
-		//printf("line inside writing loop: [%s]\n", *line);
-		//printf("its pointer: [%p], *[%p]\n", line, *line);
-		//printf("filename inside writing loop: [%s]\n", filename);
 		if (**line == '\\' || **line == '&')
-		{
-			//printf("line before movement: [%s]\n", *line);
-			//printf("len before movement: %i\n", *len);
 			expand_var_name(line, filename, len, launch);
-			//printf("line after movement: [%s]\n", *line);
-			//printf("len after movement: %i\n", *len);
-		}
 		else if (**line != '*' && **line != '\\' && **line != '&' && **line)
 		{
-			//printf("line before second if movement: [%s]\n", *line);
 			*((*filename)++) = **line;
 			*((*line)++) = ' ';
 			*len = *len - 1;
-			//printf("line after second if movement: [%s]\n", *line);
 		}
 		else
-		{
-			//printf("line before being blanked: [%s]\n", *line);
 			*((*line)++) = ' ';
-			//printf("line after being blanked: [%s]\n", *line);
-		}
 	}
 	while (**line == '*')
 		*((*line)++) = ' ';
@@ -241,16 +148,10 @@ char	*filename_gatherer(char **line, int *launch)
 	int		len;
 
 	len = string_length_bash(*line, OK);
-	//printf("initial length: %i\n", len);
 	add_envar_len(&len, *line);
-	//printf("final length: %i\n", len);
 	filename = malloc(sizeof(char) * (len + 1));
 	aux = filename;
-	//printf("first layer: %p\n", &filename);
-	write_filename(line, &aux, &len, launch);
-	if (*launch == OK)
-		;
-		//printf("filename: [%s]\n", filename);
+	write_str_w_envar(line, &aux, &len, launch);
 	return (filename);
 }
 
@@ -292,12 +193,12 @@ int	check_for_hdoc_priority(char *str)
 			return (-1);
 		str++;
 	}
-	return (0);	
+	return (0);
 }
 
 void	open_to_input(t_nod *node, char *filename)
 {
-	int fd;
+	int	fd;
 
 	fd = check_for_hdoc_priority(node->line);
 	if (fd == -1)
@@ -338,11 +239,6 @@ void	do_redirection(t_nod *node, char **aux, int red, int red_io)
 	displacement = node->line - node->line_save;
 	displacement -= (node->line_aux - node->line_aux_save);
 	move_str_pointers(&node->line_aux, aux, displacement);
-	//printf("aux: [%s]\n", *aux);
-	//printf("node->line: [%s]\n", node->line);
-	//printf("node->line_save: [%s]\n", node->line_save);
-	//printf("node->line_aux_save: [%s]\n", node->line_aux_save);
-	//printf("node->line_aux [%s]\n", node->line_aux); 
 }
 
 void	redirection_checker(t_nod *node)
@@ -374,7 +270,7 @@ void	redirection_checker(t_nod *node)
 
 void	clean_hdoc_bar(t_nod *node)
 {
-	char *aux;
+	char	*aux;
 
 	aux = node->line_save;
 	while (*aux)
@@ -383,6 +279,7 @@ void	clean_hdoc_bar(t_nod *node)
 			*aux = ' ';
 		aux++;
 	}
+	node->line = node->line_save;
 	free(node->line_aux_save);
 }
 
@@ -396,7 +293,11 @@ void	other_io_redirections(void)
 	while (i > 0)
 	{
 		redirection_checker(node);
-		clean_hdoc_bar(node);
+		if (node->launch == OK)
+		{
+			clean_hdoc_bar(node);
+			rebuild_aux_strings(node);
+		}
 		node = node->next;
 		i--;
 	}

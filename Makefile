@@ -36,13 +36,16 @@ SRC_PARSE	=	comma_parser \
 				here_doc_parser \
 				here_doc_utils \
 				string_manipulation \
-				other_redirections
+				other_redirections \
+				env_search_related \
+				command_argument_gathering
 
 SRC_SIG		= 	signal
 
 SRC_EXEC	=	run_command
 
-SRC_ERR		=	stderr_outputs
+SRC_ERR		=	stderr_outputs \
+				stderr_outputs_extra
 
 SRC_FREE	=	free_functions
 

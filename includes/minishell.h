@@ -134,6 +134,10 @@ char	*eof_gatherer(char **line, int *n_hdoc);
 void	unlink_all_heredocs(t_shell *shell);
 void	other_io_redirections(void);
 
+// command argument gathering related
+
+void	gather_process_arguments(void);
+
 // STRING PRESTIDIGITATION
 
 void	place_str_pointers(char **aux, char **str_blank, char **str_full, int i);
@@ -144,6 +148,11 @@ int		string_length_bash(char *str, int envar);
 
 void	free_process_list(t_shell *shell);
 void	free_command(t_shell *shell);
+
+// env search related functions
+
+char	*get_var_name(char *str);
+char	*get_var_value(char *name);
 
 //Get next line utils:
 

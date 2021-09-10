@@ -20,7 +20,7 @@ int main(int argc, char *argv[], char *env[])
 			process_command_parsing();
 			heredoc_piece();
 			other_io_redirections();
-			//gather_process_arguments();
+			gather_process_arguments();
 			(void)node;
 			; //Expansión de variables de entorno y strings (están blanqueadas hasta este punto).
 			; //recolección de comando + respectivos argv's.

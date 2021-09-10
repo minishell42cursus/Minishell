@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initial_parser.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/09 22:31:42 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/09 22:40:09 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	clean_exit(t_shell *shell)
@@ -5,7 +17,6 @@ static void	clean_exit(t_shell *shell)
 	rl_clear_history();
 	free(shell);
 	write(1, "exit\n", 6);
-	//system("leaks minishell");
 	exit(0);
 }
 

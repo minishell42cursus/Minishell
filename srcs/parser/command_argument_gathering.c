@@ -6,11 +6,24 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 21:18:05 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 23:55:01 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	wait_for_next_comma(char **str, int *i, char comma)
+{
+	(*i)++;
+	*str = *str + 1;
+	while (**str != comma)
+	{
+		*str = *str + 1;
+		(*i)++;
+	}
+	*str = *str + 1;
+	(*i)++;
+}
 
 int		ft_strlen_wo_dollars(char *str)
 {
@@ -19,13 +32,11 @@ int		ft_strlen_wo_dollars(char *str)
 	i = 0;
 	while (*str)
 	{
-		if (*str == '\'')
-		{
-			i++;
-			while (*(++str) != '\'')
-				i++;
-		}
-		else if (*str =='$' && *(str + 1) != '$')
+		if (*str == '\"')
+			wait_for_next_comma(&str, &i, '\"');
+		else if (*str == '\'')
+			wait_for_next_comma(&str, &i, '\'');
+		else if (*str =='$' && ft_isalpha(*(str + 1)))
 			str++;
 		else
 		{
@@ -47,8 +58,9 @@ void	put_ampersands_on_envars(char **line)
 		{
 			while (*(++aux) != '\'')
 				;
+			aux++;
 		}
-		else if (*aux =='$' && *(aux + 1) != '$')
+		else if (*aux == '$' && ft_isalpha(*(aux + 1)))
 			*aux++ = '&';
 		else
 			aux++;
@@ -69,6 +81,40 @@ void	expand_vars_outside_strings(t_nod *node)
 	node->line_save = ft_strdup(node->line_aux_save);
 	node->line = node->line_save;
 	free(node->line_aux_save);
+}
+
+void	prepare_line_for_split(char *str)
+{
+	while (*str)
+	{
+		if (*str == '\'')
+		{
+			while (*(++str) != '\'')
+			{
+				if (*str == ' ')
+					*str = '*';
+			}
+			str++;
+		}
+		else if (*str == '\"')
+		{
+			while (*(++str) != '\"')
+			{
+				if (*str == ' ')
+					*str = '*';
+			}
+			str++;
+		}
+		else
+			str++;
+	}
+}
+
+void	gather_args(t_nod *node)
+{
+	printf("this is the line before the modification: [%s]\n", node->line);
+	prepare_line_for_split(node->line);
+	printf("this is the line after the modification: [%s]\n", node->line);
 }
 
 void	gather_process_arguments(void)

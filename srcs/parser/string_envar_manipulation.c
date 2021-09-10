@@ -97,27 +97,27 @@ void	write_str_w_envar(char **line, char **filename, int *len, int *launch)
 	aux = *filename;
 	while (*len > 0 && *launch == OK)
 	{
-		//printf("esto es len durante el proceso de mierdas: %i\n", *len);
-		//printf("esto es la linea: [%s]\n", *line);
+		printf("esto es len durante el proceso de mierdas: %i\n", *len);
+		printf("esto es la linea: [%s]\n", *line);
 		if (**line == '\\' || **line == '&')
 		{
-			//printf("esto es la linea before primer if: [%s]\n", *line);
+			printf("esto es la linea before primer if: [%s]\n", *line);
 			expand_var_name(line, filename, len, launch);
-			//printf("esto es la linea after primer if: [%s]\n", *line);
+			printf("esto es la linea after primer if: [%s]\n", *line);
 		}
 		else if (**line != '*' && **line != '\\' && **line != '&' && **line)
 		{
-			//printf("esto es la linea before segundo if: [%s]\n", *line);
+			printf("esto es la linea before segundo if: [%s]\n", *line);
 			*((*filename)++) = **line;
 			*((*line)++) = ' ';
 			*len = *len - 1;
-			//printf("esto es la linea after segundo if: [%s]\n", *line);
+			printf("esto es la linea after segundo if: [%s]\n", *line);
 		}
 		else
 		{
-			//printf("esto es la linea before tercer if: [%s]\n", *line);
+			printf("esto es la linea before tercer if: [%s]\n", *line);
 			*((*line)++) = ' ';
-			//printf("esto es la linea after tercer if: [%s]\n", *line);
+			printf("esto es la linea after tercer if: [%s]\n", *line);
 		}
 
 	}

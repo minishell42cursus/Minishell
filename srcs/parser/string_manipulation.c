@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:12 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 19:43:37 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 23:54:57 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	edit_string(char **str, int *i, int envar)
 		{
 			if (**str == '$' && envar == OK)
 			{
-				if ((*(*str + 1)) != ' ' && *(*str + 1))
+				if (ft_isalpha(*(*str + 1)) || *((*str) + 1) == '?')
 				{
 					**str = '&';
 					(*i)--;
@@ -61,7 +61,7 @@ int	string_length_bash(char *str, int envar)
 	{
 		if (*str == '$' && envar == OK)
 		{
-			if (*(str + 1) != ' ' && *(str + 1))
+			if (ft_isalpha(*(str + 1)) || *(str + 1) == '?')
 				*str++ = '\\';
 		}
 		if (*str == '\"' || *str == '\'')
@@ -72,8 +72,6 @@ int	string_length_bash(char *str, int envar)
 	}
 	return (i);
 }
-
-
 
 /* A pointer mover. We work with 2 strings, the one that has something inside
  * the commas, and the one that doesnt. This is because its easier to work with

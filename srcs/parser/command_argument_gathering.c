@@ -6,36 +6,70 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 17:17:51 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 21:18:05 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		ft_strlen_wo_dollars(char *str)
+{
+	int	i;
 
-void	expand_vars_outside_strings(node)
+	i = 0;
+	while (*str)
+	{
+		if (*str == '\'')
+		{
+			i++;
+			while (*(++str) != '\'')
+				i++;
+		}
+		else if (*str =='$' && *(str + 1) != '$')
+			str++;
+		else
+		{
+			str++;
+			i++;
+		}
+	}
+	return (i);
+}
+
+void	put_ampersands_on_envars(char **line)
 {
 	char	*aux;
-	int		len;
 
-	printf("length of node->line: %i\n", (int)ft_strlen(node->line));
-	printf("length of node->line_aux: %i\n", (int)ft_strlen(node->line_aux));
-	len = (int)ft_strlen(node->line_aux);
-	aux == node->line_aux;
+	aux = *line;
 	while (*aux)
 	{
-		if (*aux++ == '$')
-			*(aux - 1) = '\\';
+		if (*aux == '\'')
+		{
+			while (*(++aux) != '\'')
+				;
+		}
+		else if (*aux =='$' && *(aux + 1) != '$')
+			*aux++ = '&';
+		else
+			aux++;
 	}
-	add_envar_len(&len, node->line);
-	free(node->line_aux_save);
+}
+
+void	expand_vars_outside_strings(t_nod *node)
+{
+	int		len;
+
+	len = ft_strlen_wo_dollars(node->line);
+	put_ampersands_on_envars(&node->line); 
+	add_envar_len(&len, node->line, FULL_LINE);
 	node->line_aux = malloc(sizeof(char) * (len + 1));
 	node->line_aux_save = node->line_aux;
 	write_str_w_envar(&node->line, &node->line_aux, &len, &node->launch);
-	printf("the line is now this one: [%s]\n", node->line_aux_save); 
+	free(node->line_save);
+	node->line_save = ft_strdup(node->line_aux_save);
+	node->line = node->line_save;
+	free(node->line_aux_save);
 }
-
-
 
 void	gather_process_arguments(void)
 {
@@ -48,11 +82,8 @@ void	gather_process_arguments(void)
 	{
 		if (node->launch == OK)
 		{
-			printf("line: [%s]\n", node->line);
-			printf("line_aux: [%s]\n", node->line_aux);
-			//expand_envars_outside_strings(node);
-			//check_for_local_envar_defs(node);
-			//gather_args(node);
+			expand_vars_outside_strings(node);
+			gather_args(node);
 		}
 		node = node->next;
 		i--;

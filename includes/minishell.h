@@ -33,6 +33,9 @@
 # define OUTPUT		1
 # define INPUT		0
 
+# define ARGUMENT	0
+# define FULL_LINE	1
+
 
 /*Process node structure*/
 typedef struct s_nod
@@ -134,6 +137,8 @@ void	other_io_redirections(void);
 // command argument gathering related
 
 void	gather_process_arguments(void);
+void	add_envar_len(int *len, char *str, int full_line);
+void	write_str_w_envar(char **line, char **fname, int *len, int *launch);
 
 // STRING PRESTIDIGITATION
 

@@ -1,6 +1,10 @@
 NAME		=	minishell
 LIBFT		=	libft.a
 
+RED 			= \033[0;31m
+GREEN 			= \033[0;32m
+NONE 			= \033[0m
+
 # Source directories:
 
 MAIN_DIR	=	srcs/
@@ -23,7 +27,7 @@ SRCS_FILES	= 	minishell \
 SRC_BLTIN	= 	ft_pwd \
 				ft_echo \
 				ft_env \
-			    ft_exit \
+			        ft_exit \
 				ft_cd \
 				ft_export \
 				ft_unset \
@@ -63,42 +67,59 @@ SRCS		= 	$(addsuffix .c, $(addprefix $(MAIN_DIR),$(SRCS_FILES))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(GNL_DIR),$(SRC_GNL))))
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS))
+OBJSFD 		= 	objs/
 
-INCLUDE		=	-I ./includes/ -I ./libft/ -I ~/.brew/opt/readline/include
+INCLUDE		=	-I ./includes/ -I ./libft/includes -I ~/.brew/opt/readline/include
 
-CC			=	gcc
+CC		=	gcc
 
 CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
 
-RM			=	rm -rf
+RM		=	rm -rf
 
-RDL			= -lreadline
+RDL		= 	-lreadline
 
-RDL_MAC		= -lreadline -L ~/.brew/opt/readline/lib
+RDL_MAC		= 	-lreadline -L ~/.brew/opt/readline/lib
 
-LIBFT_MAC	= -L libft/ -lft
+LIBFT_MAC	= 	-L libft/ -lft
 
-all:		$(NAME)
+all:		check_libft project $(NAME)
+		@echo "Project ready"
+
+check_libft:
+		@echo "Checking libft..."
+		@make -C $(dir $(LIBFT_DIR))
+
+project:
+		@echo "Checking project..."
+
+$(OBJSFD):
+		@mkdir $@
+		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
+
+$(OBJSFD)$(NAME): $(OBJSFD)
+		@mkdir $@
+		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
 
 %.o:		%.c
-			$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
+			@$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
 
-$(NAME):	$(OBJS) $(LIBFT_DIR)$(LIBFT) 
-			$(CC) $(INCLUDE) -o $(NAME) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -fsanitize=address
-
-$(LIBFT_DIR)$(LIBFT):	$(LIBFT_DIR)
-			@make -C $(dir $(LIBFT_DIR))
+$(NAME):	$(OBJSFD)$(NAME) $(OBJS) $(LIBFT_DIR)$(LIBFT) 
+			@$(CC) $(INCLUDE) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -fsanitize=address -o $@
+			@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
 
 clean:
-			$(RM) $(OBJS) $(OBJS:.o=.d)
+			@$(RM) $(OBJS) $(OBJSFD) $(OBJS:.o=.d)
+			@echo "\t[ $(RED)✗$(NONE) ] $(OBJSFD) directory"
 			@make -C $(dir $(LIBFT_DIR)) clean
 
 fclean:		clean
 			@make -C $(dir $(LIBFT_DIR)) fclean
-			$(RM) $(NAME)
+			@echo "\t[ $(RED)✗$(NONE) ] $(NAME) executable"
+			@$(RM) $(NAME)
 
 re:			fclean all
 
-.PHONY:		all clean fclean re bonus
+.PHONY:		all clean fclean re
 
 -include	$(OBJS:.o=.d)

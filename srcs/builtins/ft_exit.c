@@ -5,6 +5,7 @@ void	ft_exit(t_shell *shell, char **env)
 	int i;
 
 	i = 0;
+	(void)shell;
 	while (env[i])
 	{
 		free(env[i]);

@@ -4,7 +4,9 @@ CFLAGS = -Wall -Werror -Wextra
 
 CC = gcc
 
-SRC = ft_memset.c \
+SRC_DIR 	= srcs/
+
+SRC_NAMES = ft_memset.c \
 		ft_bzero.c \
 		ft_memcpy.c \
 		ft_memccpy.c \
@@ -43,36 +45,53 @@ SRC = ft_memset.c \
 		ft_isspace3.c \
 		ft_isign.c \
 		ft_strcmp.c \
-		ft_maxlen.c
+		ft_maxlen.c \
+		ft_lstnew.c \
+		ft_lstadd_front.c \
+		ft_lstsize.c \
+		ft_lstlast.c \
+		ft_lstadd_back.c \
+		ft_lstdelone.c \
+		ft_lstclear.c \
+		ft_lstiter.c \
+		ft_lstmap.c
 
-SRC_B = ft_lstnew.c \
-			ft_lstadd_front.c \
-			ft_lstsize.c \
-			ft_lstlast.c \
-			ft_lstadd_back.c \
-			ft_lstdelone.c \
-			ft_lstclear.c \
-			ft_lstiter.c \
-			ft_lstmap.c
+SRCS 		= $(addprefix $(SRC_DIR), $(SRC_NAMES))
+OBJ_DIR 	= objs/
+OBJ_NAMES 	= $(SRC_NAMES:.c=.o)
+OBJS 		= $(addprefix $(OBJ_DIR), $(OBJ_NAMES))
 
-OBJ = $(SRC:.c=.o)
+HDR_NAMES 	= libft.h
+HDR_DIR 	= includes/
+HDRS 		= $(addprefix $(HDR_DIR),$(HDR_NAMES))
 
-OBJ_B = $(SRC_B:.c=.o)
+HDR_INC 	= $(addprefix -I./, $(HDR_DIR))
 
-all: $(NAME)
+RED		= \033[0;31m
+GREEN 		= \033[0;32m
+NONE 		= \033[0m
 
-$(NAME): $(OBJ)
-	ar rcs $(NAME) $?
+all: $(NAME) $(HDRS)
 
-bonus: $(OBJ_B)
-	ar rcs $(NAME) $?
+$(NAME): $(OBJ_DIR) $(OBJS) $(HDRS)
+	@ar rc $@ $(OBJS)
+	@ranlib $@
+	@echo "\t[ $(GREEN)✔$(NONE) ] libft/libft.a library"
+
+$(OBJ_DIR):
+	@mkdir $@
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HDRS)
+	@$(CC) $(CFLAGS) $(HDR_INC) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(OBJ_B)
+	@rm -Rf $(OBJ_DIR)
+	@echo "\t[ $(RED)✗$(NONE) ] libft/$(OBJ_DIR) directory"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "\t[ $(RED)✗$(NONE) ] libft/$(NAME) library"
 
-re: fclean all bonus
+re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all clean fclean re

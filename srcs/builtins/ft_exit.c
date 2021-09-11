@@ -1,19 +1,18 @@
 #include "minishell.h"
 
-void	ft_exit(t_shell *shell, char **env)
+void	ft_exit(void)
 {
 	int i;
 
 	i = 0;
-	(void)shell;
-	while (env[i])
+	while (g_shell->env[i])
 	{
-		free(env[i]);
+		free(g_shell->env[i]);
 		i++;
 	}
-	free(env[i]);
-	free(env);
-	shell = NULL;
+	free(g_shell->env[i]);
+	free(g_shell->env);
+	g_shell = NULL;
 	printf("exit\n");
 	exit(0);
 }

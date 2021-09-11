@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "minishell.h"
 
 char	**ft_orderenv(char **env)
 {
@@ -14,25 +14,25 @@ char	**ft_orderenv(char **env)
 	return (env);
 }
 
-void ft_env(char **env, int mode)
+void ft_env(int mode)
 {
 	int i;
 
 	if (mode == 0)
 	{
 		i = 0;
-		while(env[i])
+		while(g_shell->env[i])
 		{
-			printf("%s\n", env[i]);
+			printf("%s\n", g_shell->env[i]);
 			i++;
 		}
 	}
 	else
 	{
 		i = 0;
-		while (env[i])
+		while (g_shell->env[i])
 		{
-			printf("%s\n", env[i]);
+			printf("%s\n", g_shell->env[i]);
 			i++;
 		}
 	}

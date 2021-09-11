@@ -112,12 +112,12 @@ void    ft_isrun(char **args);
 // builtins
 
 void     ft_echo(char *argv[]);
-void	ft_clear();
-void	ft_env(char **env, int mode);
-void    ft_exit(t_shell *shell, char **env);
+void	ft_clear(void);
+void	ft_env(int mode);
+void    ft_exit(void);
 void    ft_pwd(void);
 void	ft_cd(char *str, char **env);
-void	ft_export(char **env, char **argv);
+void	ft_export(char **argv);
 char    **ft_unset(char **env, char **av);
 int		len_name(char *str);
 char	**ad_arg(char **env, char *str);

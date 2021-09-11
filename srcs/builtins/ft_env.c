@@ -1,24 +1,36 @@
 #include "minishell.h"
 
-char	**ft_orderenv(char **env)
+void	ft_orderenv(void)
 {
 	int			i;
+	int			j;
+	int			k;
+	char		*aux;
 
+	k = 0;
+	while (g_shell->env[k])
+		k++;
 	i = 0;
-	while (env[i])
+	while (i < k - 1)
 	{
-		printf("%s\n", env[i]);
+		j = i + 1;
+		while (j < k - 1)
+		{
+			if (strcmp(g_shell->env[i], g_shell->env[j]) > 0)
+			{
+				aux = g_shell->env[j];
+				g_shell->env[j] = g_shell->env[i];
+				g_shell->env[i] = aux;
+			}
+			j++;
+		}
 		i++;
 	}
-	
-	return (env);
 }
 
 void ft_env(int mode)
 {
 	int i;
-	int j;
-	char *aux;
 
 	if (mode == 0)
 	{
@@ -31,25 +43,7 @@ void ft_env(int mode)
 	}
 	else
 	{
-		i = 0;
-		while (i < 29)
-		{
-			j = i+1;
-			while (j < 29)
-			{
-				if (strcmp(g_shell->env[i], g_shell->env[j]) > 0)
-				{
-					//printf("\nAntes%s", g_shell->env[i]);
-					aux = g_shell->env[j];
-					g_shell->env[j] = g_shell->env[i];
-					g_shell->env[i] = aux;
-					//printf("\nDespuess%s\n", g_shell->env[i]);
-					printf("\nI vale: %d y J vale: %d\n", i, j);
-				}
-				j++;
-			}
-			i++;
-		}
+		ft_orderenv();
 		i = 0;
 		while (g_shell->env[i])
 		{

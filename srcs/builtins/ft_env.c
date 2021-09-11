@@ -18,7 +18,7 @@ void ft_env(int mode)
 {
 	int i;
 	int j;
-	char temp[40];
+	char *aux;
 
 	if (mode == 0)
 	{
@@ -32,19 +32,25 @@ void ft_env(int mode)
 	else
 	{
 		i = 0;
-		while (i++ < 3)
+		while (i < 29)
 		{
-			j = i;
-			while (j++ < 3)
+			j = i+1;
+			while (j < 29)
 			{
 				if (strcmp(g_shell->env[i], g_shell->env[j]) > 0)
 				{
-					strcpy(temp, g_shell->env[i]);
-					strcpy(g_shell->env[i], g_shell->env[j]);
-					strcpy(g_shell->env[j],temp);
+					//printf("\nAntes%s", g_shell->env[i]);
+					aux = g_shell->env[j];
+					g_shell->env[j] = g_shell->env[i];
+					g_shell->env[i] = aux;
+					//printf("\nDespuess%s\n", g_shell->env[i]);
+					printf("\nI vale: %d y J vale: %d\n", i, j);
 				}
+				j++;
 			}
+			i++;
 		}
+		i = 0;
 		while (g_shell->env[i])
 		{
 			printf("declare - x %s\n", g_shell->env[i]);

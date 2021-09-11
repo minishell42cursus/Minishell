@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:17 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 00:43:30 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/10 23:50:55 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ char	*get_var_name(char *str)
 		while (ft_isalnum(str[len]))
 			len++;
 	}
+	else if (*str == '?')
+		return (ft_itoa(g_shell->q_mark_err));	
 	name = ft_substr(str, 0, len);
 	return (name);
 }

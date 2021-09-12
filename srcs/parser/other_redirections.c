@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 23:34:51 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 01:46:18 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	add_variable_to_local_env(void)
 
 	g_shell->envar = malloc(sizeof(t_var));
 	g_shell->envar->name = ft_strdup("a");
-	g_shell->envar->value = ft_strdup("123");
+	g_shell->envar->value = ft_strdup("echo           hola");
 	nod = malloc(sizeof(t_var));
 	nod->name = ft_strdup("a2");
 	nod->value = ft_strdup("he ll o");

@@ -46,6 +46,7 @@ SRC_NAMES = ft_memset.c \
 		ft_isign.c \
 		ft_strcmp.c \
 		ft_maxlen.c \
+		ft_matrixlen.c \
 		ft_lstnew.c \
 		ft_lstadd_front.c \
 		ft_lstsize.c \

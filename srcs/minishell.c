@@ -3,27 +3,22 @@
 int main(int argc, char *argv[], char *env[])
 {
 	t_shell		*shell;
-	t_nod		*node;
 
 	if (argc != 1) // No lo había pensado, pero esto es bastante importante.
 		call_error(); 
 	shell = init_megastruct(argc, argv, env);
 	add_variable_to_local_env();
 	ft_signal_main(); //Función para señales (finalizado)
-	//env = tabdup(env);
 	while (1)
    	{
-		shell->rl = readline(MINISHELL);
-		if (!initial_parser(shell))
+		g_shell->rl = readline(MINISHELL);
+		if (!initial_parser())
 		{
-			add_history(shell->rl);
 			process_command_parsing();
 			heredoc_piece();
 			other_io_redirections();
 			gather_process_arguments();
-			(void)node;
-			; //Expansión de variables de entorno y strings (están blanqueadas hasta este punto).
-			; //recolección de comando + respectivos argv's.
+			//launch_processes();
 			if(ft_isbuiltin(&shell->rl))
 			{
 				printf("\nEs builting\n");

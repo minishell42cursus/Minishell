@@ -18,8 +18,8 @@
 
 # define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
 # define MINISHELL	"$🔥💀minihell💀🔥> "
-//# define PATH_TO_TMP	"/Users/carce-bo/Desktop/cursus42/entregas/minishell/tmp"
-# define PATH_TO_TMP    "/Users/aguerrer/42cursus/minishell/Minishell/tmp"
+# define PATH_TO_TMP	"/Users/carce-bo/Desktop/cursus42/entregas/minishell/tmp"
+//# define PATH_TO_TMP    "/Users/aguerrer/42cursus/minishell/Minishell/tmp"
 
 
 // General macros
@@ -95,7 +95,7 @@ int		print_errno(void);
 void	multiline_error(int *q_mark_err);
 void	parse_error_near(char *str, int *q_mark_err);
 void	forbidden_char_found(char *str, int *q_mark_err);
-void	command_not_found(char **cmd);
+void	command_not_found_error(char **cmd);
 void	error_msg_relative_to_file(char *file, int *launch);
 void	call_error(void);
 void	ambiguous_redirect_error(char *name, int *launch);
@@ -124,7 +124,7 @@ char	**ad_arg(char **env, char *str);
 
 // error control parser fts
 
-int		initial_parser(t_shell *shell);
+int		initial_parser(void);
 int		comma_parser(char **str, int *q_mark_err);
 int		redirection_pipe_parser(char **str, int *q_mark_err);
 void	process_command_parsing(void);
@@ -153,6 +153,7 @@ int		string_length_bash(char *str, int envar);
 
 void	free_process_list(t_shell *shell);
 void	free_command(t_shell *shell);
+void	free_matrix(char **matrix);
 
 // env search related functions
 

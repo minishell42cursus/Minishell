@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 22:50:06 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 23:59:02 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,13 +188,13 @@ void	gather_args(t_nod *node)
 	node->cmd = ft_split(node->line, ' ');
 	free(node->line);
 	clean_args_on_cmd(node->cmd);
-	clear_envar_defs(&node->cmd);
-	i = 0;
+	//clear_envar_defs(&node->cmd);
+	/*i = 0;
 	while (node->cmd[i])
 	{
 		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
 		i++;
-	}
+	}*/
 	if (!*node->cmd)
 	{
 		free_matrix(node->cmd);

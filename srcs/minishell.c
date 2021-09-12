@@ -17,12 +17,7 @@ int main(int argc, char *argv[], char *env[])
 			heredoc_piece();
 			other_io_redirections();
 			gather_process_arguments();
-			//launch_processes();
-			if(ft_isbuiltin(&shell->rl))
-			{
-				printf("\nEs builting\n");
-				ft_isrun(&shell->rl);
-			}
+			launch_processes();
 			; //Aquí podríamos hacer una recopilación de todas las cosas que liberaremos después de la ejecucion de los comandos.
 			unlink_all_heredocs(shell);
 			free_process_list(shell);

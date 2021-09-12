@@ -1,24 +1,5 @@
 #include "minishell.h"
 
-static char	**clone_environment(char **env)
-{
-	char	**out;
-	int		i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	out = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (env[i])
-	{
-		out[i] = ft_strdup(env[i]);
-		i++;
-	}
-	out[i] = NULL;
-	return (out);
-}
-
 t_shell	*init_megastruct(int ac, char **av, char **env)
 {
 	t_shell	*shell;

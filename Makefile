@@ -49,7 +49,8 @@ SRC_SIG		= 	signal
 
 SRC_EXEC	=	run_command \
 				path_finder \
-				local_environment_adding
+				local_environment_adding \
+				process_launching
 
 SRC_ERR		=	stderr_outputs \
 				stderr_outputs_extra

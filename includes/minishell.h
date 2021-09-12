@@ -33,8 +33,16 @@
 # define OUTPUT		1
 # define INPUT		0
 
+// parse macros
+
 # define ARGUMENT	0
 # define FULL_LINE	1
+
+// signal macros
+
+# define ON_READ	0
+# define ON_HDOC	1
+# define ON_EXE		2
 
 
 /*Process node structure*/
@@ -79,6 +87,7 @@ typedef struct s_shell
 	t_nod	*p_lst;
 	int		q_mark_err;
 	t_var	*envar;
+	int		status;
 }				t_shell;
 
 t_shell	*g_shell;
@@ -98,6 +107,7 @@ void	command_not_found_error(char *cmd);
 void	error_msg_relative_to_file(char *file, int *launch);
 void	call_error(void);
 void	ambiguous_redirect_error(char *name, int *launch);
+void	error_msg(void);
 
 // signals / signal
 
@@ -108,11 +118,13 @@ void	ft_signal_main(void);
 int     ft_isbuiltin(char **args);
 void    ft_isrun(char **args);
 void	clear_envar_defs(char ***cmd);
+char	**clone_environment(char **env);
+char	*find_exec_path(char *cmd);
+void	launch_processes(void);
 
 // builtins
 
 void	ft_echo(char *argv[]);
-void	ft_clear(void);
 void	ft_env(int mode);
 void	ft_exit(void);
 void	ft_pwd(void);

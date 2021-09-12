@@ -1,29 +1,75 @@
 #include "minishell.h"
 
-int 	check_in_env_u(char *str, char **env);
+char	*ft_strjoin2(char *s1, char *s2)
+{
+	char	*str1;
+	char	*str2;
 
-void	ft_cd(char *str, char **env)
+	str1 = ft_strjoin(s1, "/");
+	str2 = ft_strjoin(str1, s2);
+	free(str1);
+	return (str2);
+}
+
+char	*check_pwd(char *str, char **env, int opwd, int home)
+{
+	char	*s;
+
+	s = NULL;
+	if (!str)
+	{
+		if (home != -1)
+			s = ft_strdup(env[home] + 5);
+		else
+			printf("minishell: %s: %s\n", "cd", "HOME not set");
+	}
+	else if (ft_strncmp(str, "-", 2) == 0)
+	{
+		if (opwd != -1)
+		{
+			s = ft_strdup(env[opwd] + 7);
+			printf("%s\n", env[opwd] + 7);
+		}
+		else
+			printf("minishell: %s: %s\n", "cd", "OLDPWD not set");
+	}
+	else
+		s = ft_strdup(str);
+	return (s);
+}
+
+char	**cd_env(char **env, int i[2])
 {
 	char	*pwd;
 	char	*tmp;
-	int	i[2];
 
-	chdir(str);
-	i[0] = check_in_env_u("PWD", env);
-	i[1] = check_in_env_u("OLDPWD", env);
-	if (i[0] != -1 && i[1] != -1)
-	{
-		pwd = ft_strjoin("OLD", env[i[0]]);
-		free(env[i[1]]);
-		env[i[1]] = pwd;
-	}
 	if (i[0] != -1)
 	{
+		pwd = ft_strjoin("OLD", env[i[0]]);
+		env = ad_arg_exp(env, pwd);
 		tmp = getcwd(NULL, 0);
 		pwd = ft_strjoin("PWD=", tmp);
 		free(tmp);
 		env[i[0]] = pwd;
 	}
+	return (env);
+}
+
+void	ft_cd(char *str, char **env)
+{
+	char	*s;
+	int	i[2];
+
+	i[0] = find_env(env, "ENV");
+	i[1] = find_env(env, "OLDPWD");
+	s = check_pwd(str, env, i[1], find_env(env, "HOME"));
+	/*if (!s)
+		return (env);*/
+	if (chdir(s) == -1)
+		printf("minishell: cd: %s: %s\n", s, "No such file or directory");
+	else
+		cd_env(env, i);
+	free(s);
 }
 
 /*int main (int argc, char **argv, char **env)

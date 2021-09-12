@@ -10,7 +10,6 @@ void	replace_value_on_local_env(t_var *nod, char *name, char *value)
 void	add_to_local_env(char *name, char *value)
 {
 	t_var	*nod;
-	//t_var	*nod2;
 	t_var	**aux;
 
 	nod = g_shell->envar;
@@ -33,12 +32,6 @@ void	add_to_local_env(char *name, char *value)
 		nod->next = NULL;
 		(*aux) = nod;
 	}
-	/*nod2 = g_shell->envar;
-	while (nod2)
-	{
-		printf("pointer: %p\nname: [%s]\nvalue:[%s]\n\n", nod2, nod2->name, nod2->value);
-		nod2 = nod2->next;
-	}*/
 }
 
 /* Function that will clear the local environment variable
@@ -77,6 +70,37 @@ int	check_if_def(char *str)
 	return (0);
 }
 
+void	overwrite_env_value(char *name, char *value)
+{
+	char	*aux;
+	int		i;
+
+	i = 0;
+	aux = ft_strjoin(name, "=");
+	while (g_shell->env[i])
+	{
+		if (!ft_strncmp(g_shell->env[i], aux, ft_strlen(aux)))
+			break ;
+		i++;
+	}
+	free(g_shell->env[i]);
+	g_shell->env[i] = ft_strjoin(aux, value);
+	free(name);
+	free(value);
+	free(aux);
+}
+
+void	add_to_env(char *name, char *value)
+{
+	char	*prev_value;
+
+	prev_value = check_env(name);
+	if (!prev_value)
+		add_to_local_env(name, value);
+	else
+		overwrite_env_value(name, value);
+}
+
 void	clear_envar_defs(char ***cmd)
 {
 	char	**aux;
@@ -92,7 +116,7 @@ void	clear_envar_defs(char ***cmd)
 		name = get_var_name(aux2);
 		aux2 = aux2 + ft_strlen(name) + 1;
 		value = ft_strdup(aux2);
-		add_to_local_env(name, value);
+		add_to_env(name, value);
 		rebuild_cmd(cmd);
 		clear_envar_defs(cmd);
 	}

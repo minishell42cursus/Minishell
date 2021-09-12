@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:17 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 19:31:07 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 21:39:54 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * hola y acaba en hola=, explota. Como ajuste
  * podriamos hacer que '=' no pudiese entrar dentro
  * de llas definiciones de las variables de entorno */
-static char	*check_env(char *name)
+char	*check_env(char *name)
 {
 	int		i;
 	char	*aux;

@@ -30,7 +30,7 @@ char	**get_paths(char **cmd)
 	i = 0;
 	while (g_shell->env[i])
 	{
-		if (ft_strncmp(g_shell->env[i], "PATH=", 5) == 0)
+		if (!ft_strncmp(g_shell->env[i], "PATH=", 5))
 			break ;
 		i++;
 	}

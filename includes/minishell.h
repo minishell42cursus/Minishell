@@ -164,7 +164,7 @@ int		ft_isvalid_env_start(char a);
 int		ft_isvalid_env_core(char a);
 void	add_to_local_env(char *name, char *value);
 int		check_if_def(char *str);
-
+char	*check_env(char *name);
 
 //Get next line utils:
 

@@ -6,27 +6,13 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 17:44:58 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 22:50:05 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	rebuild_aux_strings(t_nod *node);
-
-void	add_variable_to_local_env(void)
-{
-	t_var	*nod;
-
-	g_shell->envar = malloc(sizeof(t_var));
-	g_shell->envar->name = ft_strdup("a");
-	g_shell->envar->value = ft_strdup("echo           hola");
-	nod = malloc(sizeof(t_var));
-	nod->name = ft_strdup("a2");
-	nod->value = ft_strdup("he ll o");
-	nod->next = NULL;
-	g_shell->envar->next = nod;
-}
 
 char	*filename_gatherer(char **line, int *launch)
 {

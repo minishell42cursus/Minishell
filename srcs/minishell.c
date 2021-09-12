@@ -7,7 +7,6 @@ int main(int argc, char *argv[], char *env[])
 	if (argc != 1) // No lo había pensado, pero esto es bastante importante.
 		call_error(); 
 	shell = init_megastruct(argc, argv, env);
-	add_variable_to_local_env();
 	ft_signal_main(); //Función para señales (finalizado)
 	while (1)
    	{
@@ -24,7 +23,6 @@ int main(int argc, char *argv[], char *env[])
 				printf("\nEs builting\n");
 				ft_isrun(&shell->rl);
 			}
-			; //lanzamiento de procesos.
 			; //Aquí podríamos hacer una recopilación de todas las cosas que liberaremos después de la ejecucion de los comandos.
 			unlink_all_heredocs(shell);
 			free_process_list(shell);

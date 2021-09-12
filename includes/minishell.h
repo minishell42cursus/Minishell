@@ -175,9 +175,4 @@ int		get_next_line(int fd, char **line);
 int		tablen(char **tab);
 char	**tabdup(char **tab);
 
-// TESTS
-
-void	add_variable_to_local_env(void);
-
-
 #endif

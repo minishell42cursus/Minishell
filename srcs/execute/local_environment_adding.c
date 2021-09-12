@@ -7,6 +7,17 @@ void	replace_value_on_local_env(t_var *nod, char *name, char *value)
 	nod->value = value;
 }
 
+t_var	*new_env_var(char *name, char *value)
+{
+	t_var	*nod;
+
+	nod = malloc(sizeof(t_var));
+	nod->name = name;
+	nod->value = value;
+	nod->next = NULL;
+	return (nod);
+}
+
 void	add_to_local_env(char *name, char *value)
 {
 	t_var	*nod;
@@ -26,11 +37,11 @@ void	add_to_local_env(char *name, char *value)
 	}
 	if (!nod)
 	{
-		nod = malloc(sizeof(t_var));
-		nod->name = name;
-		nod->value = value;
-		nod->next = NULL;
-		(*aux) = nod;
+		nod = new_env_var(name, value);
+		if (aux)
+			(*aux) = nod;
+		else
+			g_shell->envar = nod;
 	}
 }
 

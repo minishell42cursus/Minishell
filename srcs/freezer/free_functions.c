@@ -30,11 +30,13 @@ void	free_process_list(t_shell *shell)
 void	unlink_all_heredocs(t_shell *shell)
 {
 	t_nod	*node;
+	char	*current_path;
 	int		i;
 
 	i = shell->n_proc;
 	node = shell->p_lst;
-	chdir("./tmp");
+	current_path = getcwd(NULL, 0);
+	chdir(PATH_TO_TMP);
 	while (i > 0)
 	{
 		if (node->hdoc_name)
@@ -42,6 +44,7 @@ void	unlink_all_heredocs(t_shell *shell)
 		node = node->next;
 		i--;
 	}
-	chdir("../");
+	chdir(current_path);
+	free(current_path);
 	shell->n_proc = 0;
 }

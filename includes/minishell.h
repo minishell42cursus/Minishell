@@ -18,8 +18,7 @@
 
 # define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
 # define MINISHELL	"$🔥💀minihell💀🔥> "
-# define PATH_TO_TMP	"/Users/carce-bo/Desktop/cursus42/entregas/minishell/tmp"
-//# define PATH_TO_TMP    "/Users/aguerrer/42cursus/minishell/Minishell/tmp"
+# define PATH_TO_TMP	"/tmp/"
 
 
 // General macros

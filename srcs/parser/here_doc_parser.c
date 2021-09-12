@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 14:06:04 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 20:46:42 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	rebuild_aux_strings(t_nod *node);
 
 static void	clean_other_hdoc(t_nod *node)
 {
+	char	*current_path;
 
+	current_path = getcwd(NULL, 0);
+	chdir(PATH_TO_TMP);
 	if (node->fdi != 0)
 	{
 		close(node->fdi);
@@ -26,6 +29,8 @@ static void	clean_other_hdoc(t_nod *node)
 	}
 	node->hdoc_name = hdoc_filename(1);
 	node->fdi = open(node->hdoc_name, O_RDWR | O_CREAT, 00644);
+	chdir(current_path);
+	free(current_path);
 }
 
 /* Aquí hace falta meter que me devuelva a la carpeta en la
@@ -35,7 +40,9 @@ static void	clean_other_hdoc(t_nod *node)
 static void	open_heredoc(char *eof, t_nod *node)
 {
 	char	*line;
+	char	*current_path;
 
+	current_path = getcwd(NULL, 0);
 	chdir(PATH_TO_TMP);
 	clean_other_hdoc(node);
 	while (1)
@@ -50,7 +57,8 @@ static void	open_heredoc(char *eof, t_nod *node)
 		else
 			write_line_on_hdoc(line, node->fdi);
 	}
-	chdir("../");
+	chdir(current_path);
+	free(current_path);
 }
 
 static void	clean_hdoc_strings(t_nod *node)

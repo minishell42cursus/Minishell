@@ -46,7 +46,7 @@ char	**cd_env(char **env, int i[2])
 	if (i[0] != -1)
 	{
 		pwd = ft_strjoin("OLD", env[i[0]]);
-		env = ad_arg_exp(env, pwd);
+		//env = ad_arg_exp(env, pwd);
 		tmp = getcwd(NULL, 0);
 		pwd = ft_strjoin("PWD=", tmp);
 		free(tmp);
@@ -71,9 +71,3 @@ void	ft_cd(char *str, char **env)
 		cd_env(env, i);
 	free(s);
 }
-
-/*int main (int argc, char **argv, char **env)
-{
-	(void)argc;
-	ft_cd(argv[1], env);
-}*/

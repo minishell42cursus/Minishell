@@ -2,7 +2,6 @@
 
 int	find_env(char **env, char *word)
 {
-	char	*line;
 	int		x;
 	int		y;
 

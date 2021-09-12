@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 04:21:26 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 18:27:07 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	wait_for_next_comma(char **str, int *i, char comma)
 	{
 		if (comma == '\"')
 		{
-			if (**str == '$' && ft_isalpha(*(*str + 1)))
+			if (**str == '$' && ft_isvalid_env_start(*(*str + 1)))
 				(*i)--;
 		}
 		*str = *str + 1;
@@ -41,7 +41,7 @@ int		ft_strlen_wo_dollars(char *str)
 			wait_for_next_comma(&str, &i, '\"');
 		else if (*str == '\'')
 			wait_for_next_comma(&str, &i, '\'');
-		else if (*str =='$' && ft_isalpha(*(str + 1)))
+		else if (*str =='$' && ft_isvalid_env_start(*(str + 1)))
 			str++;
 		else
 		{
@@ -65,7 +65,7 @@ void	put_ampersands_on_envars(char **line)
 				;
 			aux++;
 		}
-		else if (*aux == '$' && ft_isalpha(*(aux + 1)))
+		else if (*aux == '$' && ft_isvalid_env_start(*(aux + 1)))
 			*aux++ = '&';
 		else
 			aux++;
@@ -165,98 +165,32 @@ void	clean_args_on_cmd(char **cmd)
 	}
 }
 
-
-void	add_to_local_env(char *name, char *value)
-{
-	t_var	*nod;
-	int		assigned;
-
-	assigned = 0;
-	nod = g_shell->envar;
-	while (nod && assigned == 0)
-	{
-		if (!ft_strncmp(nod->name, name, ft_maxlen(nod->name, name)))
-		{
-			free(name);
-			free(nod->value);
-			nod->value = value;
-			assigned = 1;
-		}
-		nod = nod->next;
-	}
-	if (assigned == 0)
-	{
-		nod = malloc(sizeof(t_var));
-		nod->name = name;
-		nod->value = value;
-		nod->next = NULL;
-	}
-}
-
-/* Function that will clear the local environment variable
- * declaration from the command matrix, resizing it correctly.
- * Example: [a="hello ls] will be just [ls] after assigning a.*/ 
-void	rebuild_cmd(char ***cmd)
-{
-	char	**aux;
-	char	**new_cmd;
-	int		i;
-
-	new_cmd = malloc(sizeof(char *) * ft_matrixlen(*cmd));
-	aux = *cmd;
-	i = 1;
-	while (aux[i])
-	{
-		new_cmd[i - 1] = ft_strdup(aux[i]); 
-		i++;
-	}
-	new_cmd[i - 1] = NULL;
-	free_matrix(*cmd);
-	*cmd = new_cmd;
-}
-
-int	check_if_def(char *str)
-{
-	if (!str)
-		return (0);
-	if (ft_isalpha(*str))
-	{
-		while (ft_isalnum(*str))
-			str++;
-		if (*str == '=')
-			return (1);
-	}
-	return (0);
-}
-
-void	clear_envar_defs(char ***cmd)
-{
-	char	**aux;
-	char	*aux2;
-	char	*name;
-	char	*value;
-
-	aux = *cmd;
-	aux2 = NULL;
-	if (check_if_def(*aux) == OK)
-	{
-		aux2 = *aux;
-		name = get_var_name(aux2);
-		aux2 = aux2 + ft_strlen(name) + 1;
-		value = ft_strdup(aux2);
-		add_to_local_env(name, value);
-		rebuild_cmd(cmd);
-		clear_envar_defs(cmd);
-	}
-}
-
 void	gather_args(t_nod *node)
 {
+	int	i;
+
+	i = 0;
 	prepare_line_for_split(node->line);
 	node->cmd = ft_split(node->line, ' ');
+	/*while (node->cmd[i])
+	{
+		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
+		i++;
+	}*/
 	free(node->line);
 	clean_args_on_cmd(node->cmd);
+	/*while (node->cmd[i])
+	{
+		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
+		i++;
+	}*/
 	clear_envar_defs(&node->cmd);
+	i = 0;
+	while (node->cmd[i])
+	{
+		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
+		i++;
+	}
 	if (!*node->cmd)
 	{
 		free_matrix(node->cmd);

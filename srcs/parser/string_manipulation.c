@@ -6,11 +6,32 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:12 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/10 23:54:57 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 17:32:04 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_isvalid_env_start(char a)
+{
+	int	ret;
+
+	ret = 0;
+	if ((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z')
+		|| a == '_' || a == '?')
+		ret = 1;
+	return (ret);
+}
+
+int	ft_isvalid_env_core(char a)
+{
+	int	ret;
+
+	ret = 0;
+	if (ft_isalnum(a) || a == '_')
+		ret = 1;
+	return (ret);
+}
 
 void	edit_string(char **str, int *i, int envar)
 {
@@ -21,7 +42,7 @@ void	edit_string(char **str, int *i, int envar)
 		{
 			if (**str == '$' && envar == OK)
 			{
-				if (ft_isalpha(*(*str + 1)) || *((*str) + 1) == '?')
+				if (ft_isvalid_env_start(*(*str + 1)))
 				{
 					**str = '&';
 					(*i)--;
@@ -61,7 +82,7 @@ int	string_length_bash(char *str, int envar)
 	{
 		if (*str == '$' && envar == OK)
 		{
-			if (ft_isalpha(*(str + 1)) || *(str + 1) == '?')
+			if (ft_isvalid_env_start(*str + 1))
 				*str++ = '\\';
 		}
 		if (*str == '\"' || *str == '\'')

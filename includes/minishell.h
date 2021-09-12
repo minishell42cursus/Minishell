@@ -108,6 +108,7 @@ void	ft_signal_main(void);
 
 int     ft_isbuiltin(char **args);
 void    ft_isrun(char **args);
+void	clear_envar_defs(char ***cmd);
 
 // builtins
 
@@ -160,6 +161,11 @@ void	free_matrix(char **matrix);
 
 char	*get_var_name(char *str);
 char	*get_var_value(char *name);
+int		ft_isvalid_env_start(char a);
+int		ft_isvalid_env_core(char a);
+void	add_to_local_env(char *name, char *value);
+int		check_if_def(char *str);
+
 
 //Get next line utils:
 

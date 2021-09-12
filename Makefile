@@ -48,7 +48,8 @@ SRC_PARSE	=	comma_parser \
 SRC_SIG		= 	signal
 
 SRC_EXEC	=	run_command \
-				path_finder
+				path_finder \
+				local_environment_adding
 
 SRC_ERR		=	stderr_outputs \
 				stderr_outputs_extra

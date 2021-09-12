@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	**put_bars_and_cmd_on_path(char **path, char **cmd)
+char	**put_bars_and_cmd_on_path(char **path, char *cmd)
 {
 	int		i;
 	char	*aux_1;
@@ -12,7 +12,7 @@ char	**put_bars_and_cmd_on_path(char **path, char **cmd)
 		aux_1 = path[i];
 		path[i] = ft_strjoin(path[i], "/");
 		aux_2 = path[i];
-		path[i] = ft_strjoin(path[i], cmd[0]);
+		path[i] = ft_strjoin(path[i], cmd);
 		free(aux_1);
 		free(aux_2);
 		i++;
@@ -20,7 +20,7 @@ char	**put_bars_and_cmd_on_path(char **path, char **cmd)
 	return (path);
 }
 
-char	**get_paths(char **cmd)
+char	**get_paths(char *cmd)
 {
 	int		i;
 	char	*aux;
@@ -73,14 +73,14 @@ int	ft_access(char *path)
  * then it adds a / and the exec name to form the correct path (if it
  * exists), and then checks with access(2) wether there is one path
  * that can find the binary, and in that case it returns it.*/
-char	*find_exec_path(char **cmd)
+char	*find_exec_path(char *cmd)
 {
 	char	**exec_paths;
 	char	*path;
 	int		i;
 
-	if (ft_access(cmd[0]))
-		return (ft_strdup(cmd[0]));
+	if (ft_access(cmd))
+		return (ft_strdup(cmd));
 	exec_paths = get_paths(cmd);
 	path = NULL;
 	i = 0;

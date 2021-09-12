@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:42 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 04:12:04 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 23:31:12 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,18 @@ static void	clean_exit()
 
 int	initial_parser(void)
 {
+	char	*aux;
+
 	if (!g_shell->rl)
 		clean_exit();
 	add_history(g_shell->rl);
+	aux = g_shell->rl;
+	while (*aux)
+	{
+		if (*aux >= 9 && *aux <= 13)
+			*aux = ' ';
+		aux++;
+	}
 	g_shell->parse_rl = ft_strdup(g_shell->rl);
 	g_shell->rl_tofree = g_shell->parse_rl;
 	if (comma_parser(&g_shell->parse_rl, &g_shell->q_mark_err)

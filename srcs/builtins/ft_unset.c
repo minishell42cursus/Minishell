@@ -1,17 +1,22 @@
 #include "minishell.h"
 
-int 	check_in_env_u(char *str, char **env)
+int	find_env(char **env, char *word)
 {
-	int sz;
-	int i;
+	char	*line;
+	int		x;
+	int		y;
 
-	i = 0;
-	sz = len_name(str);
-	while (env[i])
+	x = 0;
+	while (env[x])
 	{
-		if (ft_memcmp(env[i], str, sz) == 0 && env[i][sz] == '=')
-			return (i);
-		i++;
+		y = 0;
+		while (env[x][y] && (env[x][y] == word[y] || env[x][y] == 61))
+		{
+			if (env[x][y] == '=' && (word[y] == ' ' || !word[y]))
+				return (x);
+			y++;
+		}
+		x++;
 	}
 	return (-1);
 }
@@ -25,7 +30,7 @@ char	**supp_arg(char **env, char *str)
 
 	b = 0;
 	j = 0;
-	i = check_in_env_u(str, env);
+	i = find_env(env, str);
 	printf("%s %d\n", str, i);
 	if (i == -1)
 		return (env);

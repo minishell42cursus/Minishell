@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 18:27:07 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 20:07:29 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@ void	wait_for_next_comma(char **str, int *i, char comma)
 	*str = *str + 1;
 	(*i)++;
 }
+
+void	wait_for_next_comma_wo_counter(char **str, char comma)
+{
+	*str = *str + 1;
+	while (**str != comma)
+	{
+		if (comma == '\"')
+		{
+			if (**str == '$' && ft_isvalid_env_start(*(*str + 1)))
+				**str = '&';
+		}
+		*str = *str + 1;
+	}
+	*str = *str + 1;
+}
+
 
 int		ft_strlen_wo_dollars(char *str)
 {
@@ -60,11 +76,9 @@ void	put_ampersands_on_envars(char **line)
 	while (*aux)
 	{
 		if (*aux == '\'')
-		{
-			while (*(++aux) != '\'')
-				;
-			aux++;
-		}
+			wait_for_next_comma_wo_counter(&aux, '\'');
+		else if (*aux == '\"')
+			wait_for_next_comma_wo_counter(&aux, '\"');
 		else if (*aux == '$' && ft_isvalid_env_start(*(aux + 1)))
 			*aux++ = '&';
 		else
@@ -172,18 +186,8 @@ void	gather_args(t_nod *node)
 	i = 0;
 	prepare_line_for_split(node->line);
 	node->cmd = ft_split(node->line, ' ');
-	/*while (node->cmd[i])
-	{
-		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
-		i++;
-	}*/
 	free(node->line);
 	clean_args_on_cmd(node->cmd);
-	/*while (node->cmd[i])
-	{
-		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
-		i++;
-	}*/
 	clear_envar_defs(&node->cmd);
 	i = 0;
 	while (node->cmd[i])

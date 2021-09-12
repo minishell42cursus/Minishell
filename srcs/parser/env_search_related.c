@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:17 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 00:52:10 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/12 19:31:07 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*check_env(char *name)
 	if (!g_shell->env[i])
 		value = NULL;
 	else
-		value = ft_strtrim(g_shell->env[i], aux);
+		value = ft_strdup(g_shell->env[i] + ft_strlen(name) + 1);
 	free(aux);
 	return (value);
 }
@@ -62,9 +62,9 @@ char	*get_var_name(char *str)
 	char	*name;
 
 	len = 0;
-	if (!ft_isdigit(str[len++]))
+	if (ft_isvalid_env_start(str[len++]))
 	{
-		while (ft_isalnum(str[len]))
+		while (ft_isvalid_env_core(str[len]))
 			len++;
 	}
 	else if (*str == '?')

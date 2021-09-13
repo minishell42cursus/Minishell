@@ -62,29 +62,42 @@ void	truly_launch_from_father(t_nod *node)
 	dup_stdin_stdout_and_close(fdi, fdo);
 }
 
-void	launch_from_father(t_nod *node)
+void	launch_from_fork(t_nod *node)
 {
-	pid_t	pid;
 	int		stat;
+	pid_t	pid;
+
+	g_shell->status = ON_EXE;
+	pid = fork();
+	if (pid == 0)
+	{
+		dup_stdin_stdout_and_close(node->fdi, node->fdo);
+		call_execve(node);
+	}
+	else
+	{
+		waitpid(pid, &stat, 0);
+	}
+}
+
+void	launch_builtins_from_father(t_nod *node)
+{
+	//int	i = 0;
 
 	if (node->launch == OK)
 	{
 		clear_envar_defs(&node->cmd);
-		if (ft_isbuiltin(node->cmd))
-			truly_launch_from_father(node);
-		else
+		/*while (node->cmd[i])
 		{
-			g_shell->status = ON_EXE;
-			pid = fork();
-			if (pid == 0)
-			{
-				dup_stdin_stdout_and_close(node->fdi, node->fdo);
-				call_execve(node);
-			}
+			printf("node->cmd[%i]: [%s]\n", i, node->cmd[i]);
+			i++;
+		}*/
+		if (node->cmd[0])
+		{
+			if (ft_isbuiltin(node->cmd))
+				truly_launch_from_father(node);
 			else
-			{
-				waitpid(pid, &stat, 0);
-			}
+				launch_from_fork(node);
 		}
 	}
 }
@@ -97,7 +110,7 @@ void	launch_processes(void)
 	i = g_shell->n_proc;
 	node = g_shell->p_lst;
 	if (i == 1)
-		launch_from_father(node);
+		launch_builtins_from_father(node);
 	else
 		;
 		//launch_from_childs(node, i);

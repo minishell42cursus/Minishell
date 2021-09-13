@@ -128,12 +128,12 @@ void	ft_echo(char *argv[]);
 void	ft_env(int mode);
 void	ft_exit(void);
 void	ft_pwd(void);
-void	ft_cd(char *str, char **env);
+void	ft_cd(char *str);
 void	ft_export(char **argv);
 char	**ft_unset(char **env, char **av);
 int		len_name(char *str);
 char	**ad_arg(char **env, char *str);
-int		find_env(char **env, char *word);
+int		find_env(char *word);
 
 // error control parser fts
 

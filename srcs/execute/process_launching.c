@@ -137,6 +137,16 @@ void	launch_builtins_from_father(t_nod *node)
 	}
 }
 
+/*void	launch_from_child(t_nod *node, int i)
+{
+	while (i > 0)
+	{
+		launch_process_
+		node = node->next;
+		i--;
+	}
+}*/
+
 void	launch_processes(void)
 {
 	int		i;

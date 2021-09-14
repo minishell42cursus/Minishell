@@ -4,10 +4,10 @@ int main(int argc, char *argv[], char *env[])
 {
 	t_shell		*shell;
 
-	if (argc != 1) // No lo había pensado, pero esto es bastante importante.
-		call_error(); 
+	if (argc != 1)
+		call_error();
 	shell = init_megastruct(argc, argv, env);
-	ft_signal_main(); //Función para señales (finalizado)
+	ft_signal_main();
 	while (1)
    	{
 		g_shell->rl = readline(MINISHELL);

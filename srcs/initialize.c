@@ -14,5 +14,6 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 	shell->q_mark_err = 0;
 	shell->n_proc = 0;
 	shell->envar = NULL;
+	shell->status = ON_READ;
 	return (shell);
 }

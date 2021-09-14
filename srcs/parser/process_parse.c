@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:36:45 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 22:54:53 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/14 18:12:36 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_nod	*create_pnode(char **aux, char **str, int *n_proc)
 	process->line_aux_save = process->line_aux;
 	process->n_hdoc = 0;
 	process->launch = OK;
+	process->hdoc_name = NULL;
 	pointer_mover(aux, str, len);
 	return (process);
 }

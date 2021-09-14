@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 20:46:42 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/14 19:24:23 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ static void	hd_checker(t_nod *node)
 		eof = eof_gatherer(&node->line, &node->n_hdoc);
 		open_heredoc(eof, node);
 	}
+	if (node->fdi != 0)
+		close(node->fdi);
+	node->fdi = 0;
 	clean_hdoc_strings(node);
 }
 

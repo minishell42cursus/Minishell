@@ -27,7 +27,7 @@ SRCS_FILES	= 	minishell \
 SRC_BLTIN	= 	ft_pwd \
 				ft_echo \
 				ft_env \
-			        ft_exit \
+				ft_exit \
 				ft_cd \
 				ft_export \
 				ft_unset \
@@ -70,6 +70,7 @@ SRCS		= 	$(addsuffix .c, $(addprefix $(MAIN_DIR),$(SRCS_FILES))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(GNL_DIR),$(SRC_GNL))))
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS))
+
 OBJSFD 		= 	objs/
 
 INCLUDE		=	-I ./includes/ -I ./libft/includes -I ~/.brew/opt/readline/include

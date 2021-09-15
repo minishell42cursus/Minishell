@@ -33,6 +33,11 @@
 # define OUTPUT		1
 # define INPUT		0
 
+// Hdoc_utils_macros
+
+# define START		0
+# define END		1
+
 // parse macros
 
 # define ARGUMENT	0
@@ -40,10 +45,9 @@
 
 // signal macros
 
-# define ON_READ	0
-# define ON_HDOC	1
-# define ON_EXE		2
-
+# define ON_READ		0
+# define ON_HDOC		1
+# define ON_EXE			2
 
 /*Process node structure*/
 typedef struct s_nod
@@ -88,6 +92,7 @@ typedef struct s_shell
 	int		q_mark_err;
 	t_var	*envar;
 	int		status;
+	pid_t	pid;
 }				t_shell;
 
 t_shell	*g_shell;

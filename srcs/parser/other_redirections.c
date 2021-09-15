@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/14 17:37:37 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/15 17:55:06 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,11 @@ void	other_io_redirections(void)
 	node = g_shell->p_lst;
 	while (i > 0)
 	{
-		redirection_checker(node);
 		if (node->launch == OK)
+		{
+			redirection_checker(node);
 			clean_hdoc_bar(node);
+		}
 		node = node->next;
 		i--;
 	}

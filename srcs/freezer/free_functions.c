@@ -16,6 +16,7 @@ void	free_process_list(t_shell *shell)
 	t_nod	*node;
 	t_nod	*aux;
 
+	g_shell->status = ON_READ;
 	node = shell->p_lst;
 	while (shell->n_proc > 0)
 	{
@@ -47,4 +48,5 @@ void	unlink_all_heredocs(t_shell *shell)
 	chdir(current_path);
 	free(current_path);
 	shell->n_proc = 0;
+	g_shell->pid = 0;
 }

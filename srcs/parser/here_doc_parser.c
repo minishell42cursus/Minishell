@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/14 19:24:23 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/15 21:56:18 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,28 @@ static void	clean_other_hdoc(t_nod *node)
 	free(current_path);
 }
 
+void	hdoc_engine_start_and_end(t_nod *node, char **path, int stat)
+{
+	if (stat == START)
+	{
+		*path = getcwd(NULL, 0);
+		chdir(PATH_TO_TMP);
+		g_shell->status = ON_HDOC;
+		clean_other_hdoc(node);
+	}
+	else
+	{
+		chdir(*path);
+		free(*path);
+	}
+}
+
+void	free_and_exit(char *line)
+{
+	free(line);
+	exit(0);
+}
+
 /* Aquí hace falta meter que me devuelva a la carpeta en la
  * que se encontraba antes de entrar en el directorio de tmp.
  * De momento es tal que vuelve a la carpeta minishell si es que
@@ -42,23 +64,23 @@ static void	open_heredoc(char *eof, t_nod *node)
 	char	*line;
 	char	*current_path;
 
-	current_path = getcwd(NULL, 0);
-	chdir(PATH_TO_TMP);
-	clean_other_hdoc(node);
-	while (1)
+	hdoc_engine_start_and_end(node, &current_path, START);
+	g_shell->pid = fork();
+	if (g_shell->pid == 0)
 	{
-		write(2, "$> ", 3);
-		get_next_line(0, &line);
-		if (!ft_strncmp(line, eof, ft_maxlen(line, eof)))
+		ft_signal_main();
+		while (1)
 		{
-			free(line);
-			break ;
+			line = readline("$> ");
+			if (!line || !ft_strncmp(line, eof, ft_maxlen(line, eof)))
+				free_and_exit(line);
+			else
+				write_line_on_hdoc(line, node->fdi);
 		}
-		else
-			write_line_on_hdoc(line, node->fdi);
 	}
-	chdir(current_path);
-	free(current_path);
+	else
+		ft_signal_main();
+	hdoc_engine_start_and_end(node, &current_path, END);
 }
 
 static void	clean_hdoc_strings(t_nod *node)

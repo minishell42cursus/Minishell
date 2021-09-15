@@ -101,13 +101,15 @@ void	launch_from_fork(t_nod *node)
 	int		stat;
 	pid_t	pid;
 
-	g_shell->status = ON_EXE;
 	pid = fork();
 	if (pid == 0)
 		call_execve(node);
 	else
 	{
+		g_shell->status = ON_EXE;
+		g_shell->pid = pid;
 		close_all_fds(node);
+		ft_signal_main();
 		waitpid(pid, &stat, 0);
 		g_shell->q_mark_err = stat / 256;
 	}

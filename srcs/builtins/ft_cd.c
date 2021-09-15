@@ -63,8 +63,6 @@ void	ft_cd(char *str, char **env)
 	i[0] = find_env(env, "ENV");
 	i[1] = find_env(env, "OLDPWD");
 	s = check_pwd(str, env, i[1], find_env(env, "HOME"));
-	/*if (!s)
-		return (env);*/
 	if (chdir(s) == -1)
 		printf("minishell: cd: %s: %s\n", s, "No such file or directory");
 	else

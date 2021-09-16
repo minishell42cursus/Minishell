@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	ft_orderenv(void)
+static void	order_env(void)
 {
 	int			i;
 	int			j;
@@ -28,27 +28,78 @@ void	ft_orderenv(void)
 	}
 }
 
+void	create_propper_env_entry(char *name, char *value, int i)
+{
+	char	*aux1;
+	char	*aux2;
+
+	if (*value != '\\')
+	{
+		aux1 = ft_strjoin(name, "=\"");
+		aux2 = ft_strjoin(aux1, value);
+		g_shell->env[i] = ft_strjoin(aux2, "\"");
+		free(aux1);
+		free(aux2);
+	}
+	free(name);
+	free(value);
+}
+
+void	add_commas_to_env(void)
+{
+	char	*aux_name;
+	char	*aux_value;
+	char	*aux;
+	int		i;
+
+	i = 0;
+	while (g_shell->env[i])
+	{
+		aux = g_shell->env[i];
+		aux_name = get_var_name(aux);
+		while (*aux != '=')
+			aux++;
+		aux_value = ft_strdup(++aux);
+		create_propper_env_entry(aux_name, aux_value, i);
+		i++;
+	}
+}
+
+void	print_ordered_env(void)
+{
+	pid_t	pid;
+	int		i;
+	
+	i = 0;
+	pid = fork();
+	if (pid == 0)
+	{
+		order_env();
+		add_commas_to_env();
+		while (g_shell->env[i])
+		{
+			printf("declare - x %s\n", g_shell->env[i]);
+			i++;
+		}
+		exit(0);
+	}
+	else
+		waitpid(pid, NULL, 0);
+}
+
 void ft_env(int mode)
 {
 	int i;
 
+	i = 0;
 	if (mode == 0)
 	{
-		i = 0;
-		while(g_shell->env[i])
+		while (g_shell->env[i])
 		{
 			printf("%s\n", g_shell->env[i]);
 			i++;
 		}
 	}
 	else
-	{
-		ft_orderenv();
-		i = 0;
-		while (g_shell->env[i])
-		{
-			printf("declare - x %s\n", g_shell->env[i]);
-			i++;
-		}
-	}
+		print_ordered_env();
 }

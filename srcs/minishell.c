@@ -4,12 +4,12 @@ int main(int argc, char *argv[], char *env[])
 {
 	t_shell		*shell;
 
-	if (argc != 1) // No lo había pensado, pero esto es bastante importante.
-		call_error(); 
+	if (argc != 1)
+		call_error();
 	shell = init_megastruct(argc, argv, env);
-	ft_signal_main(); //Función para señales (finalizado)
 	while (1)
    	{
+		ft_signal_main();
 		g_shell->rl = readline(MINISHELL);
 		if (!initial_parser())
 		{
@@ -24,9 +24,7 @@ int main(int argc, char *argv[], char *env[])
 		}
 		else
 			printf("$? = %i\n", shell->q_mark_err);
-		//system("leaks minishell");
 	}
 	rl_clear_history();
-	//system("leaks minishell");
 	return (0);
 }

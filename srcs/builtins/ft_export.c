@@ -66,7 +66,7 @@ void	ft_export(char **argv)
 
 	i = 0;
 	(void)argv;
-	//if (!argv[0])
+	if (!argv[1])
 		ft_env(1);
 	return ;
 	while(argv[i])

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 22:50:05 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/15 17:55:06 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,12 @@ void	open_to_input(t_nod *node, char *filename)
 		fd = open(filename, O_RDONLY);
 		if (fd == -1)
 			error_msg_relative_to_file(filename, &node->launch);
+		close(fd);
 	}
 	else
 	{
+		if (node->hdoc_name)
+			free(node->hdoc_name);
 		if (node->fdi != 0)
 			close(node->fdi);
 		node->fdi = open(filename, O_RDONLY);
@@ -165,9 +168,11 @@ void	other_io_redirections(void)
 	node = g_shell->p_lst;
 	while (i > 0)
 	{
-		redirection_checker(node);
 		if (node->launch == OK)
+		{
+			redirection_checker(node);
 			clean_hdoc_bar(node);
+		}
 		node = node->next;
 		i--;
 	}

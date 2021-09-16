@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:52:21 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 23:09:31 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/14 18:21:02 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	command_not_found_error(char *cmd)
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd("command not found\n", 2);
-	exit(0);
+	exit(127);
 }

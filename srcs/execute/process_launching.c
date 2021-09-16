@@ -19,6 +19,35 @@ char	**clone_environment(char **env)
 	return (out);
 }
 
+void	open_hdoc_fd(t_nod *node)
+{
+	char	*hdoc_path;
+
+	hdoc_path = NULL;
+	if (!node->hdoc_name)
+		return ;
+	else
+	{
+		hdoc_path = ft_strjoin(PATH_TO_TMP, node->hdoc_name);
+		node->fdi = open(hdoc_path, O_RDONLY);
+		free(hdoc_path);
+	}
+}
+
+void	close_all_fds(t_nod *node)
+{
+	if (node->fdi != 0)
+	{
+		close(node->fdi);
+		node->fdi = 0;
+	}
+	if (node->fdo != 1)
+	{
+		close(node->fdo);
+		node->fdo = 1;
+	}
+}
+
 /* Function that comes in VERY handy when working with pipes. It
  * duplicates the STDIN fildescriptor to some new_in, and does the
  * same for STDOUT, then proceeds to close these new_in/new_out fd's,
@@ -44,12 +73,17 @@ void	call_execve(t_nod *node)
 	char	*path;
 	char	**env;
 
+	dup_stdin_stdout_and_close(node->fdi, node->fdo);
 	path = find_exec_path(node->cmd[0]);
 	env = clone_environment(g_shell->env);
 	if (execve(path, node->cmd, env) == -1)
 		error_msg();
 }
 
+/*Here, fdi and fdo are auxiliar file descriptors we use
+ * so we dont lose them after redirecting input / ouput somewhere
+ * from the father process. The last call to sup stdin stdout and close
+ * is meant to reset stdin and stdout back to normal.*/
 void	truly_launch_from_father(t_nod *node)
 {
 	int		fdi;
@@ -67,18 +101,20 @@ void	launch_from_fork(t_nod *node)
 	int		stat;
 	pid_t	pid;
 
-	g_shell->status = ON_EXE;
 	pid = fork();
 	if (pid == 0)
-	{
-		dup_stdin_stdout_and_close(node->fdi, node->fdo);
 		call_execve(node);
-	}
 	else
 	{
+		g_shell->status = ON_EXE;
+		g_shell->pid = pid;
+		close_all_fds(node);
+		ft_signal_main();
 		waitpid(pid, &stat, 0);
+		g_shell->q_mark_err = stat / 256;
 	}
 }
+
 
 void	launch_builtins_from_father(t_nod *node)
 {
@@ -92,6 +128,7 @@ void	launch_builtins_from_father(t_nod *node)
 			printf("node->cmd[%i]: [%s]\n", i, node->cmd[i]);
 			i++;
 		}*/
+		open_hdoc_fd(node);
 		if (node->cmd[0])
 		{
 			if (ft_isbuiltin(node->cmd))
@@ -101,6 +138,16 @@ void	launch_builtins_from_father(t_nod *node)
 		}
 	}
 }
+
+/*void	launch_from_child(t_nod *node, int i)
+{
+	while (i > 0)
+	{
+		launch_process_
+		node = node->next;
+		i--;
+	}
+}*/
 
 void	launch_processes(void)
 {

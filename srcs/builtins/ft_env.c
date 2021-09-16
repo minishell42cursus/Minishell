@@ -28,6 +28,13 @@ static void	order_env(void)
 	}
 }
 
+/* All env entries have to be set from name=value to name="value". This is
+ * carrying out that. With the exception that if export has exported some variable 
+ * that has not been defined, it only pops out when you call export without arguments,
+ * with no value or equal sign. [export a] makes env not show a, but export
+ * withour arguments will show at the end "declare -x a". I mark these special entries
+ * with a \* at the start, so they can be identified and printed or not when
+ * necessary.*/
 void	create_propper_env_entry(char *name, char *value, int i)
 {
 	char	*aux1;
@@ -41,6 +48,8 @@ void	create_propper_env_entry(char *name, char *value, int i)
 		free(aux1);
 		free(aux2);
 	}
+	else
+		g_shell->env[i] = ft_strjoin("*", name);
 	free(name);
 	free(value);
 }
@@ -78,8 +87,14 @@ void	print_ordered_env(void)
 		add_commas_to_env();
 		while (g_shell->env[i])
 		{
-			printf("declare - x %s\n", g_shell->env[i]);
-			i++;
+			if (*g_shell->env[i++] != '*')
+				printf("declare - x %s\n", g_shell->env[i - 1]);
+		}
+		i = 0;
+		while (g_shell->env[i])
+		{
+			if (*g_shell->env[i++] == '*')
+				printf("declare -x %s\n", ++(g_shell->env[i - 1]));
 		}
 		exit(0);
 	}

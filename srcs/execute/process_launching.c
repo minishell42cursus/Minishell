@@ -111,7 +111,10 @@ void	launch_from_fork(t_nod *node)
 		close_all_fds(node);
 		ft_signal_main();
 		waitpid(pid, &stat, 0);
-		g_shell->q_mark_err = stat / 256;
+		if (g_shell->assign_error == OK)
+			g_shell->q_mark_err = stat / 256;
+		//printf("$? = %i\n", g_shell->q_mark_err);
+		g_shell->assign_error = OK;
 	}
 }
 

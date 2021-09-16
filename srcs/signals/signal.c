@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:53:29 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/15 21:56:21 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/16 10:19:19 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	ft_signal_kill(int sig)
 {
 	(void)sig;
 	kill(g_shell->pid, SIGKILL);
+	write(1, "\n", 1);
+	g_shell->q_mark_err = 1;
+	g_shell->assign_error = KO;
 }
 
 void	ft_signal_kill_bar(int sig)
@@ -32,6 +35,8 @@ void	ft_signal_kill_bar(int sig)
 	(void)sig;
 	kill(g_shell->pid, SIGKILL);
 	write(1, "Quit: 3\n", 8);
+	g_shell->q_mark_err = 131;
+	g_shell->assign_error = KO;
 }
 
 void	ft_signal_stop_all_process_launch(int sig)
@@ -48,11 +53,14 @@ void	ft_signal_stop_all_process_launch(int sig)
 		node = node->next;
 		i--;
 	}
+	g_shell->q_mark_err = 1;
+	g_shell->assign_error = KO;
 }
 
 void	ft_exit_child(int sig)
 {
 	(void)sig;
+	write(1, "\n", 1);
 	exit(0);
 }
 

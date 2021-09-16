@@ -92,6 +92,7 @@ typedef struct s_shell
 	int		q_mark_err;
 	t_var	*envar;
 	int		status;
+	int		assign_error;
 	pid_t	pid;
 }				t_shell;
 

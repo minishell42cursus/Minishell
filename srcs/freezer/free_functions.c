@@ -17,6 +17,7 @@ void	free_process_list(t_shell *shell)
 	t_nod	*aux;
 
 	g_shell->status = ON_READ;
+	g_shell->assign_error = OK;
 	node = shell->p_lst;
 	while (shell->n_proc > 0)
 	{

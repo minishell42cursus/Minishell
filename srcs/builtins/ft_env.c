@@ -28,6 +28,7 @@ static void	order_env(void)
 	}
 }
 
+/* ((When called from export with no arguments, ))*/
 /* All env entries have to be set from name=value to name="value". This is
  * carrying out that. With the exception that if export has exported some variable 
  * that has not been defined, it only pops out when you call export without arguments,

@@ -36,9 +36,9 @@ void    ft_isrun(char **args)
                 ft_env(0);
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "exit", 4))
                 ft_exit(args);
-        /*else if (ft_strlen(args[0]) == 2 && !ft_strncmp(args[0], "cd", 2))
-                ft_cd(args[1], g_shell->env);*/
-        /*else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "unset", 5))
-                ft_unset(args);*/
+        else if (ft_strlen(args[0]) == 2 && !ft_strncmp(args[0], "cd", 2))
+                ft_cd(args[1], g_shell->env);
+        else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "unset", 5))
+                ft_unset(args);
 }
 

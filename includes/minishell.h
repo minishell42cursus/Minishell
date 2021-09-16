@@ -126,6 +126,7 @@ void	error_msg(void);
 void	export_error(char *arg, char *name);
 void	cd_error(char *path);
 void	exit_error(char *arg, int type);
+void	unset_error(char *arg);
 
 // $? utils
 
@@ -153,7 +154,7 @@ void	ft_exit(char **args);
 void	ft_pwd(void);
 void	ft_cd(char *str, char **env);
 void	ft_export(char **argv);
-char	**ft_unset(char **env, char **av);
+void	ft_unset(char **av);
 int		len_name(char *str);
 char	**ad_arg(char **env, char *str);
 int		find_env(char **env, char *word);

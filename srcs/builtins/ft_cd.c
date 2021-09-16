@@ -1,5 +1,25 @@
 #include "minishell.h"
 
+int	find_env(char **env, char *word)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	while (env[x])
+	{
+		y = 0;
+		while (env[x][y] && (env[x][y] == word[y] || env[x][y] == 61))
+		{
+			if (env[x][y] == '=' && (word[y] == ' ' || !word[y]))
+				return (x);
+			y++;
+		}
+		x++;
+	}
+	return (-1);
+}
+
 char	*ft_strjoin2(char *s1, char *s2)
 {
 	char	*str1;

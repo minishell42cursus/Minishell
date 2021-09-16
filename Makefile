@@ -30,7 +30,6 @@ SRC_BLTIN	= 	ft_pwd \
 				ft_cd \
 				ft_export \
 				ft_unset \
-				ft_clear
 
 SRC_PARSE	=	comma_parser \
 				forbidden_stuff_parser \
@@ -52,7 +51,9 @@ SRC_EXEC	=	run_command \
 				process_launching
 
 SRC_ERR		=	stderr_outputs \
-				stderr_outputs_extra
+				stderr_outputs_extra \
+				q_mark_related \
+				builtin_errors
 
 SRC_FREE	=	free_functions
 

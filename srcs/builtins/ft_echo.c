@@ -13,21 +13,20 @@ void	ft_putstr_space(char *argv[])
 		ft_putstr_fd(" ", STDOUT_FILENO);
 }
 
-
 void	ft_echo(char *argv[])
 {
-        int             i;
-        bool    flag;
-
-        flag = 0;
-        i = 0;
+	int		i;
+	bool	flag;
+	
+	flag = 0;
+	i = 0;
 	if (!argv[1])
 	{
-                ft_putstr_fd("\n", STDOUT_FILENO);
+		print_and_update("\0", 0);
 		return ;
 	}
-        while (argv[++i] && !ft_strncmp(argv[i], "-n", 3))
-                flag = 1;
+	while (argv[++i] && !ft_strncmp(argv[i], "-n", ft_maxlen(argv[i], "-n")))
+		flag = 1;
 	while (argv[i])
 	{
 		ft_putstr_fd(argv[i++], STDOUT_FILENO);
@@ -35,4 +34,5 @@ void	ft_echo(char *argv[])
 	}
 	if (flag == 0)
 		ft_putstr_fd("\n", STDOUT_FILENO);
+	update_q_mark_variable(0);
 }

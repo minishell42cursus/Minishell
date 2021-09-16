@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:52:21 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/14 18:21:02 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/16 16:57:44 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	multiline_error(int *q_mark_err)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd("unclosed commas were found on command\n", 2);
 	*q_mark_err = 42;
+	update_q_mark_variable(42);
 }
 
 void	parse_error_near(char *str, int	*q_mark_err)
@@ -26,6 +27,7 @@ void	parse_error_near(char *str, int	*q_mark_err)
 	write(2, str, 1);
 	ft_putstr_fd("\'\n", 2);
 	*q_mark_err = 258;
+	update_q_mark_variable(258);
 }
 
 void	forbidden_char_found(char *str, int *q_mark_err)
@@ -35,6 +37,7 @@ void	forbidden_char_found(char *str, int *q_mark_err)
 	write(2, str, 1);
 	ft_putstr_fd("\'\n", 2);
 	*q_mark_err = 42;
+	update_q_mark_variable(42);
 }
 
 void	call_error(void)

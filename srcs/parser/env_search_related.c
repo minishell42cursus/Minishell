@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:17 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/15 22:59:24 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/16 15:54:12 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ char	*get_var_name(char *str)
 	char	*name;
 
 	len = 0;
-	if (ft_isvalid_env_start(str[len++]))
+	if (ft_isvalid_env_start(str[len++], KO))
 	{
 		while (ft_isvalid_env_core(str[len]))
 			len++;
 	}
 	else if (*str == '?')
-		return (ft_itoa(g_shell->q_mark_err));	
+		return (ft_strdup("?"));	
 	name = ft_substr(str, 0, len);
 	return (name);
 }

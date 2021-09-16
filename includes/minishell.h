@@ -15,6 +15,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "libft.h"
+# include <limits.h>
 
 # define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
 # define MINISHELL	"$🔥💀minihell💀🔥> "
@@ -48,6 +49,13 @@
 # define ON_READ		0
 # define ON_HDOC		1
 # define ON_EXE			2
+
+// Export macros
+
+# define NODEFINED		0
+# define DEFINITION		1
+# define REDEFINITION	2
+# define EXPORT_ERROR	3
 
 /*Process node structure*/
 typedef struct s_nod
@@ -102,6 +110,7 @@ t_shell	*g_shell;
 
 t_shell	*init_megastruct(int ac, char **av, char **env);
 t_nod	*create_pnode(char **aux, char **str, int *n_proc);
+t_var	*new_env_var(char *name, char *value);
 
 // errno_outputs
 
@@ -114,6 +123,14 @@ void	error_msg_relative_to_file(char *file, int *launch);
 void	call_error(void);
 void	ambiguous_redirect_error(char *name, int *launch);
 void	error_msg(void);
+void	export_error(char *arg, char *name);
+void	cd_error(char *path);
+void	exit_error(char *arg, int type);
+
+// $? utils
+
+void	update_q_mark_variable(int new_value);
+void	print_and_update(char *str, int new_value);
 
 // signals / signal
 
@@ -132,7 +149,7 @@ void	launch_processes(void);
 
 void	ft_echo(char *argv[]);
 void	ft_env(int mode);
-void	ft_exit(void);
+void	ft_exit(char **args);
 void	ft_pwd(void);
 void	ft_cd(char *str, char **env);
 void	ft_export(char **argv);
@@ -178,11 +195,12 @@ void	free_matrix(char **matrix);
 
 char	*get_var_name(char *str);
 char	*get_var_value(char *name);
-int		ft_isvalid_env_start(char a);
+int		ft_isvalid_env_start(char a, int consider_q_mark_err);
 int		ft_isvalid_env_core(char a);
 void	add_to_local_env(char *name, char *value);
 int		check_if_def(char *str);
 char	*check_env(char *name);
+void	overwrite_env_value(char *name, char *value);
 
 //Get next line utils:
 

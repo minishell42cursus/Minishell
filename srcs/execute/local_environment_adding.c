@@ -71,7 +71,7 @@ int	check_if_def(char *str)
 {
 	if (!str)
 		return (0);
-	if (ft_isvalid_env_start(*str))
+	if (ft_isvalid_env_start(*str, KO))
 	{
 		while (ft_isvalid_env_core(*str))
 			str++;

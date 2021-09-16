@@ -21,17 +21,17 @@ char	*check_pwd(char *str, char **env, int opwd, int home)
 		if (home != -1)
 			s = ft_strdup(env[home] + 5);
 		else
-			printf("minishell: %s: %s\n", "cd", "HOME not set");
+			print_and_update("minishell: cd: HOME not set", 1); 
 	}
 	else if (ft_strncmp(str, "-", 2) == 0)
 	{
 		if (opwd != -1)
 		{
 			s = ft_strdup(env[opwd] + 7);
-			printf("%s\n", env[opwd] + 7);
+			print_and_update(env[opwd] + 7, 0);
 		}
 		else
-			printf("minishell: %s: %s\n", "cd", "OLDPWD not set");
+			print_and_update("minishell: cd: OLDPWD not set", 1);
 	}
 	else
 		s = ft_strdup(str);
@@ -46,7 +46,6 @@ char	**cd_env(char **env, int i[2])
 	if (i[0] != -1)
 	{
 		pwd = ft_strjoin("OLD", env[i[0]]);
-		//env = ad_arg_exp(env, pwd);
 		tmp = getcwd(NULL, 0);
 		pwd = ft_strjoin("PWD=", tmp);
 		free(tmp);
@@ -64,8 +63,11 @@ void	ft_cd(char *str, char **env)
 	i[1] = find_env(env, "OLDPWD");
 	s = check_pwd(str, env, i[1], find_env(env, "HOME"));
 	if (chdir(s) == -1)
-		printf("minishell: cd: %s: %s\n", s, "No such file or directory");
+		cd_error(s);
 	else
-		cd_env(env, i);
+	{
+		env = cd_env(env, i);
+		update_q_mark_variable(0);
+	}
 	free(s);
 }

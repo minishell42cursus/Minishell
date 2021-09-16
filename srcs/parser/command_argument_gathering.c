@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/12 23:59:02 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/16 14:43:09 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	wait_for_next_comma(char **str, int *i, char comma)
 	{
 		if (comma == '\"')
 		{
-			if (**str == '$' && ft_isvalid_env_start(*(*str + 1)))
+			if (**str == '$' && ft_isvalid_env_start(*(*str + 1), OK))
 				(*i)--;
 		}
 		*str = *str + 1;
@@ -37,7 +37,7 @@ void	wait_for_next_comma_wo_counter(char **str, char comma)
 	{
 		if (comma == '\"')
 		{
-			if (**str == '$' && ft_isvalid_env_start(*(*str + 1)))
+			if (**str == '$' && ft_isvalid_env_start(*(*str + 1), OK))
 				**str = '&';
 		}
 		*str = *str + 1;
@@ -57,7 +57,7 @@ int		ft_strlen_wo_dollars(char *str)
 			wait_for_next_comma(&str, &i, '\"');
 		else if (*str == '\'')
 			wait_for_next_comma(&str, &i, '\'');
-		else if (*str =='$' && ft_isvalid_env_start(*(str + 1)))
+		else if (*str =='$' && ft_isvalid_env_start(*(str + 1), OK))
 			str++;
 		else
 		{
@@ -79,7 +79,7 @@ void	put_ampersands_on_envars(char **line)
 			wait_for_next_comma_wo_counter(&aux, '\'');
 		else if (*aux == '\"')
 			wait_for_next_comma_wo_counter(&aux, '\"');
-		else if (*aux == '$' && ft_isvalid_env_start(*(aux + 1)))
+		else if (*aux == '$' && ft_isvalid_env_start(*(aux + 1), OK))
 			*aux++ = '&';
 		else
 			aux++;

@@ -1,85 +1,94 @@
 #include "minishell.h"
 
-int	len_name(char *str)
+int	check_export_arg(char *arg)
 {
-	int i;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (!str[i])
-		return (-1);
-	return (i);
-}
-
-int 	check_in_env(char *str, char **env)
-{
-	int sz;
-	int i;
-
-	i = 0;
-	sz = len_name(str);
-	if (sz == -1)
-		return (-2);
-	while (env[i])
+	if (ft_isvalid_env_start(*arg, KO))
 	{
-		if (ft_memcmp(env[i], str, sz + 1) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-char	**ad_arg(char **env, char *str)
-{
-	char	**env2;
-	int	i;
-
-	i = check_in_env(str, env);
-	if (i == -2)
-		return (env);
-	if (i != -1)
-	{
-		free (env[i]);
-		env[i] = ft_strdup(str);
-		return (env);
+		while (ft_isvalid_env_core(*arg))
+			arg++;
+		if (*arg == '=' || !*arg)
+			return (1);
+		else
+			return (0);
 	}
 	else
+		return (0);
+}
+
+int	parse_argument(char *arg)
+{
+	char	*name;
+	char	*value;
+
+	if (check_export_arg(arg))
 	{
-		env2 = malloc(sizeof(char *) * tablen(env) + 2);
-		while(env[i])
+		name = get_var_name(arg);
+		if (!*(arg + ft_strlen(name)))
 		{
-			env2[i] = env[i];
-			i++;
+			free(name);
+			return (NODEFINED);
 		}
-		printf("%s\n", str);
-		env2[i] = ft_strdup(str);
-		env2[i + 1] = NULL;
-		free(env);
+		value = check_env(name);
+		free(name);
+		if (!value)
+			return (DEFINITION);
+		else
+		{
+			free(value);
+			return (REDEFINITION);
+		}
 	}
-	return (env2);
+	else
+		return (EXPORT_ERROR);
+}
+
+void	add_to_global_env(char *name, char *value)
+{
+	int		i;
+	char	*aux;
+	char	**new_env;
+
+	new_env = malloc(sizeof(char *) * ((int)ft_matrixlen(g_shell->env) + 2));
+	i = 0;
+	while (g_shell->env[i])
+	{
+		new_env[i] = ft_strdup(g_shell->env[i]);
+		i++;
+	}
+	aux = ft_strjoin(name, "=");
+	new_env[i++] = ft_strjoin(aux, value);
+	new_env[i] = NULL;
+	free(aux);
+	free_matrix(g_shell->env);
+	free(name);
+	free(value);
+	g_shell->env = new_env;
 }
 
 void	ft_export(char **argv)
 {
-	int i;
+	int		i;
+	int		arg_type;
+	char	*value;
+	char	*name;
 
-	i = 0;
-	(void)argv;
+	i = 1;
+	update_q_mark_variable(0);
 	if (!argv[1])
 		ft_env(1);
-	return ;
-	while(argv[i])
+	while (argv[i])
 	{
-		g_shell->env = ad_arg(g_shell->env, argv[i]);
-		i++;
+		arg_type = parse_argument(argv[i]);
+		name = get_var_name(argv[i++]);
+		if (arg_type != NODEFINED && arg_type != EXPORT_ERROR)
+			value = ft_strdup(argv[i - 1] + ft_strlen(name) + 1);
+		if (arg_type == DEFINITION)
+			add_to_global_env(name, value);
+		else if (arg_type == REDEFINITION)
+			overwrite_env_value(name, value);
+		else if (arg_type == NODEFINED)
+			add_to_global_env(name, ft_strdup("\\"));
+		else
+			export_error(argv[i - 1], name);
 	}
 }
-
-/*int main(int argc, char **argv, char **env)
-{
-	(void)argc;
-	ft_export(env, argv);
-	return (0);
-
-}*/

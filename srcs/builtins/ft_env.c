@@ -95,7 +95,7 @@ void	print_ordered_env(void)
 		while (g_shell->env[i])
 		{
 			if (*g_shell->env[i++] == '*')
-				printf("declare -x %s\n", ++(g_shell->env[i - 1]));
+				printf("declare - x %s\n", ++(g_shell->env[i - 1]));
 		}
 		exit(0);
 	}
@@ -105,14 +105,19 @@ void	print_ordered_env(void)
 
 void ft_env(int mode)
 {
-	int i;
+	int		i;
+	char	*name;
 
 	i = 0;
+	update_q_mark_variable(0);
 	if (mode == 0)
 	{
 		while (g_shell->env[i])
 		{
-			printf("%s\n", g_shell->env[i]);
+			name = get_var_name(g_shell->env[i]);
+			if (*(g_shell->env[i] + ft_strlen(name) + 1) != '\\')
+				printf("%s\n", g_shell->env[i]);
+			free(name);
 			i++;
 		}
 	}

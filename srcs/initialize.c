@@ -12,9 +12,12 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 	shell->fdi = dup(0);
 	shell->fdo = dup(1);
 	shell->q_mark_err = 0;
+	/*printf("g_shell->q_mark_err: %p\nshell->q_mark_err: %p\n", &g_shell->q_mark_err, &shell->q_mark_err);
+	g_shell->q_mark_err = 123;
+	printf("g_shell->q_mark_err: %i\nshell->q_mark_err: %i\n", g_shell->q_mark_err, shell->q_mark_err);*/
 	shell->n_proc = 0;
-	shell->envar = NULL;
+	shell->envar = new_env_var(ft_strdup("?"), ft_itoa(g_shell->q_mark_err));
 	shell->status = ON_READ;
 	shell->assign_error = OK;
-	return (shell);
+	return (g_shell);
 }

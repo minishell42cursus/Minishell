@@ -112,12 +112,11 @@ void	launch_from_fork(t_nod *node)
 		ft_signal_main();
 		waitpid(pid, &stat, 0);
 		if (g_shell->assign_error == OK)
-			g_shell->q_mark_err = stat / 256;
+			update_q_mark_variable(stat / 256);
 		//printf("$? = %i\n", g_shell->q_mark_err);
 		g_shell->assign_error = OK;
 	}
 }
-
 
 void	launch_builtins_from_father(t_nod *node)
 {

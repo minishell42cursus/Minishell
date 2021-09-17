@@ -75,23 +75,19 @@ NONE 		= \033[0m
 all: $(NAME) $(HDRS)
 
 $(NAME): $(OBJ_DIR) $(OBJS) $(HDRS)
-	@ar rc $@ $(OBJS)
-	@ranlib $@
-	@echo "\t[ $(GREEN)✔$(NONE) ] libft/libft.a library"
+	ar rc $@ $(OBJS)
 
 $(OBJ_DIR):
-	@mkdir $@
+	mkdir $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HDRS)
-	@$(CC) $(CFLAGS) $(HDR_INC) -c $< -o $@
+	$(CC) $(CFLAGS) $(HDR_INC) -c $< -o $@
 
 clean:
-	@rm -Rf $(OBJ_DIR)
-	@echo "\t[ $(RED)✗$(NONE) ] libft/$(OBJ_DIR) directory"
+	rm -Rf $(OBJ_DIR)
 
 fclean: clean
-	@rm -f $(NAME)
-	@echo "\t[ $(RED)✗$(NONE) ] libft/$(NAME) library"
+	rm -f $(NAME)
 
 re: fclean all
 

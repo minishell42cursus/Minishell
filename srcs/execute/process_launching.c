@@ -57,13 +57,19 @@ void	dup_stdin_stdout_and_close(int new_in, int new_out)
 	if (new_in != 0)
 	{
 		if (dup2(new_in, 0) == -1)
+		{
+			printf("dupeo de input\n");
 			error_msg();
+		}
 		close(new_in);
 	}
 	if (new_out != 1)
 	{
 		if (dup2(new_out, 1) == -1)
+		{
+			printf("dupeo de output\n");
 			error_msg();
+		}
 		close(new_out);
 	}
 }
@@ -72,10 +78,8 @@ void	call_execve(t_nod *node)
 {
 	char	*path;
 	char	**env;
-	char	*aux;
 
 	dup_stdin_stdout_and_close(node->fdi, node->fdo);
-	aux = node->cmd[0];
 	path = find_exec_path(node->cmd[0]);
 	env = clone_environment(g_shell->env);
 	if (execve(path, node->cmd, env) == -1)
@@ -94,25 +98,23 @@ void	truly_launch_from_father(t_nod *node)
 	fdi = dup(0);
 	fdo = dup(1);
 	dup_stdin_stdout_and_close(node->fdi, node->fdo);	
-	ft_isrun(node->cmd);
+	exec_builtin(node->cmd, FATHER);
 	dup_stdin_stdout_and_close(fdi, fdo);
 }
 
 void	launch_from_fork(t_nod *node)
 {
 	int		stat;
-	pid_t	pid;
 
-	pid = fork();
-	if (pid == 0)
+	g_shell->pid = fork();
+	if (g_shell->pid == 0)
 		call_execve(node);
 	else
 	{
 		g_shell->status = ON_EXE;
-		g_shell->pid = pid;
 		close_all_fds(node);
 		ft_signal_main();
-		waitpid(pid, &stat, 0);
+		waitpid(g_shell->pid, &stat, 0);
 		if (g_shell->assign_error == OK)
 			update_q_mark_variable(stat / 256);
 		g_shell->assign_error = OK;
@@ -121,16 +123,9 @@ void	launch_from_fork(t_nod *node)
 
 void	launch_builtins_from_father(t_nod *node)
 {
-	//int	i = 0;
-
 	if (node->launch == OK)
 	{
 		clear_envar_defs(&node->cmd);
-		/*while (node->cmd[i])
-		{
-			printf("node->cmd[%i]: [%s]\n", i, node->cmd[i]);
-			i++;
-		}*/
 		open_hdoc_fd(node);
 		if (node->cmd[0])
 		{
@@ -142,16 +137,6 @@ void	launch_builtins_from_father(t_nod *node)
 	}
 }
 
-/*void	launch_from_child(t_nod *node, int i)
-{
-	while (i > 0)
-	{
-		launch_process_
-		node = node->next;
-		i--;
-	}
-}*/
-
 void	launch_processes(void)
 {
 	int		i;
@@ -162,6 +147,5 @@ void	launch_processes(void)
 	if (i == 1)
 		launch_builtins_from_father(node);
 	else
-		;
-		//launch_from_childs(node, i);
+		launch_from_childs(node, i);
 }

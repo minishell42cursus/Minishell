@@ -70,6 +70,13 @@
 # define Q_MARK_KO		0
 # define Q_MARK_OK		1
 
+// exe macros
+
+# define IN				0
+# define OUT			1
+# define CHILD			0
+# define FATHER			1
+
 /*Process node structure*/
 typedef struct s_nod
 {
@@ -154,11 +161,16 @@ void	ft_signal_main(void);
 // execute / run_command
 
 int     ft_isbuiltin(char **args);
-void    ft_isrun(char **args);
+void    exec_builtin(char **args, int process_type);
 void	clear_envar_defs(char ***cmd);
 char	**clone_environment(char **env);
 char	*find_exec_path(char *cmd);
 void	launch_processes(void);
+void	launch_from_childs(t_nod *node, int i);
+void	open_hdoc_fd(t_nod *node);
+void	close_all_fds(t_nod *node);
+void	dup_stdin_stdout_and_close(int new_in, int new_out);
+void	call_execve(t_nod *node);
 
 // builtins
 
@@ -219,14 +231,5 @@ void	add_to_local_env(char *name, char *value);
 int		check_if_def(char *str);
 char	*check_env(char *name);
 void	overwrite_env_value(char *name, char *value);
-
-//Get next line utils:
-
-# define BUFFER_SIZE 100
-
-char	*ft_strjoin_n_free(char *s1, char *s2);
-int		get_next_line(int fd, char **line);
-int		tablen(char **tab);
-char	**tabdup(char **tab);
 
 #endif

@@ -16,16 +16,12 @@ int     ft_isbuiltin(char **args)
                 return (1);
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "exit", 4))
                 return (1);
-        else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "clear", 5))
-                return (1);
         else
                 return (0);
 }
 
-void    ft_isrun(char **args)
+void    exec_builtin(char **args, int process_type)
 {
-        if (!args)
-                return ;
         if (ft_strlen(args[0]) == 3 && !ft_strncmp(args[0], "pwd", 3))
                 ft_pwd();
         else if (ft_strlen(args[0]) == 4 && !ft_strncmp(args[0], "echo", 4))
@@ -40,5 +36,7 @@ void    ft_isrun(char **args)
                 ft_cd(args[1]);
         else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "unset", 5))
                 ft_unset(args);
+		if (process_type == CHILD)
+			exit(0);
 }
 

@@ -48,7 +48,8 @@ SRC_SIG		= 	signal
 SRC_EXEC	=	run_command \
 				path_finder \
 				local_environment_adding \
-				process_launching
+				process_launching \
+				several_process
 
 SRC_ERR		=	stderr_outputs \
 				stderr_outputs_extra \
@@ -82,43 +83,26 @@ RDL_MAC		= 	-L ~/.brew/opt/readline/lib -lreadline
 
 LIBFT_MAC	= 	-L libft/ -lft
 
-all:		check_libft project $(NAME)
-		@echo "Project ready"
+all:		$(NAME)
 
-check_libft:
-		@echo "Checking libft..."
-		@make -C $(dir $(LIBFT_DIR))
-
-project:
-		@echo "Checking project..."
-
-$(OBJSFD):
-		@mkdir $@
-		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
-
-$(OBJSFD)$(NAME): $(OBJSFD)
-		@mkdir $@
-		@echo "\t[ $(GREEN)✔$(NONE) ] $@ directory"
+$(LIBFT_DIR)$(LIBFT): $(LIBFT_DIR)
+			make -C $(dir $(LIBFT_DIR))
 
 %.o:		%.c
-			@$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
+			$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
 
-$(NAME):	$(OBJSFD)$(NAME) $(OBJS) $(LIBFT_DIR)$(LIBFT) 
-			@$(CC) $(INCLUDE) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -fsanitize=address -o $@
-			@echo "\t[ $(GREEN)✔$(NONE) ] $@ executable"
+$(NAME):	$(OBJS) $(LIBFT_DIR)$(LIBFT) 
+			$(CC) $(INCLUDE) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -fsanitize=address -o $@
 
 clean:
-			@$(RM) $(OBJS) $(OBJSFD) $(OBJS:.o=.d)
-			@echo "\t[ $(RED)✗$(NONE) ] $(OBJSFD) directory"
-			@make -C $(dir $(LIBFT_DIR)) clean
+			$(RM) $(OBJS)
+			make -C $(dir $(LIBFT_DIR)) clean
 
 fclean:		clean
-			@make -C $(dir $(LIBFT_DIR)) fclean
-			@echo "\t[ $(RED)✗$(NONE) ] $(NAME) executable"
-			@$(RM) $(NAME)
+			make -C $(dir $(LIBFT_DIR)) fclean
+			$(RM) $(NAME)
 
 re:			fclean all
 
 .PHONY:		all clean fclean re
 
--include	$(OBJS:.o=.d)

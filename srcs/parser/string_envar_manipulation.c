@@ -78,7 +78,6 @@ static void	expand_var_name(char **line, char **filename, int *len, int *launch)
 
 	var_name = get_var_name((*line + 1));
 	var_value = get_var_value(var_name, NOT_EXPORT);
-	//printf("var_name: [%s]\nvar_value: [%s]\n", var_name, var_value);
 	if (**line == '\\' && var_value)
 	{
 		aux = ft_strnstr(var_value, " ", ft_maxlen(var_value, " "));

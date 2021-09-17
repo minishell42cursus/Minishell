@@ -75,6 +75,7 @@ void	remove_from_all_env(char *name)
 		aux = ft_strjoin(g_shell->env[i], "=");
 		if (!ft_strncmp(aux, name, ft_strlen(name)))
 			remove_from_env(i);
+		i++;
 	}
 	delete_node(name);
 }

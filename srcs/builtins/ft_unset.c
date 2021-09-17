@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int	check_unset_arg(char *arg)
+static int	check_unset_arg(char *arg)
 {
-	if (ft_isvalid_env_start(*arg, KO))
+	if (ft_isvalid_env_start(*arg, Q_MARK_OK))
 	{
 		while (ft_isvalid_env_core(*arg))
 			arg++;
@@ -19,7 +19,7 @@ int	check_unset_arg(char *arg)
  * first value of the local_envar_list, BUT GUESS WHAT MY FIRST
  * VAR_NAME IS ? AND IT CANNOT BE EITHER EXPORTED OR UNSET
  * HAHA I WIN. So i didnt cover it. Should be fine.*/
-void	delete_node(char *name)
+static void	delete_node(char *name)
 {
 	t_var	*node;
 	t_var	*prev_node;
@@ -31,9 +31,7 @@ void	delete_node(char *name)
 		if (!ft_strncmp(node->name, name, ft_maxlen(node->name, name)))
 		{
 			prev_node->next = node->next;
-			free(node->name);
-			free(node->value);
-			free(node);
+			free_three_ptrs(node->name, node->value, node);
 			break ;
 		}
 		prev_node = node;
@@ -42,7 +40,7 @@ void	delete_node(char *name)
 	free(name);
 }
 
-void	remove_from_env(int	entry_to_remove)
+static void	remove_from_env(int	entry_to_remove)
 {
 	int		len;
 	char	**new_env;
@@ -64,7 +62,7 @@ void	remove_from_env(int	entry_to_remove)
 	g_shell->env = new_env;
 }
 
-void	remove_from_all_env(char *name)
+static void	remove_from_all_env(char *name)
 {
 	int		i;
 	char	*aux;
@@ -74,7 +72,10 @@ void	remove_from_all_env(char *name)
 	{
 		aux = ft_strjoin(g_shell->env[i], "=");
 		if (!ft_strncmp(aux, name, ft_strlen(name)))
+		{
 			remove_from_env(i);
+			break ;
+		}
 		i++;
 	}
 	delete_node(name);

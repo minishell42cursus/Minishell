@@ -2,7 +2,7 @@
 
 int	check_export_arg(char *arg)
 {
-	if (ft_isvalid_env_start(*arg, KO))
+	if (ft_isvalid_env_start(*arg, Q_MARK_KO))
 	{
 		while (ft_isvalid_env_core(*arg))
 			arg++;
@@ -26,7 +26,7 @@ int	parse_argument(char *arg)
 		if (!*(arg + ft_strlen(name)))
 		{
 			free(name);
-			return (NODEFINED);
+			return (NOTDEFINED);
 		}
 		value = check_env(name);
 		free(name);
@@ -42,7 +42,21 @@ int	parse_argument(char *arg)
 		return (EXPORT_ERROR);
 }
 
-void	add_to_global_env(char *name, char *value)
+void	check_for_local_value(char *name, char **prev_value)
+{
+	char	*local_value;
+
+	local_value = get_var_value(name, EXPORT_CALL);
+	if (*local_value != '\\')
+	{
+		free(*prev_value);
+		*prev_value = local_value;
+	}
+	else
+		free(local_value);
+}
+
+void	add_to_global_env(char *name, char *value, int stat)
 {
 	int		i;
 	char	*aux;
@@ -56,12 +70,11 @@ void	add_to_global_env(char *name, char *value)
 		i++;
 	}
 	aux = ft_strjoin(name, "=");
+	if (stat == NOTDEFINED)
+		check_for_local_value(name, &value);
 	new_env[i++] = ft_strjoin(aux, value);
 	new_env[i] = NULL;
-	free(aux);
-	free_matrix(g_shell->env);
-	free(name);
-	free(value);
+	free_four_ptrs(aux, name, value, g_shell->env);
 	g_shell->env = new_env;
 }
 
@@ -80,14 +93,14 @@ void	ft_export(char **argv)
 	{
 		arg_type = parse_argument(argv[i]);
 		name = get_var_name(argv[i++]);
-		if (arg_type != NODEFINED && arg_type != EXPORT_ERROR)
+		if (arg_type != NOTDEFINED && arg_type != EXPORT_ERROR)
 			value = ft_strdup(argv[i - 1] + ft_strlen(name) + 1);
 		if (arg_type == DEFINITION)
-			add_to_global_env(name, value);
+			add_to_global_env(name, value, DEFINITION);
 		else if (arg_type == REDEFINITION)
 			overwrite_env_value(name, value);
-		else if (arg_type == NODEFINED)
-			add_to_global_env(name, ft_strdup("\\"));
+		else if (arg_type == NOTDEFINED)
+			add_to_global_env(name, ft_strdup("\\"), NOTDEFINED);
 		else
 			export_error(argv[i - 1], name);
 	}

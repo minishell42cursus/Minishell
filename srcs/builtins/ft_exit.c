@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	check_if_isdigit(char *str)
+static int	check_if_isdigit(char *str)
 {
 	while ((*str >= 9 && *str <= 13) || *str == ' ')
 		str++;
@@ -20,7 +20,7 @@ int	check_if_isdigit(char *str)
 		return (1);
 }
 
-uint8_t	ft_ato_very_short_i(const char *str)
+static uint8_t	ft_ato_uint8(const char *str)
 {
 	int			sign;
 	long long	n;
@@ -64,7 +64,7 @@ void	ft_exit(char **args)
 	else
 	{
 		if (!args[2])
-			exit((int)ft_ato_very_short_i(args[1]));
+			exit((int)ft_ato_uint8(args[1]));
 		else
 			exit_error(args[1], 1);
 	}

@@ -89,13 +89,13 @@ void	print_ordered_env(void)
 		while (g_shell->env[i])
 		{
 			if (*g_shell->env[i++] != '*')
-				printf("declare - x %s\n", g_shell->env[i - 1]);
+				printf("declare -x %s\n", g_shell->env[i - 1]);
 		}
 		i = 0;
 		while (g_shell->env[i])
 		{
 			if (*g_shell->env[i++] == '*')
-				printf("declare - x %s\n", ++(g_shell->env[i - 1]));
+				printf("declare -x %s\n", ++(g_shell->env[i - 1]));
 		}
 		exit(0);
 	}

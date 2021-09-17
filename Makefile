@@ -55,7 +55,8 @@ SRC_ERR		=	stderr_outputs \
 				q_mark_related \
 				builtin_errors
 
-SRC_FREE	=	free_functions
+SRC_FREE	=	fundamental_frees \
+				sophisticated_frees
 
 SRCS		= 	$(addsuffix .c, $(addprefix $(MAIN_DIR),$(SRCS_FILES))) \
 				$(addsuffix .c, $(addprefix $(MAIN_DIR),$(addprefix $(SIG_DIR),$(SRC_SIG)))) \
@@ -73,13 +74,11 @@ INCLUDE		=	-I ./includes/ -I ./libft/includes -I ~/.brew/opt/readline/include
 
 CC		=	gcc
 
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g3 -fsanitize=address
 
 RM		=	rm -rf
 
-RDL		= 	-lreadline
-
-RDL_MAC		= 	-lreadline -L ~/.brew/opt/readline/lib
+RDL_MAC		= 	-L ~/.brew/opt/readline/lib -lreadline 
 
 LIBFT_MAC	= 	-L libft/ -lft
 

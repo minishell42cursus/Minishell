@@ -1,22 +1,22 @@
 #include "minishell.h"
 
-int	find_env(char **env, char *word)
+int	find_env(char *name)
 {
-	int		x;
-	int		y;
+	char	*aux;
+	int		i;
 
-	x = 0;
-	while (env[x])
+	i = 0;
+	aux = ft_strjoin(name, "=");
+	while (g_shell->env[i])
 	{
-		y = 0;
-		while (env[x][y] && (env[x][y] == word[y] || env[x][y] == 61))
+		if (!ft_strncmp(g_shell->env[i], aux, ft_strlen(aux)))
 		{
-			if (env[x][y] == '=' && (word[y] == ' ' || !word[y]))
-				return (x);
-			y++;
+			free(aux);
+			return (i);
 		}
-		x++;
+		i++;
 	}
+	free(aux);
 	return (-1);
 }
 
@@ -31,7 +31,7 @@ char	*ft_strjoin2(char *s1, char *s2)
 	return (str2);
 }
 
-char	*check_pwd(char *str, char **env, int opwd, int home)
+char	*check_pwd(char *str, int opwd, int home)
 {
 	char	*s;
 
@@ -39,16 +39,16 @@ char	*check_pwd(char *str, char **env, int opwd, int home)
 	if (!str)
 	{
 		if (home != -1)
-			s = ft_strdup(env[home] + 5);
+			s = ft_strdup(g_shell->env[home] + 5);
 		else
 			print_and_update("minishell: cd: HOME not set", 1); 
 	}
-	else if (ft_strncmp(str, "-", 2) == 0)
+	else if (!ft_strncmp(str, "-", ft_maxlen(str, "-")))
 	{
 		if (opwd != -1)
 		{
-			s = ft_strdup(env[opwd] + 7);
-			print_and_update(env[opwd] + 7, 0);
+			s = ft_strdup(g_shell->env[opwd] + 7);
+			print_and_update(g_shell->env[opwd] + 7, 0);
 		}
 		else
 			print_and_update("minishell: cd: OLDPWD not set", 1);
@@ -58,35 +58,46 @@ char	*check_pwd(char *str, char **env, int opwd, int home)
 	return (s);
 }
 
-char	**cd_env(char **env, int i[2])
+void	cd_env(int i[2])
 {
+	char	*new_oldpwd;
 	char	*pwd;
 	char	*tmp;
 
+	new_oldpwd = NULL;
+	pwd = NULL;
+	tmp = NULL;
 	if (i[0] != -1)
 	{
-		pwd = ft_strjoin("OLD", env[i[0]]);
+		new_oldpwd = ft_strjoin("OLD", g_shell->env[i[0]]);
 		tmp = getcwd(NULL, 0);
 		pwd = ft_strjoin("PWD=", tmp);
-		free(tmp);
-		env[i[0]] = pwd;
+		free_two_ptrs(tmp, g_shell->env[i[0]]);
+		g_shell->env[i[0]] = pwd;
+		if (i[1] == -1)
+			add_to_global_env(ft_strdup("OLDPWD"), new_oldpwd, DEFINITION);
+		else
+		{
+			free(g_shell->env[i[1]]);
+			g_shell->env[i[1]] = new_oldpwd;
+		}
 	}
-	return (env);
 }
 
-void	ft_cd(char *str, char **env)
+void	ft_cd(char *str)
 {
 	char	*s;
-	int	i[2];
+	int		i[2];
 
-	i[0] = find_env(env, "ENV");
-	i[1] = find_env(env, "OLDPWD");
-	s = check_pwd(str, env, i[1], find_env(env, "HOME"));
+	update_q_mark_variable(0);
+	i[0] = find_env("PWD");
+	i[1] = find_env("OLDPWD");
+	s = check_pwd(str, i[1], find_env("HOME"));
 	if (chdir(s) == -1)
 		cd_error(s);
 	else
 	{
-		env = cd_env(env, i);
+		cd_env(i);
 		update_q_mark_variable(0);
 	}
 	free(s);

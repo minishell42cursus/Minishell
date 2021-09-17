@@ -18,9 +18,15 @@
 # include <limits.h>
 
 # define BUILTINS	"echo:cd:pwd:export:unset:env:exit"
-# define MINISHELL	"$🔥💀minihell💀🔥> "
+# define PROMPT_START "🔥💀🔥"
+# define SKULL	"💀"
+# define FLAME	"🔥"
 # define PATH_TO_TMP	"/tmp/"
-
+# define CYAN_BOLD "\e[1;36m"
+# define GREEN_BOLD "\e[1;32m"
+# define MAG_BOLD "\e[1;35m"
+//# define CYAN "\033[0;36m"
+# define UNSET "\033[0m"
 
 // General macros
 
@@ -52,10 +58,17 @@
 
 // Export macros
 
-# define NODEFINED		0
+# define NOTDEFINED		0
 # define DEFINITION		1
 # define REDEFINITION	2
 # define EXPORT_ERROR	3
+# define EXPORT_CALL	1
+# define NOT_EXPORT		0
+
+// $? related macros
+
+# define Q_MARK_KO		0
+# define Q_MARK_OK		1
 
 /*Process node structure*/
 typedef struct s_nod
@@ -102,6 +115,7 @@ typedef struct s_shell
 	int		status;
 	int		assign_error;
 	pid_t	pid;
+	char	*pmt;
 }				t_shell;
 
 t_shell	*g_shell;
@@ -152,12 +166,12 @@ void	ft_echo(char *argv[]);
 void	ft_env(int mode);
 void	ft_exit(char **args);
 void	ft_pwd(void);
-void	ft_cd(char *str, char **env);
+void	ft_cd(char *str);
 void	ft_export(char **argv);
 void	ft_unset(char **av);
 int		len_name(char *str);
-char	**ad_arg(char **env, char *str);
-int		find_env(char **env, char *word);
+int		find_env(char *word);
+void	add_to_global_env(char *name, char *value, int stat);
 
 // error control parser fts
 
@@ -191,11 +205,14 @@ int		string_length_bash(char *str, int envar);
 void	free_process_list(t_shell *shell);
 void	free_command(t_shell *shell);
 void	free_matrix(char **matrix);
+void	free_two_ptrs(void *s1, void *s2);
+void	free_three_ptrs(void *s1, void *s2, void *s3);
+void	free_four_ptrs(void *s1, void *s2, void *s3, void *s4);
 
 // env search related functions
 
 char	*get_var_name(char *str);
-char	*get_var_value(char *name);
+char	*get_var_value(char *name, int call_stat);
 int		ft_isvalid_env_start(char a, int consider_q_mark_err);
 int		ft_isvalid_env_core(char a);
 void	add_to_local_env(char *name, char *value);

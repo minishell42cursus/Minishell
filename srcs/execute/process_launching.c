@@ -72,8 +72,10 @@ void	call_execve(t_nod *node)
 {
 	char	*path;
 	char	**env;
+	char	*aux;
 
 	dup_stdin_stdout_and_close(node->fdi, node->fdo);
+	aux = node->cmd[0];
 	path = find_exec_path(node->cmd[0]);
 	env = clone_environment(g_shell->env);
 	if (execve(path, node->cmd, env) == -1)
@@ -113,7 +115,6 @@ void	launch_from_fork(t_nod *node)
 		waitpid(pid, &stat, 0);
 		if (g_shell->assign_error == OK)
 			update_q_mark_variable(stat / 256);
-		//printf("$? = %i\n", g_shell->q_mark_err);
 		g_shell->assign_error = OK;
 	}
 }

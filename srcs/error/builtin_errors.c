@@ -14,10 +14,13 @@ void	export_error(char *arg, char *name)
 
 void	cd_error(char *path)
 {
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(path, 2);
-	ft_putstr_fd(" No such file or directory\n", 2);
-	update_q_mark_variable(1);
+	if (g_shell->q_mark_err == 0)
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(" No such file or directory\n", 2);
+		update_q_mark_variable(1);
+	}
 }
 
 void	exit_error(char *arg, int type)
@@ -30,7 +33,7 @@ void	exit_error(char *arg, int type)
 	}
 	else
 	{
-		ft_putstr_fd("minishell: too many arguments\n", 2);
+		ft_putstr_fd("too many arguments\n", 2);
 		update_q_mark_variable(1);
 	}
 }

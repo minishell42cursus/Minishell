@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:17 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/16 15:54:12 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/17 13:33:22 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*check_env(char *name)
 	return (value);
 }
 
-static char	*check_local_env(char *name)
+char	*check_local_env(char *name, int call_stat)
 {
 	t_var	*var;
 
@@ -49,7 +49,10 @@ static char	*check_local_env(char *name)
 			return (ft_strdup(var->value));
 		var = var->next;
 	}
-	return (ft_strdup(""));
+	if (call_stat == EXPORT_CALL)
+		return (ft_strdup("\\"));
+	else
+		return (ft_strdup(""));
 }
 
 /*Theres an adjustment so if an apparent environment variable
@@ -62,23 +65,23 @@ char	*get_var_name(char *str)
 	char	*name;
 
 	len = 0;
-	if (ft_isvalid_env_start(str[len++], KO))
+	if (ft_isvalid_env_start(str[len++], Q_MARK_KO))
 	{
 		while (ft_isvalid_env_core(str[len]))
 			len++;
 	}
 	else if (*str == '?')
-		return (ft_strdup("?"));	
+		return (ft_strdup("?"));
 	name = ft_substr(str, 0, len);
 	return (name);
 }
 
-char	*get_var_value(char *name)
+char	*get_var_value(char *name, int call_stat)
 {
 	char	*value;
 
 	value = check_env(name);
 	if (!value)
-		value = check_local_env(name);
+		value = check_local_env(name, call_stat);
 	return (value);
 }

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:12 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/16 14:11:14 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/17 13:34:08 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_isvalid_env_start(char a, int consider_q_mark)
 	int	ret;
 
 	ret = 0;
-	if (consider_q_mark == OK)
+	if (consider_q_mark == Q_MARK_OK)
 	{
 		if ((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z')
 			|| a == '_' || a == '?')
@@ -29,7 +29,6 @@ int	ft_isvalid_env_start(char a, int consider_q_mark)
 			|| a == '_')
 			ret = 1;
 	}
-
 	return (ret);
 }
 
@@ -52,7 +51,7 @@ void	edit_string(char **str, int *i, int envar)
 		{
 			if (**str == '$' && envar == OK)
 			{
-				if (ft_isvalid_env_start(*(*str + 1), OK))
+				if (ft_isvalid_env_start(*(*str + 1), Q_MARK_OK))
 				{
 					**str = '&';
 					(*i)--;
@@ -92,7 +91,7 @@ int	string_length_bash(char *str, int envar)
 	{
 		if (*str == '$' && envar == OK)
 		{
-			if (ft_isvalid_env_start(*str + 1, OK))
+			if (ft_isvalid_env_start(*str + 1, Q_MARK_OK))
 				*str++ = '\\';
 		}
 		if (*str == '\"' || *str == '\'')

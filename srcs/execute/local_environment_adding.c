@@ -71,7 +71,7 @@ int	check_if_def(char *str)
 {
 	if (!str)
 		return (0);
-	if (ft_isvalid_env_start(*str, KO))
+	if (ft_isvalid_env_start(*str, Q_MARK_KO))
 	{
 		while (ft_isvalid_env_core(*str))
 			str++;
@@ -96,9 +96,7 @@ void	overwrite_env_value(char *name, char *value)
 	}
 	free(g_shell->env[i]);
 	g_shell->env[i] = ft_strjoin(aux, value);
-	free(name);
-	free(value);
-	free(aux);
+	free_three_ptrs(name, value, aux);
 }
 
 void	add_to_env(char *name, char *value)

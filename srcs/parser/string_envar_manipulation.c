@@ -9,7 +9,7 @@ static char	*modify_length(char *str, int *len, int *i)
 	int		length_wo_expansion;
 
 	var_name = get_var_name(str);
-	var_value = get_var_value(var_name);
+	var_value = get_var_value(var_name, NOT_EXPORT);
 	length_wo_expansion = ft_strlen(var_name);
 	free(var_name);
 	if (!*var_value)
@@ -77,7 +77,7 @@ static void	expand_var_name(char **line, char **filename, int *len, int *launch)
 	char	*aux;
 
 	var_name = get_var_name((*line + 1));
-	var_value = get_var_value(var_name);
+	var_value = get_var_value(var_name, NOT_EXPORT);
 	if (**line == '\\' && var_value)
 	{
 		aux = ft_strnstr(var_value, " ", ft_maxlen(var_value, " "));

@@ -13,6 +13,21 @@ void	ft_putstr_space(char *argv[])
 		ft_putstr_fd(" ", STDOUT_FILENO);
 }
 
+/* The value for a variable only visible thourgh export with no
+ * arguments (declare -x name_of_variable) is a '\\'. Luckily,
+ * no extern '\\' can be found in this shell except for the ones
+ * I manually put, so I can just skip them when printing a string
+ * and everyones happy. You didnt see anthing. */
+void	ft_putstr_fd_without_esc_bar(char *str, int fd)
+{
+	while (*str)
+	{
+		if (*str != '\\')
+			write(fd, str, 1);
+		str++;
+	}
+}
+
 void	ft_echo(char *argv[])
 {
 	int		i;
@@ -29,7 +44,7 @@ void	ft_echo(char *argv[])
 		flag = 1;
 	while (argv[i])
 	{
-		ft_putstr_fd(argv[i++], STDOUT_FILENO);
+		ft_putstr_fd_without_esc_bar(argv[i++], STDOUT_FILENO);
 		ft_putstr_space(argv);
 	}
 	if (flag == 0)

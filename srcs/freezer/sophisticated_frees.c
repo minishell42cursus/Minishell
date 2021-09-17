@@ -1,16 +1,5 @@
 #include "minishell.h"
 
-void	free_matrix(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	while (matrix[i])
-		free(matrix[i++]);
-	free(matrix[i]);
-	free(matrix);
-}
-
 void	free_process_list(t_shell *shell)
 {
 	t_nod	*node;
@@ -23,8 +12,7 @@ void	free_process_list(t_shell *shell)
 	{
 		aux = node;
 		node = node->next;
-		free(aux->line);
-		free(aux);
+		free_two_ptrs(aux->line, aux);
 		shell->n_proc--;
 	}
 }

@@ -2,7 +2,7 @@
 
 static int	check_unset_arg(char *arg)
 {
-	if (ft_isvalid_env_start(*arg, Q_MARK_OK))
+	if (ft_isvalid_env_start(*arg, Q_MARK_KO))
 	{
 		while (ft_isvalid_env_core(*arg))
 			arg++;
@@ -70,8 +70,8 @@ static void	remove_from_all_env(char *name)
 	i = 0;
 	while (g_shell->env[i])
 	{
-		aux = ft_strjoin(g_shell->env[i], "=");
-		if (!ft_strncmp(aux, name, ft_strlen(name)))
+		aux = ft_strjoin(name, "=");
+		if (!ft_strncmp(aux, g_shell->env[i], ft_strlen(aux)))
 		{
 			remove_from_env(i);
 			break ;
@@ -88,7 +88,7 @@ void	ft_unset(char **av)
 
 	i = 1;
 	update_q_mark_variable(0);
-	while(av[i])
+	while (av[i])
 	{
 		show_error = check_unset_arg(av[i]);
 		if (!show_error)

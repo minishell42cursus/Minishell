@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:17 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/17 13:33:22 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:36:39 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ char	*check_local_env(char *name, int call_stat)
 	while (var)
 	{
 		if (!ft_strncmp(var->name, name, ft_maxlen(var->name, name)))
-			return (ft_strdup(var->value));
+		{
+			if (*var->value != '\\')
+				return (ft_strdup(var->value));
+		}
 		var = var->next;
 	}
 	if (call_stat == EXPORT_CALL)

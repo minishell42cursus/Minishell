@@ -11,12 +11,12 @@ static void	order_env(void)
 	while (g_shell->env[k])
 		k++;
 	i = 0;
-	while (i < k - 1)
+	while (i <= k - 1)
 	{
 		j = i + 1;
-		while (j < k - 1)
+		while (j <= k - 1)
 		{
-			if (strcmp(g_shell->env[i], g_shell->env[j]) > 0)
+			if (ft_strcmp(g_shell->env[i], g_shell->env[j]) > 0)
 			{
 				aux = g_shell->env[j];
 				g_shell->env[j] = g_shell->env[i];
@@ -41,18 +41,17 @@ void	create_propper_env_entry(char *name, char *value, int i)
 	char	*aux1;
 	char	*aux2;
 
+	free(g_shell->env[i]);
 	if (*value != '\\')
 	{
 		aux1 = ft_strjoin(name, "=\"");
 		aux2 = ft_strjoin(aux1, value);
 		g_shell->env[i] = ft_strjoin(aux2, "\"");
-		free(aux1);
-		free(aux2);
+		free_two_ptrs(aux1, aux2);
 	}
 	else
 		g_shell->env[i] = ft_strjoin("*", name);
-	free(name);
-	free(value);
+	free_two_ptrs(name, value);
 }
 
 void	add_commas_to_env(void)
@@ -88,14 +87,11 @@ void	print_ordered_env(void)
 		add_commas_to_env();
 		while (g_shell->env[i])
 		{
-			if (*g_shell->env[i++] != '*')
-				printf("declare -x %s\n", g_shell->env[i - 1]);
-		}
-		i = 0;
-		while (g_shell->env[i])
-		{
-			if (*g_shell->env[i++] == '*')
-				printf("declare -x %s\n", ++(g_shell->env[i - 1]));
+			if (*g_shell->env[i] != '*')
+				printf("declare -x %s\n", g_shell->env[i]);
+			else
+				printf("declare -x %s\n", (++(g_shell->env[i])));
+			i++;
 		}
 		exit(0);
 	}

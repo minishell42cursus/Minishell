@@ -41,7 +41,7 @@ void	exit_error(char *arg, int type)
 void	unset_error(char *arg)
 {
 	ft_putstr_fd("minishell :", 2);
-	ft_putstr_fd("unset: ", 2);
+	ft_putstr_fd(" unset: ", 2);
 	ft_putstr_fd("`", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd("`': not a valid identifier\n", 2);

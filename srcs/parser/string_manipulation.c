@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:12 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/17 13:34:08 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:41:23 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	string_length_bash(char *str, int envar)
 	{
 		if (*str == '$' && envar == OK)
 		{
-			if (ft_isvalid_env_start(*str + 1, Q_MARK_OK))
+			if (ft_isvalid_env_start(*(str + 1), Q_MARK_OK))
 				*str++ = '\\';
 		}
 		if (*str == '\"' || *str == '\'')

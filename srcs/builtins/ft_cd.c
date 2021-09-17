@@ -20,17 +20,6 @@ int	find_env(char *name)
 	return (-1);
 }
 
-char	*ft_strjoin2(char *s1, char *s2)
-{
-	char	*str1;
-	char	*str2;
-
-	str1 = ft_strjoin(s1, "/");
-	str2 = ft_strjoin(str1, s2);
-	free(str1);
-	return (str2);
-}
-
 char	*check_pwd(char *str, int opwd, int home)
 {
 	char	*s;
@@ -58,6 +47,15 @@ char	*check_pwd(char *str, int opwd, int home)
 	return (s);
 }
 
+void	reconstruct_pwd(void)
+{
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	add_to_global_env(ft_strdup("PWD"), pwd, DEFINITION);
+}
+
+
 void	cd_env(int i[2])
 {
 	char	*new_oldpwd;
@@ -69,7 +67,7 @@ void	cd_env(int i[2])
 	tmp = NULL;
 	if (i[0] != -1)
 	{
-		new_oldpwd = ft_strjoin("OLD", g_shell->env[i[0]]);
+		new_oldpwd = ft_strdup(g_shell->env[i[0]] + 4);
 		tmp = getcwd(NULL, 0);
 		pwd = ft_strjoin("PWD=", tmp);
 		free_two_ptrs(tmp, g_shell->env[i[0]]);
@@ -79,9 +77,11 @@ void	cd_env(int i[2])
 		else
 		{
 			free(g_shell->env[i[1]]);
-			g_shell->env[i[1]] = new_oldpwd;
+			g_shell->env[i[1]] = ft_strjoin("OLDPWD=", new_oldpwd);
 		}
 	}
+	else
+		reconstruct_pwd();
 }
 
 void	ft_cd(char *str)

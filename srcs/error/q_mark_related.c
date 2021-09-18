@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	update_q_mark_variable(int new_value)
+void	update_q_mark_variable(uint8_t new_value)
 {
 	g_shell->q_mark_err = new_value;
 	add_to_local_env(ft_strdup("?"), ft_itoa(new_value));

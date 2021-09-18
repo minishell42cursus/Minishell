@@ -6,37 +6,19 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:53:29 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/17 19:10:02 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/18 18:17:29 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_signal_cltr_c(int sig)
+void	ft_signal_ctrl_c(int sig)
 {
 	(void)sig;
 	write(2, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	ft_signal_kill(int sig)
-{
-	(void)sig;
-	kill(g_shell->pid, SIGKILL);
-	write(1, "\n", 1);
-	update_q_mark_variable(1);
-	g_shell->assign_error = KO;
-}
-
-void	ft_signal_kill_bar(int sig)
-{
-	(void)sig;
-	kill(g_shell->pid, SIGKILL);
-	write(1, "Quit: 3\n", 8);
-	update_q_mark_variable(131);
-	g_shell->assign_error = KO;
 }
 
 void	ft_signal_stop_all_process_launch(int sig)
@@ -53,15 +35,23 @@ void	ft_signal_stop_all_process_launch(int sig)
 		node = node->next;
 		i--;
 	}
+	write(2, "\n", 1);
 	update_q_mark_variable(1);
-	g_shell->assign_error = KO;
 }
 
-void	ft_exit_child(int sig)
+void	ft_signal_ctrl_d_process(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
-	exit(0);
+	write(2, "\n", 1);
+}
+
+void	ft_send_ctrl_c_to_child(int sig)
+{
+	(void)sig;
+	kill(g_shell->pid, SIGINT);
+	write(1, "Quit: 3\n", 8);
+	g_shell->assign_error = KO;
+	update_q_mark_variable(131);
 }
 
 /*Fucntion that handles signals, on the three possible cases I can 
@@ -72,27 +62,29 @@ void	ft_exit_child(int sig)
  * being executed.*/ 
 void	ft_signal_main(void)
 {
-	int	stat;
-
-	if (g_shell->status == ON_READ)
+	if (g_shell->pid != 0)
 	{
-		signal(SIGTERM, SIG_IGN);
-		signal(SIGINT, ft_signal_cltr_c);
-		signal(SIGQUIT, SIG_IGN);
+		write(2, "\n", 1);
+		fprintf(stderr, "g_shell->pid: %i\ng_shell->status: %i\n", g_shell->pid, g_shell->status);
+		write(2, "\n", 1);
 	}
+	signal(SIGTERM, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_DFL);
+	if (g_shell->status == ON_READ)
+		signal(SIGINT, ft_signal_ctrl_c);
 	else if (g_shell->status == ON_HDOC)
 	{
 		if (g_shell->pid != 0)
 			signal(SIGINT, ft_signal_stop_all_process_launch);
-		else
-			signal(SIGINT, ft_exit_child);
-		signal(SIGTERM, SIG_IGN);
-		waitpid(g_shell->pid, &stat, 0);
+		waitpid(g_shell->pid, NULL, 0);
 	}
 	else
 	{
-		signal(SIGTERM, SIG_IGN);
-		signal(SIGINT, ft_signal_kill);
-		signal(SIGQUIT, ft_signal_kill_bar);
+		if (g_shell->pid != 0)
+		{
+			signal(SIGINT, ft_signal_ctrl_d_process);
+			signal(SIGQUIT, ft_send_ctrl_c_to_child);
+		}
 	}
 }

@@ -79,6 +79,7 @@ void	call_execve(t_nod *node)
 	char	*path;
 	char	**env;
 
+	ft_signal_main();
 	dup_stdin_stdout_and_close(node->fdi, node->fdo);
 	path = find_exec_path(node->cmd[0]);
 	env = clone_environment(g_shell->env);
@@ -97,27 +98,24 @@ void	truly_launch_from_father(t_nod *node)
 
 	fdi = dup(0);
 	fdo = dup(1);
-	dup_stdin_stdout_and_close(node->fdi, node->fdo);	
+	dup_stdin_stdout_and_close(node->fdi, node->fdo);
 	exec_builtin(node->cmd, FATHER);
 	dup_stdin_stdout_and_close(fdi, fdo);
 }
 
 void	launch_from_fork(t_nod *node)
 {
-	int		stat;
-
+	g_shell->status = ON_EXE;
 	g_shell->pid = fork();
 	if (g_shell->pid == 0)
 		call_execve(node);
 	else
 	{
-		g_shell->status = ON_EXE;
-		close_all_fds(node);
 		ft_signal_main();
-		waitpid(g_shell->pid, &stat, 0);
-		if (g_shell->assign_error == OK)
-			update_q_mark_variable(stat / 256);
+		close_all_fds(node);
+		wait_and_get_q_mark();
 		g_shell->assign_error = OK;
+		g_shell->status = ON_READ;
 	}
 }
 
@@ -142,6 +140,7 @@ void	launch_processes(void)
 	int		i;
 	t_nod	*node;
 
+	g_shell->status = ON_EXE;
 	i = g_shell->n_proc;
 	node = g_shell->p_lst;
 	if (i == 1)

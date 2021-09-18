@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:59:57 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/17 18:00:35 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/18 17:03:51 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static char	*construct_prompt(void)
 	aux = ft_strjoin(PROMPT_START, cwd); 
 	aux2 = ft_strjoin(BLUE_BOLD, aux);
 	free_two_ptrs(aux, cwd);
-	aux = ft_strjoin(aux2, GREEN_BOLD);
+	if (g_shell->q_mark_err == 0)
+		aux = ft_strjoin(aux2, GREEN_BOLD);
+	else
+		aux = ft_strjoin(aux2, RED_BOLD);
 	free(aux2);
 	aux2 = ft_strjoin(aux, " > ");
 	pmt = ft_strjoin(aux2, UNSET);

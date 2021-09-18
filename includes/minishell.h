@@ -25,6 +25,7 @@
 # define BLUE_BOLD "\e[1;34m"
 # define GREEN_BOLD "\e[1;32m"
 # define MAG_BOLD "\e[1;35m"
+# define RED_BOLD "\e[1;31m"
 //# define CYAN "\033[0;36m"
 # define UNSET "\033[0m"
 
@@ -151,7 +152,7 @@ void	unset_error(char *arg);
 
 // $? utils
 
-void	update_q_mark_variable(int new_value);
+void	update_q_mark_variable(uint8_t new_value);
 void	print_and_update(char *str, int new_value);
 
 // signals / signal
@@ -171,6 +172,7 @@ void	open_hdoc_fd(t_nod *node);
 void	close_all_fds(t_nod *node);
 void	dup_stdin_stdout_and_close(int new_in, int new_out);
 void	call_execve(t_nod *node);
+void	wait_and_get_q_mark(void);
 
 // builtins
 

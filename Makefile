@@ -75,7 +75,7 @@ INCLUDE		=	-I ./includes/ -I ./libft/includes -I ~/.brew/opt/readline/include
 
 CC		=	gcc
 
-CFLAGS		=	-Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 
 RM		=	rm -rf
 
@@ -92,7 +92,7 @@ $(LIBFT_DIR)$(LIBFT): $(LIBFT_DIR)
 			$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
 
 $(NAME):	$(OBJS) $(LIBFT_DIR)$(LIBFT) 
-			$(CC) $(INCLUDE) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -fsanitize=address -o $@
+			$(CC) $(INCLUDE) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -o $@ #-fsanitize=address
 
 clean:
 			$(RM) $(OBJS)

@@ -152,7 +152,7 @@ void	unset_error(char *arg);
 
 // $? utils
 
-void	update_q_mark_variable(uint8_t new_value);
+void	update_q_mark_variable(int new_value);
 void	print_and_update(char *str, int new_value);
 
 // signals / signal

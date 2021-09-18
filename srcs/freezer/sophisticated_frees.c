@@ -8,9 +8,10 @@ void	free_process_list(t_shell *shell)
 	node = shell->p_lst;
 	while (shell->n_proc > 0)
 	{
+		free_matrix(node->cmd);
 		aux = node;
 		node = node->next;
-		free_two_ptrs(aux->line, aux);
+		free_three_ptrs(aux->line_save, aux->line_aux_save, aux);
 		shell->n_proc--;
 	}
 }

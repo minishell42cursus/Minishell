@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:42 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/16 16:51:08 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/18 20:54:53 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	initial_parser(void)
 		aux++;
 	}
 	g_shell->parse_rl = ft_strdup(g_shell->rl);
+	free(g_shell->rl);
 	g_shell->rl_tofree = g_shell->parse_rl;
 	if (comma_parser(&g_shell->parse_rl, &g_shell->q_mark_err)
 		|| redirection_pipe_parser(&g_shell->parse_rl, &g_shell->q_mark_err))

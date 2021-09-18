@@ -61,11 +61,8 @@ void	launch_from_childs(t_nod *node, int i)
 			{
 				clear_envar_defs(&node->cmd);
 				open_hdoc_fd(node);
-				//printf("proceso numero %i:\n", node->p_nbr);
 				if (node->p_nbr != 1)
 					subst_fd_for_pipe(&node->fdi, old_pip[0], IN);
-				//printf("number of process: %i\n", node->p_nbr);
-				//printf("number of processes: %i\n", g_shell->n_proc);
 				if (node->p_nbr != g_shell->n_proc)
 					subst_fd_for_pipe(&node->fdo, new_pip[1], OUT);
 				else
@@ -96,12 +93,14 @@ void	launch_from_childs(t_nod *node, int i)
 				close(new_pip[0]);
 			}
 			else
+			{
+				signal(SIGCHLD, SIG_IGN);
 				old_pip = copy_new_pipe_into_old(new_pip);
+			}
 			close_all_fds(node);
 		}
 		node = node->next;
 		i--;
 	}
-	//write(2, "\n\nI came out of the buclesito\n\n", ft_strlen("\n\nI came out of the busclesito\n\n"));
 	g_shell->status = ON_READ;
 }

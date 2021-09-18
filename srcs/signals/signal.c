@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:53:29 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/18 18:17:29 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/18 19:48:00 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,6 @@ void	ft_send_ctrl_c_to_child(int sig)
  * being executed.*/ 
 void	ft_signal_main(void)
 {
-	if (g_shell->pid != 0)
-	{
-		write(2, "\n", 1);
-		fprintf(stderr, "g_shell->pid: %i\ng_shell->status: %i\n", g_shell->pid, g_shell->status);
-		write(2, "\n", 1);
-	}
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_DFL);

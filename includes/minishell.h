@@ -199,7 +199,6 @@ void	process_command_parsing(void);
 void	heredoc_piece(void);
 char	*hdoc_filename(int reset);
 char	*eof_gatherer(char **line, int *n_hdoc);
-void	unlink_all_heredocs(t_shell *shell);
 void	other_io_redirections(void);
 
 // command argument gathering related
@@ -216,12 +215,12 @@ int		string_length_bash(char *str, int envar);
 
 // free  functions
 
-void	free_process_list(t_shell *shell);
-void	free_command(t_shell *shell);
+void	free_process_list(void);
 void	free_matrix(char **matrix);
 void	free_two_ptrs(void *s1, void *s2);
 void	free_three_ptrs(void *s1, void *s2, void *s3);
 void	free_four_ptrs(void *s1, void *s2, void *s3, void *s4);
+void	unlink_all_heredocs(void);
 
 // env search related functions
 

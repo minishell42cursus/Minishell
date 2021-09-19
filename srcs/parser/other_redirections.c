@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/17 18:41:20 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 22:46:07 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void	clean_hdoc_bar(t_nod *node)
 	}
 	node->line = node->line_save;
 	free(node->line_aux_save);
+	node->line_aux_save = NULL;
 }
 
 void	other_io_redirections(void)
@@ -165,6 +166,7 @@ void	other_io_redirections(void)
 	t_nod	*node;
 
 	i = g_shell->n_proc;
+	//printf("number of processes: %i\n", i);
 	node = g_shell->p_lst;
 	while (i > 0)
 	{

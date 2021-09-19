@@ -142,6 +142,7 @@ void	launch_processes(void)
 	g_shell->status = ON_EXE;
 	i = g_shell->n_proc;
 	node = g_shell->p_lst;
+	//printf("processes: %i\n", i);
 	if (i == 1)
 		launch_builtins_from_father(node);
 	else

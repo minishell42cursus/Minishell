@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/18 20:08:24 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 22:19:51 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	expand_vars_outside_strings(t_nod *node)
 	free(node->line_save);
 	node->line_save = ft_strdup(node->line_aux_save);
 	node->line = node->line_save;
-	free(node->line_aux_save);
+	//free(node->line_aux_save);
 }
 
 void	prepare_line_for_split(char *str)
@@ -171,7 +171,7 @@ void	clean_args_on_cmd(char **cmd)
 		}
 		i++;
 	}
-	i = 0;	
+	i = 0;
 	while (cmd[i])
 	{
 		convert_argument_correctly(&cmd[i]);
@@ -181,20 +181,24 @@ void	clean_args_on_cmd(char **cmd)
 
 void	gather_args(t_nod *node)
 {
+	int	i;
+
 	prepare_line_for_split(node->line);
+	printf("%s\n", node->line);
 	node->cmd = ft_split(node->line, ' ');
-	free(node->line);
+	//free(node->line);
 	clean_args_on_cmd(node->cmd);
 	//clear_envar_defs(&node->cmd);
-	/*i = 0;
+	i = 0;
 	while (node->cmd[i])
 	{
 		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
 		i++;
-	}*/
-	if (!*node->cmd)
+	}
+	if (!node->cmd[0])
 	{
 		free_matrix(node->cmd);
+		node->cmd = NULL;
 		node->launch = KO;
 	}
 }
@@ -208,6 +212,8 @@ void	gather_process_arguments(void)
 	node = g_shell->p_lst;
 	while (i > 0)
 	{
+		//write(2, "puta\n", 5);
+		//printf("node->launch: %i\n", node->launch);
 		if (node->launch == OK)
 		{
 			expand_vars_outside_strings(node);

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:59:57 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/19 18:58:31 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 22:29:37 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ void	fprintf_matrix_pointers(char **mat)
 		fprintf(stderr, "mat pointer: %p\n", mat);
 		while (mat[i])
 		{
-			fprintf(stderr, "mat[%i] = %p\n", i, mat[i]);
+			fprintf(stderr, "mat[%i] = %p, [%s]\n", i, mat[i], mat[i]);
 			i++;
 		}
-		fprintf(stderr, "mat[%i] = %p\n", i, mat[i]);
+		if (!mat[0])
+			fprintf(stderr, "mat[%i] = %p, [%s]\n", i, mat[i], mat[i]);
 	}
 }
 
@@ -82,13 +83,13 @@ void	fprintf_process_node_list(t_nod *node)
 		while (node)
 		{
 			fprintf(stderr, "node pointer: %p\n", node);
-			fprintf(stderr, "node->line: %p\n", node->line);
-			fprintf(stderr, "node->line_aux: %p\n", node->line_aux);
-			fprintf(stderr, "node->line_save: %p\n", node->line_save);
-			fprintf(stderr, "node->line_aux_save: %p\n", node->line_aux_save);
+			fprintf(stderr, "node->line: %p, [%s]\n", node->line, node->line);
+			fprintf(stderr, "node->line_aux: %p, [%s]\n", node->line_aux, node->line_aux);
+			fprintf(stderr, "node->line_save: %p, [%s]\n", node->line_save, node->line_save);
+			fprintf(stderr, "node->line_aux_save: %p, [%s]\n", node->line_aux_save, node->line_aux_save);
 			fprintf(stderr, "node->cmd:\n");
 			fprintf_matrix_pointers(node->cmd);
-			fprintf(stderr, "hdoc_name: %p\n", node->hdoc_name);
+			fprintf(stderr, "hdoc_name: %p, [%s]\n", node->hdoc_name, node->hdoc_name);
 			fprintf(stderr, "node->next: %p\n\n", node->next);
 			node = node->next;
 		}
@@ -105,8 +106,8 @@ void	fprintf_local_environment_node_list(t_var *node)
 		while (node)
 		{
 			fprintf(stderr, "node pointer: %p\n", node);
-			fprintf(stderr, "node->name: %p\n", node->name);
-			fprintf(stderr, "node->value: %p\n", node->value);
+			fprintf(stderr, "node->name: %p, [%s]\n", node->name, node->name);
+			fprintf(stderr, "node->value: %p, [%s]\n", node->value, node->value);
 			fprintf(stderr, "node->next: %p\n", node->next);
 			node = node->next;
 		}
@@ -146,10 +147,10 @@ int	main(int argc, char *argv[], char *env[])
 			other_io_redirections();
 			//system("leaks minishell");
 			gather_process_arguments();
-			launch_processes();
 			print_all_pointers_in_structs();
-			unlink_all_heredocs(shell);
-			free_process_list(shell);
+			launch_processes();
+			unlink_all_heredocs();
+			free_process_list();
 		}
 	}
 	rl_clear_history();

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/19 18:25:39 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 22:19:41 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	clean_other_hdoc(t_nod *node)
 	free(current_path);
 }
 
-void	hdoc_engine_start_and_end(t_nod *node, char **path, int stat)
+void	hdoc_engine_start_and_end(t_nod *node, char **path, int stat, char *eof)
 {
 	if (stat == START)
 	{
@@ -46,6 +46,7 @@ void	hdoc_engine_start_and_end(t_nod *node, char **path, int stat)
 	}
 	else
 	{
+		free(eof);
 		chdir(*path);
 		free(*path);
 	}
@@ -66,7 +67,8 @@ static void	open_heredoc(char *eof, t_nod *node)
 	char	*line;
 	char	*current_path;
 
-	hdoc_engine_start_and_end(node, &current_path, START);
+	//printf(" mi end of file: %s\n", eof);
+	hdoc_engine_start_and_end(node, &current_path, START, NULL);
 	g_shell->pid = fork();
 	if (g_shell->pid == 0)
 	{
@@ -83,7 +85,7 @@ static void	open_heredoc(char *eof, t_nod *node)
 	}
 	else
 		ft_signal_main();
-	hdoc_engine_start_and_end(node, &current_path, END);
+	hdoc_engine_start_and_end(node, &current_path, END, eof);
 }
 
 static void	clean_hdoc_strings(t_nod *node)
@@ -140,6 +142,7 @@ void	heredoc_piece(void)
 	char	*to_free;
 
 	i = g_shell->n_proc;
+	//printf("processes: %i\n", i);
 	node = g_shell->p_lst;
 	while (i > 0)
 	{

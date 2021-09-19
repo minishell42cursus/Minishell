@@ -92,7 +92,10 @@ void	launch_from_childs(t_nod *node, int i)
 			ft_signal_main();
 			close(new_pip[1]);
 			if (node->p_nbr != 1)
+			{
 				close(old_pip[0]);
+				free(old_pip);
+			}
 			if (node->p_nbr == g_shell->n_proc)
 			{
 				wait_and_get_q_mark();

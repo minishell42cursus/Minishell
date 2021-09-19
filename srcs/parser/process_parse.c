@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:36:45 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/18 20:55:10 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 16:34:47 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_nod	*create_pnode(char **aux, char **str, int *n_proc)
 	process->line_aux = ft_substr(*aux, 0, len);
 	process->line_save = process->line;
 	process->line_aux_save = process->line_aux;
+	//printf("\nprocess number: %i\n", process->p_nbr);
+	//printf("line: %p\nline_aux: %p\nprocess: %p\n", process->line, process->line_aux, process);
 	process->n_hdoc = 0;
 	process->launch = OK;
 	process->hdoc_name = NULL;

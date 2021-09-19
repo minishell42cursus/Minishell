@@ -11,6 +11,7 @@ void	free_process_list(t_shell *shell)
 		free_matrix(node->cmd);
 		aux = node;
 		node = node->next;
+		fprintf(stderr, "aux->line_save: %p\naux->line_aux_save: %p\naux: %p\n", aux->line_save, aux->line_aux_save, aux); 
 		free_three_ptrs(aux->line_save, aux->line_aux_save, aux);
 		shell->n_proc--;
 	}

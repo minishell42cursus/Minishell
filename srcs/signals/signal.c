@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:53:29 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/18 19:48:00 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:20:14 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_signal_stop_all_process_launch(int sig)
 	}
 	write(2, "\n", 1);
 	update_q_mark_variable(1);
+	g_shell->assign_error = OK;
+	g_shell->status = ON_READ;
 }
 
 void	ft_signal_ctrl_d_process(int sig)
@@ -62,6 +64,8 @@ void	ft_send_ctrl_c_to_child(int sig)
  * being executed.*/ 
 void	ft_signal_main(void)
 {
+	int	stat;
+
 	signal(SIGTERM, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIG_DFL);
@@ -70,8 +74,10 @@ void	ft_signal_main(void)
 	else if (g_shell->status == ON_HDOC)
 	{
 		if (g_shell->pid != 0)
+		{
 			signal(SIGINT, ft_signal_stop_all_process_launch);
-		waitpid(g_shell->pid, NULL, 0);
+			waitpid(g_shell->pid, &stat, 0);
+		}
 	}
 	else
 	{

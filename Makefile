@@ -79,7 +79,7 @@ CFLAGS		=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 
 RM		=	rm -rf
 
-RDL_MAC		= 	-L ~/.brew/opt/readline/lib -lreadline 
+RDL_MAC		= 	-L ~/.brew/opt/readline/lib -lreadline
 
 LIBFT_MAC	= 	-L libft/ -lft
 

@@ -36,7 +36,7 @@ void    exec_builtin(char **args, int process_type)
                 ft_cd(args[1]);
         else if (ft_strlen(args[0]) == 5 && !ft_strncmp(args[0], "unset", 5))
                 ft_unset(args);
-		if (process_type == CHILD)
-			exit(0);
+	if (process_type == CHILD)
+		exit(0);
 }
 

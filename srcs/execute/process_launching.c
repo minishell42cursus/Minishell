@@ -81,7 +81,7 @@ void	call_execve(t_nod *node)
 
 	ft_signal_main();
 	dup_stdin_stdout_and_close(node->fdi, node->fdo);
-	path = find_exec_path(node->cmd[0]);
+	path = find_exec_path(node->cmd);
 	env = clone_environment(g_shell->env);
 	if (execve(path, node->cmd, env) == -1)
 		error_msg();
@@ -114,7 +114,6 @@ void	launch_from_fork(t_nod *node)
 		ft_signal_main();
 		close_all_fds(node);
 		wait_and_get_q_mark();
-		g_shell->assign_error = OK;
 		g_shell->status = ON_READ;
 	}
 }
@@ -147,4 +146,5 @@ void	launch_processes(void)
 		launch_builtins_from_father(node);
 	else
 		launch_from_childs(node, i);
+	g_shell->pid = 0;
 }

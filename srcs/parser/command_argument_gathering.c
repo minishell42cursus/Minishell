@@ -181,9 +181,6 @@ void	clean_args_on_cmd(char **cmd)
 
 void	gather_args(t_nod *node)
 {
-	int	i;
-
-	i = 0;
 	prepare_line_for_split(node->line);
 	node->cmd = ft_split(node->line, ' ');
 	free(node->line);

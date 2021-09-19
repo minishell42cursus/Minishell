@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/15 17:39:34 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:10:01 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*eof_gatherer(char **line, int *n_hdoc)
  * other redirections */
 void	rebuild_aux_strings(t_nod *node)
 {
+	free(node->line_aux_save);
 	node->line_aux = ft_strdup(node->line);
 	node->line_aux_save = node->line_aux;
 	comma_parser(&node->line_aux, NULL);

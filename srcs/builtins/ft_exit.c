@@ -20,7 +20,8 @@ static int	check_if_isdigit(char *str)
 		return (1);
 }
 
-static uint8_t	ft_ato_uint8(const char *str)
+//static uint8_t	ft_ato_uint8(const char *str)
+static u_int8_t	ft_ato_uint8(const char *str)
 {
 	int			sign;
 	long long	n;
@@ -41,11 +42,14 @@ static uint8_t	ft_ato_uint8(const char *str)
 	{
 		n = n * 10 + *str++ - '0';
 		if ((n * sign) > UCHAR_MAX)
-			return ((uint8_t)(n * sign));
+			//return ((uint8_t)(n * sign));
+			return ((u_int8_t)(n * sign));
 		if ((n * sign) < 0)
-			return ((uint8_t)(n * sign));
+			//return ((uint8_t)(n * sign));
+			return ((u_int8_t)(n * sign));
 	}
-	return ((uint8_t)(n * sign));
+	//return ((uint8_t)(n * sign));
+	return ((u_int8_t)(n * sign));
 }
 
 void	ft_exit(char **args)

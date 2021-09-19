@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/18 17:34:48 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:25:39 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ static void	clean_other_hdoc(t_nod *node)
 	{
 		close(node->fdi);
 		unlink(node->hdoc_name);
+		//fprintf(stderr, "hdoc name: %p\n", node->hdoc_name);
 		free(node->hdoc_name);
 	}
 	node->hdoc_name = hdoc_filename(1);
 	node->fdi = open(node->hdoc_name, O_RDWR | O_CREAT, 00644);
 	chdir(current_path);
+	//fprintf(stderr, "current_path: %p\n", current_path);
 	free(current_path);
 }
 
@@ -72,6 +74,7 @@ static void	open_heredoc(char *eof, t_nod *node)
 		while (1)
 		{
 			line = readline("$> ");
+			//fprintf(stderr, "\nline pointer: %p\n", line); 
 			if (!line || !ft_strncmp(line, eof, ft_maxlen(line, eof)))
 				free_and_exit(line);
 			else
@@ -102,7 +105,6 @@ static void	clean_hdoc_strings(t_nod *node)
 	aux++;
 	while (*aux == '*' && *aux)
 		*aux++ = ' ';
-	free(node->line_aux_save);
 	node->line = node->line_save;
 }
 
@@ -135,6 +137,7 @@ void	heredoc_piece(void)
 {
 	int		i;
 	t_nod	*node;
+	char	*to_free;
 
 	i = g_shell->n_proc;
 	node = g_shell->p_lst;
@@ -145,5 +148,6 @@ void	heredoc_piece(void)
 		node = node->next;
 		i--;
 	}
-	hdoc_filename(0);
+	to_free = hdoc_filename(0);
+	free(to_free);
 }

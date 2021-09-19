@@ -67,21 +67,37 @@ int	ft_access(char *path)
 	return (is_file);
 }
 
+int	check_if_path_absolute(char **cmd)
+{
+	char	*aux;
+
+	aux = *cmd;
+	if (*aux == '/' || *aux == '.')
+	{
+		if (ft_access(aux))
+			return (OK);
+		else
+			return (KO);
+	}
+	else
+		return (KO);
+}
+
 /*Function that will get the correct path to the binary command
  * specified by cmd (the  > 0 entries of this matrix are the corresponding
  * flags if specified). It first gets every path in the PATH env variable,
  * then it adds a / and the exec name to form the correct path (if it
  * exists), and then checks with access(2) wether there is one path
  * that can find the binary, and in that case it returns it.*/
-char	*find_exec_path(char *cmd)
+char	*find_exec_path(char **cmd)
 {
 	char	**exec_paths;
 	char	*path;
 	int		i;
 
-	if (ft_access(cmd))
-		return (ft_strdup(cmd));
-	exec_paths = get_paths(cmd);
+	if (check_if_path_absolute(cmd))
+		return (ft_strdup(*cmd));
+	exec_paths = get_paths(*cmd);
 	path = NULL;
 	i = 0;
 	while (exec_paths[i])
@@ -95,6 +111,6 @@ char	*find_exec_path(char *cmd)
 	}
 	free_matrix(exec_paths);
 	if (!path)
-		command_not_found_error(cmd);
+		command_not_found_error(*cmd);
 	return (path);
 }

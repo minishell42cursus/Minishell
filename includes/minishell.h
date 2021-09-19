@@ -165,7 +165,7 @@ int     ft_isbuiltin(char **args);
 void    exec_builtin(char **args, int process_type);
 void	clear_envar_defs(char ***cmd);
 char	**clone_environment(char **env);
-char	*find_exec_path(char *cmd);
+char	*find_exec_path(char **cmd);
 void	launch_processes(void);
 void	launch_from_childs(t_nod *node, int i);
 void	open_hdoc_fd(t_nod *node);

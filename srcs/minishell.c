@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:59:57 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/18 20:19:48 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:58:12 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,80 @@ static const char	*get_prompt(void)
 	return ((const char *)g_shell->pmt);
 }
 
+void	fprintf_matrix_pointers(char **mat)
+{
+	int	i;
+
+	i = 0;
+	if (!mat)
+		fprintf(stderr, "matrix does not exist already/yet\n");
+	else
+	{	
+		fprintf(stderr, "mat pointer: %p\n", mat);
+		while (mat[i])
+		{
+			fprintf(stderr, "mat[%i] = %p\n", i, mat[i]);
+			i++;
+		}
+		fprintf(stderr, "mat[%i] = %p\n", i, mat[i]);
+	}
+}
+
+void	fprintf_process_node_list(t_nod *node)
+{
+	if (!node)
+		fprintf(stderr, "the list does not exist yet\n");
+	else
+	{
+		while (node)
+		{
+			fprintf(stderr, "node pointer: %p\n", node);
+			fprintf(stderr, "node->line: %p\n", node->line);
+			fprintf(stderr, "node->line_aux: %p\n", node->line_aux);
+			fprintf(stderr, "node->line_save: %p\n", node->line_save);
+			fprintf(stderr, "node->line_aux_save: %p\n", node->line_aux_save);
+			fprintf(stderr, "node->cmd:\n");
+			fprintf_matrix_pointers(node->cmd);
+			fprintf(stderr, "hdoc_name: %p\n", node->hdoc_name);
+			fprintf(stderr, "node->next: %p\n\n", node->next);
+			node = node->next;
+		}
+	}
+}
+
+
+void	fprintf_local_environment_node_list(t_var *node)
+{
+	if (!node)
+		fprintf(stderr, "the list does not exist yet\n");
+	else
+	{
+		while (node)
+		{
+			fprintf(stderr, "node pointer: %p\n", node);
+			fprintf(stderr, "node->name: %p\n", node->name);
+			fprintf(stderr, "node->value: %p\n", node->value);
+			fprintf(stderr, "node->next: %p\n", node->next);
+			node = node->next;
+		}
+	}
+}
+
+void	print_all_pointers_in_structs(void)
+{
+	fprintf(stderr, "g_shell->rl: %p\n", g_shell->rl);
+	fprintf(stderr, "g_shell->parse_rl: %p\n", g_shell->parse_rl);
+	fprintf(stderr, "g_shell->rl_tofree: %p\n", g_shell->rl_tofree);
+	fprintf(stderr, "g_shell->rl_aux: %p\n", g_shell->rl_aux);
+	fprintf(stderr, "\ng_shell->env:\n");
+	fprintf_matrix_pointers(g_shell->env);
+	fprintf(stderr, "\n\nprocess node list:\n\n");
+	fprintf_process_node_list(g_shell->p_lst);
+	fprintf(stderr, "\n\nlocal environment variables list:\n\n");
+	fprintf_local_environment_node_list(g_shell->envar);
+}
+
+
 int	main(int argc, char *argv[], char *env[])
 {
 	t_shell		*shell;
@@ -70,8 +144,10 @@ int	main(int argc, char *argv[], char *env[])
 			process_command_parsing();
 			heredoc_piece();
 			other_io_redirections();
+			//system("leaks minishell");
 			gather_process_arguments();
 			launch_processes();
+			print_all_pointers_in_structs();
 			unlink_all_heredocs(shell);
 			free_process_list(shell);
 		}

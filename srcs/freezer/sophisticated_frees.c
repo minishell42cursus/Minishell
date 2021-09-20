@@ -11,8 +11,8 @@ void	free_process_list(void)
 		free_matrix(node->cmd);
 		aux = node;
 		node = node->next;
-		//fprintf(stderr, "aux->line_save: %p\naux->line_aux_save: %p\naux: %p\n", aux->line_save, aux->line_aux_save, aux); 
 		free_three_ptrs(aux->line_save, aux->line_aux_save, aux);
+		aux = NULL;
 	}
 }
 
@@ -38,6 +38,4 @@ void	unlink_all_heredocs(void)
 	}
 	chdir(current_path);
 	free(current_path);
-	g_shell->n_proc = 0;
-	g_shell->pid = 0;
 }

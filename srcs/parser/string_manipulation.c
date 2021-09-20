@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:12 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/17 18:41:23 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:56:10 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,20 @@ void	place_str_pointers(char **aux, char **str_blank, char **str_full, int i)
 {
 	long long int	displacement;
 
+	fprintf(stderr, "estas son las strings que entran:\n");
+	fprintf(stderr, "aux: [%s]\nstr_blank: [%s]\nstr_full: [%s]\n", *aux, *str_blank, *str_full);
+	fprintf(stderr, "estos son los punteros de str full: str_full: %p\n*str_full: %p\n**str_full: %i\n", str_full, *str_full, **str_full);
 	while (**aux == ' ')
 		(*aux)++;
 	displacement = *aux - *str_blank;
-	while (displacement-- > 0)
+	if (str_full)
 	{
-		if ((int)displacement <= i)
-			**str_full = ' ';
-		*str_full = *str_full + 1;
+		while (displacement-- > 0)
+		{
+			if ((int)displacement <= i)
+				**str_full = ' ';
+			*str_full = *str_full + 1;
+		}
 	}
 	displacement = *aux - *str_blank;
 	while (displacement-- > 0)

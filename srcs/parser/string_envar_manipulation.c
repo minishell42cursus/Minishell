@@ -107,12 +107,9 @@ void	write_str_w_envar(char **line, char **filename, int *len, t_nod *node)
 		}
 		else
 			*((*line)++) = ' ';
-
 	}
 	while (**line == '*')
 		*((*line)++) = ' ';
-	if (node->launch == KO)
-		free(aux);
-	else
+	if (node->launch == OK)
 		**filename = '\0';
 }

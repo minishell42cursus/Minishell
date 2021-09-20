@@ -113,5 +113,4 @@ void	launch_from_childs(t_nod *node, int i)
 		node = node->next;
 		i--;
 	}
-	g_shell->status = ON_READ;
 }

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 15:11:24 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:44:17 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_nod
 	struct s_nod	*next;
 }					t_nod;
 
-/*Environment variable struct*/
+/*Local nvironment variable struct*/
 typedef struct s_var
 {
 	char			*name;
@@ -118,7 +118,6 @@ typedef struct s_var
 /*General shell struct*/
 typedef struct s_shell
 {
-	int		index;
 	char	*rl;
 	char	*parse_rl;
 	char	*rl_tofree;

@@ -6,11 +6,12 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 11:03:39 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 14:24:00 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:33:17 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 void	free_four_ptrs(void *s1, void *s2, void *s3, void *s4)
 {
@@ -30,7 +31,7 @@ void	free_three_ptrs(void *str1, void *str2, void *str3)
 		free(str1);
 	if (str2)
 		free(str2);
-	if (str2)
+	if (str3)
 		free(str3);
 }
 

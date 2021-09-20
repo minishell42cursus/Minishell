@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:42 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/19 15:29:41 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 17:16:33 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,13 @@ int	initial_parser(void)
 		aux++;
 	}
 	g_shell->parse_rl = ft_strdup(g_shell->rl);
-	free(g_shell->rl);
 	g_shell->rl_tofree = g_shell->parse_rl;
-	//printf("[%p]\n[%p]\n[%p]\n", g_shell->rl_tofree, g_shell->rl, g_shell->parse_rl);
 	if (comma_parser(&g_shell->parse_rl, &g_shell->q_mark_err)
 		|| redirection_pipe_parser(&g_shell->parse_rl, &g_shell->q_mark_err))
 	{
 		free(g_shell->rl_tofree);
-		//system("leaks minishell");
+		free(g_shell->rl);
 		return (1);
 	}
-	//system("leaks minishell");
 	return (0);
 }

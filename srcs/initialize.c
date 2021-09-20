@@ -7,6 +7,7 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 	(void)av;
 	shell = malloc(sizeof(t_shell));
 	g_shell = shell;
+	g_shell->p_lst = NULL;
 	shell->ac = ac;
 	shell->env = clone_environment(env);
 	shell->fdi = dup(0);

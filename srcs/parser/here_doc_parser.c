@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/19 22:19:41 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:57:22 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ static void	clean_other_hdoc(t_nod *node)
 	{
 		close(node->fdi);
 		unlink(node->hdoc_name);
-		//fprintf(stderr, "hdoc name: %p\n", node->hdoc_name);
 		free(node->hdoc_name);
 	}
 	node->hdoc_name = hdoc_filename(1);
 	node->fdi = open(node->hdoc_name, O_RDWR | O_CREAT, 00644);
 	chdir(current_path);
-	//fprintf(stderr, "current_path: %p\n", current_path);
 	free(current_path);
 }
 
@@ -67,7 +65,6 @@ static void	open_heredoc(char *eof, t_nod *node)
 	char	*line;
 	char	*current_path;
 
-	//printf(" mi end of file: %s\n", eof);
 	hdoc_engine_start_and_end(node, &current_path, START, NULL);
 	g_shell->pid = fork();
 	if (g_shell->pid == 0)
@@ -76,7 +73,6 @@ static void	open_heredoc(char *eof, t_nod *node)
 		while (1)
 		{
 			line = readline("$> ");
-			//fprintf(stderr, "\nline pointer: %p\n", line); 
 			if (!line || !ft_strncmp(line, eof, ft_maxlen(line, eof)))
 				free_and_exit(line);
 			else
@@ -142,7 +138,6 @@ void	heredoc_piece(void)
 	char	*to_free;
 
 	i = g_shell->n_proc;
-	//printf("processes: %i\n", i);
 	node = g_shell->p_lst;
 	while (i > 0)
 	{

@@ -5,7 +5,7 @@ RED 			= \033[0;31m
 GREEN 			= \033[0;32m
 NONE 			= \033[0m
 
-# Source directories:
+#Source directories:
 
 MAIN_DIR	=	srcs/
 SIG_DIR		=	signals/
@@ -16,7 +16,7 @@ BLTIN_DIR	=	builtins/
 LIBFT_DIR	=	libft/
 FREE_DIR	=	freezer/
 
-# Source files:
+#Source files:
 
 SRCS_FILES	= 	minishell \
 				initialize \
@@ -89,7 +89,7 @@ $(LIBFT_DIR)$(LIBFT): $(LIBFT_DIR)
 			make -C $(dir $(LIBFT_DIR))
 
 %.o:		%.c
-			$(CC) $(CFLAGS) -c -g $< -o $@ $(INCLUDE)
+			$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
 
 $(NAME):	$(OBJS) $(LIBFT_DIR)$(LIBFT) 
 			$(CC) $(INCLUDE) $(OBJS) $(RDL_MAC) $(LIBFT_MAC) -o $@ #-fsanitize=address

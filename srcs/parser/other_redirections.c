@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:40:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 13:56:59 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:26:28 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ void	do_redirection(t_nod *node, char **aux, int red, int red_io)
 			open_on_truncate_mode(node, filename);
 		else
 			open_to_input(node, filename);
-		free(filename);
 	}
+	free(filename);
 	displacement = node->line - node->line_save;
 	displacement -= (node->line_aux - node->line_aux_save);
 	move_str_pointers(&node->line_aux, aux, displacement);

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:59:57 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 14:43:03 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 16:57:14 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static char	*construct_prompt(void)
 		aux = ft_strjoin(aux2, GREEN_BOLD);
 	else
 		aux = ft_strjoin(aux2, RED_BOLD);
+	g_shell->assign_error = OK;
 	free(aux2);
 	aux2 = ft_strjoin(aux, " > ");
 	pmt = ft_strjoin(aux2, UNSET);
@@ -129,6 +130,13 @@ void	print_all_pointers_in_structs(void)
 	fprintf_local_environment_node_list(g_shell->envar);
 }
 
+void	reset_vars(void)
+{
+	g_shell->assign_error = OK;
+	g_shell->n_proc = 0;
+	g_shell->p_lst = NULL;
+
+}
 
 int	main(int argc, char *argv[], char *env[])
 {
@@ -141,16 +149,14 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		ft_signal_main();
 		g_shell->rl = readline(get_prompt());
+		reset_vars();
 		if (!initial_parser())
 		{
 			process_command_parsing();
 			heredoc_piece();
 			other_io_redirections();
-			//system("leaks minishell");
 			gather_process_arguments();
-			//print_all_pointers_in_structs();
 			launch_processes();
-			//write(2, "\n\nFREES:\n\n", 10);
 			unlink_all_heredocs();
 			free_process_list();
 		}

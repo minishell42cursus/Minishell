@@ -141,4 +141,5 @@ void	launch_processes(void)
 	else
 		launch_from_childs(node, i);
 	g_shell->pid = 0;
+	g_shell->status = ON_READ;
 }

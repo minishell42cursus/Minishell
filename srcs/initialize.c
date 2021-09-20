@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialize.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/20 19:23:13 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/20 19:23:35 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*new_shell_level(char *str)
@@ -40,7 +52,7 @@ char	**clone_environment(char **env, int c)
 		if (!ft_strncmp(env[i], "SHLVL=", ft_strlen("SHLVL=")) && c == OK)
 			out[i] = new_shell_level(env[i]);
 		else if (!ft_strncmp(env[i], "PWD=", ft_strlen("PWD=")) && c == OK)
-			out[i] = set_pwd(); 
+			out[i] = set_pwd();
 		else
 			out[i] = ft_strdup(env[i]);
 		i++;

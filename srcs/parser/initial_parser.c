@@ -6,17 +6,17 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:42 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 17:16:33 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:31:29 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	clean_exit()
+static void	clean_exit(void)
 {
 	rl_clear_history();
 	free(g_shell);
-	write(1, "exit\n", 6);
+	write(2, "exit\n", 6);
 	exit(0);
 }
 

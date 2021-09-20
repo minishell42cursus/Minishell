@@ -6,11 +6,29 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:37 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/19 20:28:59 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:30:50 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	clean_other_hdoc(t_nod *node)
+{
+	char	*current_path;
+
+	current_path = getcwd(NULL, 0);
+	chdir(PATH_TO_TMP);
+	if (node->fdi != 0)
+	{
+		close(node->fdi);
+		unlink(node->hdoc_name);
+		free(node->hdoc_name);
+	}
+	node->hdoc_name = hdoc_filename(1);
+	node->fdi = open(node->hdoc_name, O_RDWR | O_CREAT, 00644);
+	chdir(current_path);
+	free(current_path);
+}
 
 /* function that gives a different string for each
  * consecutive entry with reset != 0. It will be used

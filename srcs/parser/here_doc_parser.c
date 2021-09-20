@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:31:31 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 16:57:22 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:30:49 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,6 @@
 
 void	write_line_on_hdoc(char *line, int fd);
 void	rebuild_aux_strings(t_nod *node);
-
-static void	clean_other_hdoc(t_nod *node)
-{
-	char	*current_path;
-
-	current_path = getcwd(NULL, 0);
-	chdir(PATH_TO_TMP);
-	if (node->fdi != 0)
-	{
-		close(node->fdi);
-		unlink(node->hdoc_name);
-		free(node->hdoc_name);
-	}
-	node->hdoc_name = hdoc_filename(1);
-	node->fdi = open(node->hdoc_name, O_RDWR | O_CREAT, 00644);
-	chdir(current_path);
-	free(current_path);
-}
 
 void	hdoc_engine_start_and_end(t_nod *node, char **path, int stat, char *eof)
 {
@@ -48,12 +30,6 @@ void	hdoc_engine_start_and_end(t_nod *node, char **path, int stat, char *eof)
 		chdir(*path);
 		free(*path);
 	}
-}
-
-void	free_and_exit(char *line)
-{
-	free(line);
-	exit(0);
 }
 
 /* Aquí hace falta meter que me devuelva a la carpeta en la
@@ -74,7 +50,7 @@ static void	open_heredoc(char *eof, t_nod *node)
 		{
 			line = readline("$> ");
 			if (!line || !ft_strncmp(line, eof, ft_maxlen(line, eof)))
-				free_and_exit(line);
+				exit(0);
 			else
 				write_line_on_hdoc(line, node->fdi);
 		}

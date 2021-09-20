@@ -6,101 +6,11 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 14:18:39 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:27:19 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	wait_for_next_comma(char **str, int *i, char comma)
-{
-	(*i)++;
-	*str = *str + 1;
-	while (**str != comma)
-	{
-		if (comma == '\"')
-		{
-			if (**str == '$' && ft_isvalid_env_start(*(*str + 1), Q_MARK_OK))
-				(*i)--;
-		}
-		*str = *str + 1;
-		(*i)++;
-	}
-	*str = *str + 1;
-	(*i)++;
-}
-
-void	wait_for_next_comma_wo_counter(char **str, char comma)
-{
-	*str = *str + 1;
-	while (**str != comma)
-	{
-		if (comma == '\"')
-		{
-			if (**str == '$' && ft_isvalid_env_start(*(*str + 1), Q_MARK_OK))
-				**str = '&';
-		}
-		*str = *str + 1;
-	}
-	*str = *str + 1;
-}
-
-
-int		ft_strlen_wo_dollars(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*str)
-	{
-		if (*str == '\"')
-			wait_for_next_comma(&str, &i, '\"');
-		else if (*str == '\'')
-			wait_for_next_comma(&str, &i, '\'');
-		else if (*str =='$' && ft_isvalid_env_start(*(str + 1), Q_MARK_OK))
-			str++;
-		else
-		{
-			str++;
-			i++;
-		}
-	}
-	return (i);
-}
-
-void	put_ampersands_on_envars(char **line)
-{
-	char	*aux;
-
-	aux = *line;
-	while (*aux)
-	{
-		if (*aux == '\'')
-			wait_for_next_comma_wo_counter(&aux, '\'');
-		else if (*aux == '\"')
-			wait_for_next_comma_wo_counter(&aux, '\"');
-		else if (*aux == '$' && ft_isvalid_env_start(*(aux + 1), Q_MARK_OK))
-			*aux++ = '&';
-		else
-			aux++;
-	}
-}
-
-void	expand_vars_outside_strings(t_nod *node)
-{
-	int		len;
-
-	len = ft_strlen_wo_dollars(node->line);
-	put_ampersands_on_envars(&node->line);
-	add_envar_len(&len, node->line, FULL_LINE);
-	node->line_aux = malloc(sizeof(char) * (len + 1));
-	node->line_aux_save = node->line_aux;
-	write_str_w_envar(&node->line, &node->line_aux, &len, node);
-	free(node->line_save);
-	node->line_save = ft_strdup(node->line_aux_save);
-	node->line = node->line_save;
-	//free(node->line_aux_save);
-}
 
 void	prepare_line_for_split(char *str)
 {
@@ -181,18 +91,9 @@ void	clean_args_on_cmd(char **cmd)
 
 void	gather_args(t_nod *node)
 {
-	//int	i;
-
 	prepare_line_for_split(node->line);
 	node->cmd = ft_split(node->line, ' ');
 	clean_args_on_cmd(node->cmd);
-	//clear_envar_defs(&node->cmd);
-	/*i = 0;
-	while (node->cmd[i])
-	{
-		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
-		i++;
-	}*/
 	if (!node->cmd[0])
 	{
 		free_matrix(node->cmd);
@@ -210,8 +111,6 @@ void	gather_process_arguments(void)
 	node = g_shell->p_lst;
 	while (i > 0)
 	{
-		//write(2, "puta\n", 5);
-		//printf("node->launch: %i\n", node->launch);
 		if (node->launch == OK)
 		{
 			expand_vars_outside_strings(node);

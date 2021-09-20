@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_envar_manipulation.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/20 19:36:33 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/20 19:37:15 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* String is pointing to a \  or &, hardcoded there to be
@@ -47,7 +59,7 @@ void	add_envar_len(int *len, char *str, int full_line)
 
 /* Same as the get name of variable. It is meant to only get one char
  * if the variable name starts with a number and not a letter*/
-static void	do_expand_var(char **line, char **filename, int *len, char *var_value)
+static void	do_expand_var(char **line, char **fname, int *len, char *var_value)
 {
 	int	i;
 
@@ -65,7 +77,7 @@ static void	do_expand_var(char **line, char **filename, int *len, char *var_valu
 	*line = *line + i;
 	while (*var_value)
 	{
-		*((*filename)++) = *var_value++;
+		*((*fname)++) = *var_value++;
 		*len = *len - 1;
 	}
 }

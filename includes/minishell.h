@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:15:57 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:38:19 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,18 +213,24 @@ void	heredoc_piece(void);
 char	*hdoc_filename(int reset);
 char	*eof_gatherer(char **line, int *n_hdoc);
 void	other_io_redirections(void);
+void	clean_other_hdoc(t_nod *node);
+void	rebuild_aux_strings(t_nod *node);
+void	do_redirection(t_nod *node, char **aux, int red, int red_io);
+char	*filename_gatherer(char **str, t_nod *node);
 
 // command argument gathering related
 
 void	gather_process_arguments(void);
 void	add_envar_len(int *len, char *str, int full_line);
 void	write_str_w_envar(char **line, char **fname, int *len, t_nod *node);
+void	expand_vars_outside_strings(t_nod *node);
 
 // STRING PRESTIDIGITATION
 
 void	place_str_pointers(char **aux, char **str_blnk, char **str_f, int i);
 void	edit_string(char **str, int *i, int envar);
 int		string_length_bash(char *str, int envar);
+void	move_str_pointers(char **str, char **aux, int i);
 
 // free  functions
 
@@ -245,5 +251,9 @@ void	add_to_local_env(char *name, char *value);
 int		check_if_def(char *str);
 char	*check_env(char *name);
 void	overwrite_env_value(char *name, char *value);
+
+// debug
+
+void	print_all_pointers_in_structs(void);
 
 #endif

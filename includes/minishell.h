@@ -178,7 +178,7 @@ void	wait_and_get_q_mark(void);
 
 void	ft_echo(char *argv[]);
 void	ft_env(int mode);
-void	ft_exit(char **args);
+void	ft_exit(char **args, int type);
 void	ft_pwd(void);
 void	ft_cd(char *str);
 void	ft_export(char **argv);

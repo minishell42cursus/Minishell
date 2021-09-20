@@ -57,19 +57,13 @@ void	dup_stdin_stdout_and_close(int new_in, int new_out)
 	if (new_in != 0)
 	{
 		if (dup2(new_in, 0) == -1)
-		{
-			printf("dupeo de input\n");
 			error_msg();
-		}
 		close(new_in);
 	}
 	if (new_out != 1)
 	{
 		if (dup2(new_out, 1) == -1)
-		{
-			printf("dupeo de output\n");
 			error_msg();
-		}
 		close(new_out);
 	}
 }

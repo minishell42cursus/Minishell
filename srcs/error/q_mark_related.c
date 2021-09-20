@@ -8,7 +8,15 @@ void	update_q_mark_variable(int new_value)
 
 void	print_and_update(char *str, int value)
 {
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd("\n", 2);
+	if (value == 0)
+	{
+		ft_putstr_fd(str, 1);
+		ft_putstr_fd("\n", 1);
+	}
+	else
+	{
+		ft_putstr_fd(str, 1);
+		ft_putstr_fd("\n", 1);
+	}
 	update_q_mark_variable(value);
 }

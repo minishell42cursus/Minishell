@@ -38,14 +38,56 @@ void	wait_and_get_q_mark(void)
 		if (WIFEXITED(stat))
 			update_q_mark_variable(WEXITSTATUS(stat));
 		else if (WIFSIGNALED(stat))
-		{
-			printf("estoy aqui\n");
 			update_q_mark_variable(WTERMSIG(stat) + 128);
-		}
 		else if (WIFSTOPPED(stat))
 			update_q_mark_variable(WSTOPSIG(stat));
 	}
 	g_shell->assign_error = OK;
+}
+
+void	execute_child(t_nod *node, int new_pip[2], int old_pip[2])
+{
+	clear_envar_defs(&node->cmd);
+	open_hdoc_fd(node);
+	if (node->p_nbr != 1)
+		subst_fd_for_pipe(&node->fdi, old_pip[0], IN);
+	if (node->p_nbr != g_shell->n_proc)
+		subst_fd_for_pipe(&node->fdo, new_pip[1], OUT);
+	else
+		close(new_pip[1]);
+	if (node->cmd[0])
+	{
+		if (ft_isbuiltin(node->cmd))
+		{
+			dup_stdin_stdout_and_close(node->fdi, node->fdo);
+			exec_builtin(node->cmd, CHILD);
+		}
+		else
+			call_execve(node);
+	}
+}
+
+void	manage_father_during_child_exec(t_nod *node, int new_pip[2], int *old_pip[2])
+{
+	ft_signal_main();
+	close(new_pip[1]);
+	if (node->p_nbr != 1)
+	{
+		close((*old_pip)[0]);
+		free(*old_pip);
+	}
+	if (node->p_nbr == g_shell->n_proc)
+	{
+		signal(SIGCHLD, SIG_DFL);
+		wait_and_get_q_mark();
+		close(new_pip[0]);
+	}
+	else
+	{
+		signal(SIGCHLD, SIG_IGN);
+		*old_pip = copy_new_pipe_into_old(new_pip);
+	}
+	close_all_fds(node);
 }
 
 void	launch_from_childs(t_nod *node, int i)
@@ -53,6 +95,7 @@ void	launch_from_childs(t_nod *node, int i)
 	int		new_pip[2];
 	int		*old_pip;
 
+	old_pip = NULL;
 	while (i > 0)
 	{
 		pipe(new_pip);
@@ -61,51 +104,12 @@ void	launch_from_childs(t_nod *node, int i)
 		{
 			close(new_pip[0]);
 			if (node->launch == OK)
-			{
-				clear_envar_defs(&node->cmd);
-				open_hdoc_fd(node);
-				if (node->p_nbr != 1)
-					subst_fd_for_pipe(&node->fdi, old_pip[0], IN);
-				if (node->p_nbr != g_shell->n_proc)
-					subst_fd_for_pipe(&node->fdo, new_pip[1], OUT);
-				else
-					close(new_pip[1]);
-				if (node->cmd[0])
-				{
-					if (ft_isbuiltin(node->cmd))
-					{
-						dup_stdin_stdout_and_close(node->fdi, node->fdo);
-						exec_builtin(node->cmd, CHILD);
-					}
-					else
-						call_execve(node);
-				}
-			}
+				execute_child(node, new_pip, old_pip);
 			else
 				exit(g_shell->q_mark_err);
 		}
 		else
-		{
-			ft_signal_main();
-			close(new_pip[1]);
-			if (node->p_nbr != 1)
-			{
-				close(old_pip[0]);
-				free(old_pip);
-			}
-			if (node->p_nbr == g_shell->n_proc)
-			{
-				signal(SIGCHLD, SIG_DFL);
-				wait_and_get_q_mark();
-				close(new_pip[0]);
-			}
-			else
-			{
-				signal(SIGCHLD, SIG_IGN);
-				old_pip = copy_new_pipe_into_old(new_pip);
-			}
-			close_all_fds(node);
-		}
+			manage_father_during_child_exec(node, new_pip, &old_pip);
 		node = node->next;
 		i--;
 	}

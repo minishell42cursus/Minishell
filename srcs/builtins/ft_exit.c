@@ -42,21 +42,19 @@ static u_int8_t	ft_ato_uint8(const char *str)
 	{
 		n = n * 10 + *str++ - '0';
 		if ((n * sign) > UCHAR_MAX)
-			//return ((uint8_t)(n * sign));
 			return ((u_int8_t)(n * sign));
 		if ((n * sign) < 0)
-			//return ((uint8_t)(n * sign));
 			return ((u_int8_t)(n * sign));
 	}
-	//return ((uint8_t)(n * sign));
 	return ((u_int8_t)(n * sign));
 }
 
-void	ft_exit(char **args)
+void	ft_exit(char **args, int call)
 {
 	int		is_numeric;
 
-	ft_putstr_fd("exit\n", 2);
+	if (call == FATHER)
+		ft_putstr_fd("exit\n", 2);
 	if (!args[1])
 		exit(0);
 	is_numeric = check_if_isdigit(args[1]);	

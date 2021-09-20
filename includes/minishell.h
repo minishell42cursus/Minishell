@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:49:14 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 20:24:13 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,10 @@ void	print_and_update(char *str, int new_value);
 // signals / signal
 
 void	ft_signal_main(void);
+void	ft_signal_ctrl_c(int sig);
+void	ft_signal_stop_all_process_launch(int sig);
+void	ft_signal_ctrl_d_process(int sig);
+void	ft_send_ctrl_c_to_child(int sig);
 
 // execute / run_command
 

@@ -43,7 +43,8 @@ SRC_PARSE	=	comma_parser \
 				expand_vars_outside_strings \
 				do_redirection
 
-SRC_SIG		= 	signal
+SRC_SIG		= 	signal \
+				signal_responses
 
 SRC_EXEC	=	run_command \
 				path_finder \

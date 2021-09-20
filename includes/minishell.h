@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:38:19 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:49:14 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,6 @@ typedef struct s_shell
 	char	*rl_aux;
 	char	ac;
 	char	**env;
-	int		fdi;
-	int		fdo;
 	int		n_proc;
 	t_nod	*p_lst;
 	int		q_mark_err;

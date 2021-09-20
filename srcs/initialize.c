@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:23:13 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:23:35 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:49:23 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ t_shell	*init_megastruct(int ac, char **av, char **env)
 	g_shell->p_lst = NULL;
 	shell->ac = ac;
 	shell->env = clone_environment(env, OK);
-	shell->fdi = dup(0);
-	shell->fdo = dup(1);
 	shell->q_mark_err = 0;
 	shell->n_proc = 0;
 	shell->envar = new_env_var(ft_strdup("?"), ft_itoa(g_shell->q_mark_err));

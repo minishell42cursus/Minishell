@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 18:58:14 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 18:58:15 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 20:54:01 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	cd_env(int i[2])
 	{
 		free(g_shell->env[i[1]]);
 		g_shell->env[i[1]] = ft_strjoin("OLDPWD=", new_oldpwd);
+		free(new_oldpwd);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:53:29 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 17:34:02 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:00:04 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_signal_stop_all_process_launch(int sig)
 
 	(void)sig;
 	node = g_shell->p_lst;
-	i  = g_shell->n_proc;
+	i = g_shell->n_proc;
 	while (i > 0)
 	{
 		node->launch = KO;
@@ -61,7 +61,7 @@ void	ft_send_ctrl_c_to_child(int sig)
  * Then theres ON_HDOC, which is the status in which the shell is when it is 
  * both reading input from stdin and writing it on an hdoc. The final status
  * is ON_EXE, which is the one that the shell is while commands are
- * being executed.*/ 
+ * being executed.*/
 void	ft_signal_main(void)
 {
 	int	stat;

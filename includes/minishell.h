@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 16:44:17 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 17:52:40 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	ft_signal_main(void);
 int		ft_isbuiltin(char **args);
 void	exec_builtin(char **args, int process_type);
 void	clear_envar_defs(char ***cmd);
-char	**clone_environment(char **env);
+char	**clone_environment(char **env, int segmentation_fault);
 char	*find_exec_path(char **cmd);
 void	launch_processes(void);
 void	launch_from_childs(t_nod *node, int i);

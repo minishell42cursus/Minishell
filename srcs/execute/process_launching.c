@@ -1,24 +1,5 @@
 #include "minishell.h"
 
-char	**clone_environment(char **env)
-{
-	char	**out;
-	int		i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	out = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (env[i])
-	{
-		out[i] = ft_strdup(env[i]);
-		i++;
-	}
-	out[i] = NULL;
-	return (out);
-}
-
 void	open_hdoc_fd(t_nod *node)
 {
 	char	*hdoc_path;
@@ -76,7 +57,7 @@ void	call_execve(t_nod *node)
 	ft_signal_main();
 	dup_stdin_stdout_and_close(node->fdi, node->fdo);
 	path = find_exec_path(node->cmd);
-	env = clone_environment(g_shell->env);
+	env = clone_environment(g_shell->env, KO);
 	if (execve(path, node->cmd, env) == -1)
 		error_msg();
 }

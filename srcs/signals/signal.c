@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:53:29 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:00:04 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 20:07:50 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_signal_ctrl_c(int sig)
 {
 	(void)sig;
-	write(2, "\n", 1);
+	write(2, "\n\n", 2);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

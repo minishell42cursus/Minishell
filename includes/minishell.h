@@ -51,7 +51,7 @@
 # define ARGUMENT	0
 # define FULL_LINE	1
 
-// signal macros
+// signal/shell status macros
 
 # define ON_READ		0
 # define ON_HDOC		1
@@ -141,9 +141,9 @@ void	multiline_error(int *q_mark_err);
 void	parse_error_near(char *str, int *q_mark_err);
 void	forbidden_char_found(char *str, int *q_mark_err);
 void	command_not_found_error(char *cmd);
-void	error_msg_relative_to_file(char *file, int *launch);
+void	error_msg_relative_to_file(char *file, t_nod *node);
 void	call_error(void);
-void	ambiguous_redirect_error(char *name, int *launch);
+void	ambiguous_redirect_error(char *name, t_nod *node);
 void	error_msg(void);
 void	export_error(char *arg, char *name);
 void	cd_error(char *path);
@@ -205,7 +205,7 @@ void	other_io_redirections(void);
 
 void	gather_process_arguments(void);
 void	add_envar_len(int *len, char *str, int full_line);
-void	write_str_w_envar(char **line, char **fname, int *len, int *launch);
+void	write_str_w_envar(char **line, char **fname, int *len, t_nod *node);
 
 // STRING PRESTIDIGITATION
 

@@ -37,7 +37,6 @@ static void	delete_node(char *name)
 		prev_node = node;
 		node = node->next;
 	}
-	free(name);
 }
 
 static void	remove_from_env(int	entry_to_remove)
@@ -68,9 +67,9 @@ static void	remove_from_all_env(char *name)
 	char	*aux;
 
 	i = 0;
+	aux = ft_strjoin(name, "=");
 	while (g_shell->env[i])
 	{
-		aux = ft_strjoin(name, "=");
 		if (!ft_strncmp(aux, g_shell->env[i], ft_strlen(aux)))
 		{
 			remove_from_env(i);
@@ -78,6 +77,7 @@ static void	remove_from_all_env(char *name)
 		}
 		i++;
 	}
+	free(aux);
 	delete_node(name);
 }
 

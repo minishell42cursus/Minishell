@@ -35,14 +35,11 @@ void	wait_and_get_q_mark(void)
 	waitpid(g_shell->pid, &stat, 0);
 	if (g_shell->assign_error == OK)
 	{
-		//printf("estado de exit: %i\n", WEXITSTATUS(stat));
-		//printf("estado de signaled: %i\n", WTERMSIG(stat));
-		//printf("estado de stoped: %i\n", WSTOPSIG(stat));
 		if (WIFEXITED(stat))
 			update_q_mark_variable(WEXITSTATUS(stat));
 		else if (WIFSIGNALED(stat))
 		{
-			//printf("estoy aqui\n");
+			printf("estoy aqui\n");
 			update_q_mark_variable(WTERMSIG(stat) + 128);
 		}
 		else if (WIFSTOPPED(stat))
@@ -98,6 +95,7 @@ void	launch_from_childs(t_nod *node, int i)
 			}
 			if (node->p_nbr == g_shell->n_proc)
 			{
+				signal(SIGCHLD, SIG_DFL);
 				wait_and_get_q_mark();
 				close(new_pip[0]);
 			}

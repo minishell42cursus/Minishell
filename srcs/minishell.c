@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 13:59:57 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/19 22:29:37 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 14:43:03 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static char	*construct_prompt(void)
 	char	*aux;
 	char	*aux2;
 
+	write(2, "\n", 1);
 	cwd = getcwd(NULL, 0);
 	aux = ft_strjoin(PROMPT_START, cwd); 
 	aux2 = ft_strjoin(BLUE_BOLD, aux);
@@ -147,8 +148,9 @@ int	main(int argc, char *argv[], char *env[])
 			other_io_redirections();
 			//system("leaks minishell");
 			gather_process_arguments();
-			print_all_pointers_in_structs();
+			//print_all_pointers_in_structs();
 			launch_processes();
+			//write(2, "\n\nFREES:\n\n", 10);
 			unlink_all_heredocs();
 			free_process_list();
 		}

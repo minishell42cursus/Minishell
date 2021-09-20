@@ -74,7 +74,8 @@ void	add_to_global_env(char *name, char *value, int stat)
 		check_for_local_value(name, &value);
 	new_env[i++] = ft_strjoin(aux, value);
 	new_env[i] = NULL;
-	free_four_ptrs(aux, name, value, g_shell->env);
+	free_three_ptrs(aux, name, value);
+	free_matrix(g_shell->env);
 	g_shell->env = new_env;
 }
 

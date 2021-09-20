@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 22:37:06 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/19 22:19:51 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 14:18:39 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	expand_vars_outside_strings(t_nod *node)
 	add_envar_len(&len, node->line, FULL_LINE);
 	node->line_aux = malloc(sizeof(char) * (len + 1));
 	node->line_aux_save = node->line_aux;
-	write_str_w_envar(&node->line, &node->line_aux, &len, &node->launch);
+	write_str_w_envar(&node->line, &node->line_aux, &len, node);
 	free(node->line_save);
 	node->line_save = ft_strdup(node->line_aux_save);
 	node->line = node->line_save;
@@ -181,20 +181,18 @@ void	clean_args_on_cmd(char **cmd)
 
 void	gather_args(t_nod *node)
 {
-	int	i;
+	//int	i;
 
 	prepare_line_for_split(node->line);
-	printf("%s\n", node->line);
 	node->cmd = ft_split(node->line, ' ');
-	//free(node->line);
 	clean_args_on_cmd(node->cmd);
 	//clear_envar_defs(&node->cmd);
-	i = 0;
+	/*i = 0;
 	while (node->cmd[i])
 	{
 		printf("cmd[%i]: [%s]\n", i, node->cmd[i]);
 		i++;
-	}
+	}*/
 	if (!node->cmd[0])
 	{
 		free_matrix(node->cmd);

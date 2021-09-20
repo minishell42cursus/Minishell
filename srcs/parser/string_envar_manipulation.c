@@ -70,7 +70,7 @@ static void	do_expand_var(char **line, char **filename, int *len, char *var_valu
 	}
 }
 
-static void	expand_var_name(char **line, char **filename, int *len, int *launch)
+static void	expand_var_name(char **line, char **filename, int *len, t_nod *node)
 {
 	char	*var_name;
 	char	*var_value;
@@ -82,23 +82,23 @@ static void	expand_var_name(char **line, char **filename, int *len, int *launch)
 	{
 		aux = ft_strnstr(var_value, " ", ft_maxlen(var_value, " "));
 		if (aux)
-			ambiguous_redirect_error(var_name, launch);
+			ambiguous_redirect_error(var_name, node);
 	}
-	if (*launch == OK)
+	if (node->launch == OK)
 		do_expand_var(line, filename, len, var_value);
 	free(var_name);
 	free(var_value);
 }
 
-void	write_str_w_envar(char **line, char **filename, int *len, int *launch)
+void	write_str_w_envar(char **line, char **filename, int *len, t_nod *node)
 {
 	char	*aux;
 
 	aux = *filename;
-	while (*len > 0 && *launch == OK)
+	while (*len > 0 && node->launch == OK)
 	{
 		if (**line == '\\' || **line == '&')
-			expand_var_name(line, filename, len, launch);
+			expand_var_name(line, filename, len, node);
 		else if (**line != '*' && **line != '\\' && **line != '&' && **line)
 		{
 			*((*filename)++) = **line;
@@ -111,7 +111,7 @@ void	write_str_w_envar(char **line, char **filename, int *len, int *launch)
 	}
 	while (**line == '*')
 		*((*line)++) = ' ';
-	if (*launch == KO)
+	if (node->launch == KO)
 		free(aux);
 	else
 		**filename = '\0';

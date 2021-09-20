@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/20 18:58:14 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/20 18:58:15 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	find_env(char *name)
@@ -30,7 +42,7 @@ char	*check_pwd(char *str, int opwd, int home)
 		if (home != -1)
 			s = ft_strdup(g_shell->env[home] + 5);
 		else
-			print_and_update("minishell: cd: HOME not set", 1); 
+			print_and_update("minishell: cd: HOME not set", 1);
 	}
 	else if (!ft_strncmp(str, "-", ft_maxlen(str, "-")))
 	{

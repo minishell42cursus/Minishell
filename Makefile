@@ -20,8 +20,6 @@ FREE_DIR	=	freezer/
 
 SRCS_FILES	= 	minishell \
 				initialize \
-				raise_error \
-				tabdup
 
 SRC_BLTIN	= 	ft_pwd \
 				ft_echo \

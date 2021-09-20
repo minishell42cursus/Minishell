@@ -3,11 +3,14 @@
 char	*new_shell_level(char *str)
 {
 	int		shell_level;
+	char	*catch_itoa;
 	char	*new_shlvl_entry;
 
 	shell_level = ft_atoi(str + 6);
 	shell_level++;
-	new_shlvl_entry = ft_strjoin("SHLVL=", ft_itoa(shell_level));
+	catch_itoa = ft_itoa(shell_level);
+	new_shlvl_entry = ft_strjoin("SHLVL=", catch_itoa);
+	free(catch_itoa);
 	return (new_shlvl_entry);
 }
 

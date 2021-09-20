@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/20 18:55:39 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/20 18:58:36 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	check_if_isdigit(char *str)
@@ -57,10 +69,10 @@ void	ft_exit(char **args, int call)
 		ft_putstr_fd("exit\n", 2);
 	if (!args[1])
 		exit(0);
-	is_numeric = check_if_isdigit(args[1]);	
+	is_numeric = check_if_isdigit(args[1]);
 	if (!is_numeric)
 	{
-		exit_error(args[1], 0);	
+		exit_error(args[1], 0);
 		exit(255);
 	}
 	else

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/20 18:57:00 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/20 18:58:46 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	check_unset_arg(char *arg)
@@ -39,7 +51,7 @@ static void	delete_node(char *name)
 	}
 }
 
-static void	remove_from_env(int	entry_to_remove)
+static void	remove_from_env(int entry_to_remove)
 {
 	int		len;
 	char	**new_env;
@@ -83,7 +95,7 @@ static void	remove_from_all_env(char *name)
 
 void	ft_unset(char **av)
 {
-	int i;
+	int	i;
 	int	show_error;
 
 	i = 1;

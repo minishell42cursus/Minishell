@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/20 15:11:24 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -26,7 +38,6 @@
 # define GREEN_BOLD "\e[1;32m"
 # define MAG_BOLD "\e[1;35m"
 # define RED_BOLD "\e[1;31m"
-//# define CYAN "\033[0;36m"
 # define UNSET "\033[0m"
 
 // General macros
@@ -97,7 +108,7 @@ typedef struct s_nod
 }					t_nod;
 
 /*Environment variable struct*/
-typedef struct	s_var
+typedef struct s_var
 {
 	char			*name;
 	char			*value;
@@ -161,8 +172,8 @@ void	ft_signal_main(void);
 
 // execute / run_command
 
-int     ft_isbuiltin(char **args);
-void    exec_builtin(char **args, int process_type);
+int		ft_isbuiltin(char **args);
+void	exec_builtin(char **args, int process_type);
 void	clear_envar_defs(char ***cmd);
 char	**clone_environment(char **env);
 char	*find_exec_path(char **cmd);
@@ -209,7 +220,7 @@ void	write_str_w_envar(char **line, char **fname, int *len, t_nod *node);
 
 // STRING PRESTIDIGITATION
 
-void	place_str_pointers(char **aux, char **str_blank, char **str_full, int i);
+void	place_str_pointers(char **aux, char **str_blnk, char **str_f, int i);
 void	edit_string(char **str, int *i, int envar);
 int		string_length_bash(char *str, int envar);
 

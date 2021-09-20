@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   several_process.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/20 19:14:46 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/20 19:15:33 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	*copy_new_pipe_into_old(int p[2])
@@ -28,23 +40,6 @@ void	subst_fd_for_pipe(int *node_fd, int new_fd, int fd)
 	}
 }
 
-void	wait_and_get_q_mark(void)
-{
-	int	stat;
-
-	waitpid(g_shell->pid, &stat, 0);
-	if (g_shell->assign_error == OK)
-	{
-		if (WIFEXITED(stat))
-			update_q_mark_variable(WEXITSTATUS(stat));
-		else if (WIFSIGNALED(stat))
-			update_q_mark_variable(WTERMSIG(stat) + 128);
-		else if (WIFSTOPPED(stat))
-			update_q_mark_variable(WSTOPSIG(stat));
-	}
-	g_shell->assign_error = OK;
-}
-
 void	execute_child(t_nod *node, int new_pip[2], int old_pip[2])
 {
 	clear_envar_defs(&node->cmd);
@@ -67,7 +62,7 @@ void	execute_child(t_nod *node, int new_pip[2], int old_pip[2])
 	}
 }
 
-void	manage_father_during_child_exec(t_nod *node, int new_pip[2], int *old_pip[2])
+void	father_during_child_exec(t_nod *node, int new_pip[2], int *old_pip[2])
 {
 	ft_signal_main();
 	close(new_pip[1]);
@@ -109,7 +104,7 @@ void	launch_from_childs(t_nod *node, int i)
 				exit(g_shell->q_mark_err);
 		}
 		else
-			manage_father_during_child_exec(node, new_pip, &old_pip);
+			father_during_child_exec(node, new_pip, &old_pip);
 		node = node->next;
 		i--;
 	}

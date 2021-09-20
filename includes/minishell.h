@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 17:52:40 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/20 19:15:57 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,9 @@ void	close_all_fds(t_nod *node);
 void	dup_stdin_stdout_and_close(int new_in, int new_out);
 void	call_execve(t_nod *node);
 void	wait_and_get_q_mark(void);
+void	replace_value_on_local_env(t_var *nod, char *name, char *val);
+t_var	*new_env_var(char *name, char *value);
+int		check_if_def(char *str);
 
 // builtins
 

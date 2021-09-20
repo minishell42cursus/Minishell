@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_launching.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/20 19:11:56 by carce-bo          #+#    #+#             */
+/*   Updated: 2021/09/20 19:11:57 by carce-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	open_hdoc_fd(t_nod *node)
@@ -13,53 +25,6 @@ void	open_hdoc_fd(t_nod *node)
 		node->fdi = open(hdoc_path, O_RDONLY);
 		free(hdoc_path);
 	}
-}
-
-void	close_all_fds(t_nod *node)
-{
-	if (node->fdi != 0)
-	{
-		close(node->fdi);
-		node->fdi = 0;
-	}
-	if (node->fdo != 1)
-	{
-		close(node->fdo);
-		node->fdo = 1;
-	}
-}
-
-/* Function that comes in VERY handy when working with pipes. It
- * duplicates the STDIN fildescriptor to some new_in, and does the
- * same for STDOUT, then proceeds to close these new_in/new_out fd's,
- * since they are now accessible through 0 and 1, respectively.*/
-void	dup_stdin_stdout_and_close(int new_in, int new_out)
-{
-	if (new_in != 0)
-	{
-		if (dup2(new_in, 0) == -1)
-			error_msg();
-		close(new_in);
-	}
-	if (new_out != 1)
-	{
-		if (dup2(new_out, 1) == -1)
-			error_msg();
-		close(new_out);
-	}
-}
-
-void	call_execve(t_nod *node)
-{
-	char	*path;
-	char	**env;
-
-	ft_signal_main();
-	dup_stdin_stdout_and_close(node->fdi, node->fdo);
-	path = find_exec_path(node->cmd);
-	env = clone_environment(g_shell->env, KO);
-	if (execve(path, node->cmd, env) == -1)
-		error_msg();
 }
 
 /*Here, fdi and fdo are auxiliar file descriptors we use

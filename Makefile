@@ -72,8 +72,6 @@ SRCS		= 	$(addsuffix .c, $(addprefix $(MAIN_DIR),$(SRCS_FILES))) \
 
 OBJS		=	$(patsubst %.c,%.o,$(SRCS))
 
-OBJSFD 		= 	objs/
-
 INCLUDE		=	-I ./includes/ -I ./libft/includes -I ~/.brew/opt/readline/include
 
 CC		=	gcc

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:23:13 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:49:23 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/21 13:23:57 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,32 @@ char	*set_pwd(void)
 	return (new_pwd_entry);
 }
 
+void	add_shell_level(char ***env)
+{
+	char	**aux;
+	int		i;
+
+	aux = *env;
+	i = 0;
+	while (aux[i])
+	{
+		if (!ft_strncmp(aux[i], "SHLVL=", ft_strlen("SHLVL=")))
+			return ; 
+		i++;
+	}
+	aux = malloc(sizeof(char *) * (ft_matrixlen(*env) + 2));
+	i = 0;
+	while ((*env)[i])
+	{
+		aux[i] = ft_strdup((*env)[i]);
+		i++;
+	}
+	aux[i++] = ft_strdup("SHLVL=1");
+	aux[i] = NULL;
+	free_matrix(*env);
+	*env = aux;
+}
+
 char	**clone_environment(char **env, int c)
 {
 	char	**out;
@@ -58,6 +84,8 @@ char	**clone_environment(char **env, int c)
 		i++;
 	}
 	out[i] = NULL;
+	if (c == OK)
+		add_shell_level(&out);
 	return (out);
 }
 

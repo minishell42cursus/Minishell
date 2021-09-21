@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 18:58:21 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 20:54:05 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/21 12:43:48 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_export_arg(char *arg)
 int	parse_argument(char *arg)
 {
 	char	*name;
-	char	*value;
+	int		name_entry;
 
 	if (check_export_arg(arg))
 	{
@@ -40,15 +40,12 @@ int	parse_argument(char *arg)
 			free(name);
 			return (NOTDEFINED);
 		}
-		value = check_env(name);
+		name_entry = find_env(name);
 		free(name);
-		if (!value)
+		if (name_entry == -1)
 			return (DEFINITION);
 		else
-		{
-			free(value);
 			return (REDEFINITION);
-		}
 	}
 	else
 		return (EXPORT_ERROR);
@@ -66,29 +63,6 @@ void	check_for_local_value(char *name, char **prev_value)
 	}
 	else
 		free(local_value);
-}
-
-void	add_to_global_env(char *name, char *value, int stat)
-{
-	int		i;
-	char	*aux;
-	char	**new_env;
-
-	new_env = malloc(sizeof(char *) * ((int)ft_matrixlen(g_shell->env) + 2));
-	i = 0;
-	while (g_shell->env[i])
-	{
-		new_env[i] = ft_strdup(g_shell->env[i]);
-		i++;
-	}
-	aux = ft_strjoin(name, "=");
-	if (stat == NOTDEFINED)
-		check_for_local_value(name, &value);
-	new_env[i++] = ft_strjoin(aux, value);
-	new_env[i] = NULL;
-	free_three_ptrs(aux, name, value);
-	free_matrix(g_shell->env);
-	g_shell->env = new_env;
 }
 
 void	ft_export(char **argv)

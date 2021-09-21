@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 20:24:13 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/21 12:37:58 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ void	ft_unset(char **av);
 int		len_name(char *str);
 int		find_env(char *word);
 void	add_to_global_env(char *name, char *value, int stat);
+void	check_for_local_value(char *name, char **prev_value);
 
 // error control parser fts
 

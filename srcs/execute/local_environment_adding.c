@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:08:35 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:08:36 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/21 12:51:51 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ void	add_to_env(char *name, char *value)
 	if (!prev_value)
 		add_to_local_env(name, value);
 	else
+	{
+		free(prev_value);
 		overwrite_env_value(name, value);
+	}
 }
 
 void	clear_envar_defs(char ***cmd)

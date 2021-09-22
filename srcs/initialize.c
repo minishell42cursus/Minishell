@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:23:13 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/22 13:25:53 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:23:08 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,33 @@ char	*new_shell_level(char *str)
 	return (new_shlvl_entry);
 }
 
-char	*set_pwd(void)
+void	add_pwd(char ***env)
 {
 	char	*path;
-	char	*new_pwd_entry;
+	char	**aux;
+	int		i;
 
+	i = 0;
+	aux = *env;
+	while (aux[i])
+	{
+		if (!ft_strncmp(aux[i], "PWD=", ft_strlen("PWD=")))
+			return ;
+		i++;
+	}
+	aux = malloc(sizeof(char *) * (ft_matrixlen(*env) + 2));
+	i = 0;
+	while ((*env)[i])
+	{
+		aux[i] = ft_strdup((*env)[i]);
+		i++;
+	}
 	path = getcwd(NULL, 0);
-	new_pwd_entry = ft_strjoin("PWD=", path);
+	aux[i++] = ft_strjoin("PWD=", path);
+	aux[i] = NULL;
 	free(path);
-	return (new_pwd_entry);
+	free_matrix(*env);
+	*env = aux;
 }
 
 void	add_shell_level(char ***env)
@@ -77,15 +95,16 @@ char	**clone_environment(char **env, int c)
 	{
 		if (!ft_strncmp(env[i], "SHLVL=", ft_strlen("SHLVL=")) && c == OK)
 			out[i] = new_shell_level(env[i]);
-		else if (!ft_strncmp(env[i], "PWD=", ft_strlen("PWD=")) && c == OK)
-			out[i] = set_pwd();
 		else
 			out[i] = ft_strdup(env[i]);
 		i++;
 	}
 	out[i] = NULL;
 	if (c == OK)
+	{
 		add_shell_level(&out);
+		add_pwd(&out);
+	}
 	return (out);
 }
 

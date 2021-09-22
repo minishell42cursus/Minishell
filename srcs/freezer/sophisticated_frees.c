@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:16:40 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:16:42 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:44:22 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ void	free_process_list(void)
 		free_three_ptrs(aux->line_save, aux->line_aux_save, aux);
 		aux = NULL;
 	}
+}
+
+void	unlink_one_heredoc(char **hdoc_name)
+{
+	char	*aux;
+
+	aux = ft_strjoin(PATH_TO_TMP, *hdoc_name);
+	unlink(aux);
+	free_two_ptrs(*hdoc_name, aux);
+	*hdoc_name = NULL;
 }
 
 void	unlink_all_heredocs(void)

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/22 12:56:57 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 16:38:16 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,7 @@ void	free_two_ptrs(void *s1, void *s2);
 void	free_three_ptrs(void *s1, void *s2, void *s3);
 void	free_four_ptrs(void *s1, void *s2, void *s3, void *s4);
 void	unlink_all_heredocs(void);
+void	unlink_one_heredoc(char **hdoc_name);
 
 // env search related functions
 

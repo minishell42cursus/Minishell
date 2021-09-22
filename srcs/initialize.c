@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:23:13 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/21 13:23:57 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:25:53 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	add_shell_level(char ***env)
 	while (aux[i])
 	{
 		if (!ft_strncmp(aux[i], "SHLVL=", ft_strlen("SHLVL=")))
-			return ; 
+			return ;
 		i++;
 	}
 	aux = malloc(sizeof(char *) * (ft_matrixlen(*env) + 2));

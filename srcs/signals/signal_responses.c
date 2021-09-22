@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 20:22:44 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 20:23:02 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 12:30:08 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_signal_stop_all_process_launch(int sig)
 	write(2, "\n", 1);
 	update_q_mark_variable(1);
 	g_shell->assign_error = KO;
-	g_shell->status = ON_READ;
+	g_shell->status = ON_EXE;
 }
 
 void	ft_signal_ctrl_d_process(int sig)

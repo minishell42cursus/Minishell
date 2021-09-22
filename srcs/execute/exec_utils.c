@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:09:41 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/21 13:23:59 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:17:47 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,8 @@ void	call_execve(t_nod *node)
 		error_msg();
 }
 
-void	wait_and_get_q_mark(void)
+void	get_q_mark(int stat)
 {
-	int	stat;
-
-	waitpid(g_shell->pid, &stat, 0);
 	if (g_shell->assign_error == OK)
 	{
 		if (WIFEXITED(stat))
@@ -74,4 +71,20 @@ void	wait_and_get_q_mark(void)
 			update_q_mark_variable(WSTOPSIG(stat));
 	}
 	g_shell->assign_error = OK;
+}
+
+void	wait_childs(void)
+{
+	int		n_process;
+	int		stat;
+	pid_t	pid;
+
+	n_process = g_shell->n_proc;
+	while (n_process > 0)
+	{
+		pid = wait(&stat);
+		if (pid == g_shell->pid)
+			get_q_mark(stat);
+		n_process--;
+	}
 }

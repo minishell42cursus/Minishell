@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 23:53:29 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 20:27:07 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:16:47 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	wait_for_hdoc_state(void)
 	if (g_shell->pid != 0)
 	{
 		signal(SIGINT, ft_signal_stop_all_process_launch);
-		waitpid(g_shell->pid, &stat, 0);
+		wait(&stat);
 		if (g_shell->assign_error == OK)
 			update_q_mark_variable(stat);
 		g_shell->assign_error = OK;

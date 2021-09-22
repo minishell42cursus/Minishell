@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:11:16 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/21 12:37:58 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 12:56:57 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void	ft_signal_ctrl_c(int sig);
 void	ft_signal_stop_all_process_launch(int sig);
 void	ft_signal_ctrl_d_process(int sig);
 void	ft_send_ctrl_c_to_child(int sig);
+void	wait_childs(void);
 
 // execute / run_command
 

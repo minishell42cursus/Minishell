@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:14:46 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:15:33 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:17:49 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,9 @@ void	father_during_child_exec(t_nod *node, int new_pip[2], int *old_pip[2])
 		free(*old_pip);
 	}
 	if (node->p_nbr == g_shell->n_proc)
-	{
-		signal(SIGCHLD, SIG_DFL);
-		wait_and_get_q_mark();
 		close(new_pip[0]);
-	}
 	else
-	{
-		signal(SIGCHLD, SIG_IGN);
 		*old_pip = copy_new_pipe_into_old(new_pip);
-	}
 	close_all_fds(node);
 }
 
@@ -101,11 +94,12 @@ void	launch_from_childs(t_nod *node, int i)
 			if (node->launch == OK)
 				execute_child(node, new_pip, old_pip);
 			else
-				exit(g_shell->q_mark_err);
+				exit(0);
 		}
 		else
 			father_during_child_exec(node, new_pip, &old_pip);
 		node = node->next;
 		i--;
 	}
+	wait_childs();
 }

@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:32:54 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/20 19:35:10 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:22:19 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	open_to_input(t_nod *node, char *filename)
 	}
 	else
 	{
-		if (node->hdoc_name)
-			free(node->hdoc_name);
 		if (node->fdi != 0)
 			close(node->fdi);
 		node->fdi = open(filename, O_RDONLY);

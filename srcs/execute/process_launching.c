@@ -6,7 +6,7 @@
 /*   By: carce-bo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 19:11:56 by carce-bo          #+#    #+#             */
-/*   Updated: 2021/09/21 13:17:42 by carce-bo         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:17:26 by carce-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	launch_from_fork(t_nod *node)
 	{
 		ft_signal_main();
 		close_all_fds(node);
-		wait_and_get_q_mark();
+		wait_childs();
 		g_shell->status = ON_READ;
 	}
 }
